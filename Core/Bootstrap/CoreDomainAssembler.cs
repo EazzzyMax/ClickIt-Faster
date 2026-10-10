@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Bootstrap
+namespace ClickItMax.Core.Bootstrap
 {
     internal readonly record struct CoreDomainServices(
         PerformanceMonitor PerformanceMonitor,
@@ -23,7 +23,7 @@ namespace ClickIt.Core.Bootstrap
     internal static class CoreDomainAssembler
     {
         // Thin runtime entry wrapper so the injected internal overload stays testable without runtime traversal.
-        public static CoreDomainServices Assemble(ClickIt owner, ClickItSettings settings, GameController gameController)
+        public static CoreDomainServices Assemble(ClickItMax owner, ClickItMaxSettings settings, GameController gameController)
             => Assemble(
                 owner,
                 settings,
@@ -32,8 +32,8 @@ namespace ClickIt.Core.Bootstrap
                 static controller => controller.Game?.IngameState?.Camera);
 
         internal static CoreDomainServices Assemble(
-            ClickIt owner,
-            ClickItSettings settings,
+            ClickItMax owner,
+            ClickItMaxSettings settings,
             GameController gameController,
             Action<AreaService, GameController> refreshScreenAreas,
             Func<GameController, Camera?> resolveCamera)

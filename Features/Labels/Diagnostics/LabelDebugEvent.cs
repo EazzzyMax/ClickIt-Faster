@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Diagnostics
+namespace ClickItMax.Features.Labels.Diagnostics
 {
     internal sealed record LabelDebugEvent(
         string Stage,

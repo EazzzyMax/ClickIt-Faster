@@ -1,8 +1,8 @@
-namespace ClickIt.Features.Altars
+namespace ClickItMax.Features.Altars
 {
-    public class WeightCalculator(ClickItSettings settings)
+    public class WeightCalculator(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
 
         public AltarWeights CalculateAltarWeights(PrimaryAltarComponent altar)
         {

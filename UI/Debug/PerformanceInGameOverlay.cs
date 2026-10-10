@@ -1,4 +1,4 @@
-namespace ClickIt.UI.Debug
+namespace ClickItMax.UI.Debug
 {
     /// <summary>
     /// In-game performance overlay: renders the full performance tables (render, processing,
@@ -33,7 +33,7 @@ namespace ClickIt.UI.Debug
 
         public ProcessingSection ProcessingSection => ProcessingSection.Unknown;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => settings.RenderPerformanceInGame.Value
                && (!settings.OnlyShowPerformanceInGameWhileInMap.Value || (_isInMapProvider?.Invoke() ?? false));
 

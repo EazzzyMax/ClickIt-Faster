@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability
+namespace ClickItMax.Features.Observability
 {
     internal sealed record ClickSettingsTelemetrySnapshot(
         IReadOnlyList<string> SummaryLines,
@@ -12,9 +12,9 @@ namespace ClickIt.Features.Observability
             InitialUltimatumClickEnabled: false,
             OtherUltimatumClickEnabled: false);
 
-        public static ClickSettingsTelemetrySnapshot FromSettings(ClickItSettings? settings)
+        public static ClickSettingsTelemetrySnapshot FromSettings(ClickItMaxSettings? settings)
         {
-            settings ??= new ClickItSettings();
+            settings ??= new ClickItMaxSettings();
 
             string line1 = string.Join("  ", new[]
             {

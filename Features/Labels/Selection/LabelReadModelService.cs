@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Selection
+namespace ClickItMax.Features.Labels.Selection
 {
     public sealed class LabelReadModelService
     {

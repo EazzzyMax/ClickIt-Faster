@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Click.Runtime
+namespace ClickItMax.Features.Click.Runtime
 {
     internal readonly record struct MovementSkillCoordinatorDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         GameController GameController,
         ClickRuntimeState RuntimeState,
         PerformanceMonitor PerformanceMonitor,

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Behavior.Click
+namespace ClickItMax.Tests.Behavior.Click
 {
     // Scenario tests for the REAL label selection pipeline (LabelSelectionService + LabelEligibilityEngine + LabelSelectionScanEngine): multiple strongboxes and items at different positions/distances, locked boxes, priority ranking, and scan-level suppression.
     [TestClass]

@@ -1,10 +1,10 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
-    internal sealed class DebugTestingPanelRenderer(ClickItSettings settings)
+    internal sealed class DebugTestingPanelRenderer(ClickItMaxSettings settings)
     {
         private static readonly string[] DumpTargetNames = Enum.GetNames<GameStateDumpTarget>();
 
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private int _selectedDumpTarget;
 
         public void Draw()
@@ -33,7 +33,7 @@ namespace ClickIt.UI.Settings.Panels
                     _settings.DebugFreezeSuccessfulInteractionMs,
                     0,
                     20000,
-                    "When greater than 0, ClickIt holds the current debug telemetry snapshot for this many milliseconds after a successful automated click or offscreen traversal.");
+                    "When greater than 0, ClickItMax holds the current debug telemetry snapshot for this many milliseconds after a successful automated click or offscreen traversal.");
                 ImGui.Spacing();
 
                 SettingsUiRenderHelpers.DrawToggleNodeControl(

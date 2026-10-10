@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Bootstrap
+namespace ClickItMax.Tests.Core.Bootstrap
 {
     [TestClass]
     public class PluginCompositionBootstrapperTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void ApplyPorts_PublishesCurrentDirectServices_AndRenderingSlots()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var context = new PluginContext();
             CoreDomainServices core = CreateCoreDomainServices(settings);
             RenderingDomainServices rendering = CreateRenderingDomainServices();
@@ -39,7 +39,7 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void DisposeCompositionRoot_ClearsProviders_DebugTelemetry_AndPublishedSlots()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var context = new PluginContext();
             GameController gameController = ExileCoreOpaqueFactory.CreateOpaqueGameController();
             bool registryDisposed = false;
@@ -72,8 +72,8 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void InitializeCompositionRoot_WhenGameControllerMissing_ResetsWarmStateBeforeThrowing()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var context = new PluginContext();
             bool disposed = false;
 
@@ -98,12 +98,12 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void FinalizeCompositionRootForStartup_NormalizesWeights_ReloadsAlertSound_AndStartsTimers()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var context = new PluginContext();
             var performanceMonitor = new PerformanceMonitor(settings);
-            string divineKey = ClickItSettings.BuildCompositeKey(
-                ClickItSettings.AltarTypeMinion,
+            string divineKey = ClickItMaxSettings.BuildCompositeKey(
+                ClickItMaxSettings.AltarTypeMinion,
                 "#% chance to drop an additional Divine Orb");
             string configDir = Path.Combine(Path.GetTempPath(), "clickit_bootstrap_" + Guid.NewGuid().ToString("N"));
             string alertPath = Path.Combine(configDir, "alert.wav");
@@ -150,8 +150,8 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void FinalizeCompositionRootForStartup_StartsTimers_WhenAlertServiceAndPerformanceMonitorAreMissing()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var context = new PluginContext();
 
             PluginCompositionBootstrapper.FinalizeCompositionRootForStartup(context, plugin, settings);
@@ -165,8 +165,8 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void PublishCompositionState_PublishesPorts_AndRegistersSettingsHandlers()
         {
-            var settings = new ClickItSettings();
-            var effectiveSettings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
+            var effectiveSettings = new ClickItMaxSettings();
             var context = new PluginContext();
             CoreDomainServices core = CreateCoreDomainServices(settings);
             RenderingDomainServices rendering = CreateRenderingDomainServices();
@@ -199,7 +199,7 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void RegisterCompositionShutdownActions_DisposalStopsTimers_AndShutsDownRuntimeServices()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var context = new PluginContext();
             var performanceMonitor = new PerformanceMonitor(settings);
             var errorHandler = new ErrorHandler(settings, static (_, _) => { }, static (_, _) => { });
@@ -239,7 +239,7 @@ namespace ClickIt.Tests.Core.Bootstrap
             method.Invoke(null, [context, core, rendering, clickAutomationPort, alertService]);
         }
 
-        private static void InvokePublishCompositionState(PluginContext context, ClickItSettings settings, object parts)
+        private static void InvokePublishCompositionState(PluginContext context, ClickItMaxSettings settings, object parts)
         {
             MethodInfo method = typeof(PluginCompositionBootstrapper).GetMethod("PublishCompositionState", BindingFlags.NonPublic | BindingFlags.Static)!;
             method.Invoke(null, [context, settings, parts]);
@@ -256,14 +256,14 @@ namespace ClickIt.Tests.Core.Bootstrap
             RenderingDomainServices rendering,
             ClickAutomationPort clickAutomationPort,
             AlertService alertService,
-            ClickItSettings effectiveSettings)
+            ClickItMaxSettings effectiveSettings)
         {
             SettingsDomainServices settingsDomain = new(alertService, effectiveSettings);
             Type partsType = typeof(PluginCompositionBootstrapper).GetNestedType("CompositionRootParts", BindingFlags.NonPublic)!;
             return Activator.CreateInstance(partsType, core, rendering, clickAutomationPort, settingsDomain)!;
         }
 
-        private static AlertService CreateAlertService(ClickItSettings settings)
+        private static AlertService CreateAlertService(ClickItMaxSettings settings)
         {
             return new AlertService(
                 () => settings,
@@ -284,7 +284,7 @@ namespace ClickIt.Tests.Core.Bootstrap
             => (T)(instance.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(instance)
                 ?? throw new InvalidOperationException($"Field '{fieldName}' was null."));
 
-        private static CoreDomainServices CreateCoreDomainServices(ClickItSettings settings)
+        private static CoreDomainServices CreateCoreDomainServices(ClickItMaxSettings settings)
         {
             var performanceMonitor = new PerformanceMonitor(settings);
             var errorHandler = new ErrorHandler(settings, static (_, _) => { }, static (_, _) => { });
@@ -319,7 +319,7 @@ namespace ClickIt.Tests.Core.Bootstrap
                 OverlayRenderHost: new OverlayRenderHost());
         }
 
-        private static ClickAutomationPort CreateClickAutomationPort(ClickItSettings settings, CoreDomainServices core)
+        private static ClickAutomationPort CreateClickAutomationPort(ClickItMaxSettings settings, CoreDomainServices core)
         {
             return new ClickAutomationPort(new ClickAutomationPortDependencies(
                 settings,

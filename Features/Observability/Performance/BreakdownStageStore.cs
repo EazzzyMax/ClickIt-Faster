@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.Performance;
+namespace ClickItMax.Features.Observability.Performance;
 
 // Records one per-run sample for every stage of a feature's processing (allocation bytes + wall time) so the debug tables can show exactly which sub-step of an area costs time/allocation. Stages are recorded together per run so each stage's window period matches the parent section.
 internal sealed class BreakdownStageStore

@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Settings.Runtime
+namespace ClickItMax.Core.Settings.Runtime
 {
     internal static class MetadataSnapshotCache
     {

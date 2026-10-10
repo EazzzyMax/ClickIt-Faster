@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click
+namespace ClickItMax.Features.Click
 {
     public sealed partial class ClickAutomationPort
     {

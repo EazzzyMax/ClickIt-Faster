@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class ClickRuntimeEngineTests
@@ -22,13 +22,13 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static ClickRuntimeEngine CreateEngine(
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             StubVisibleMechanicInteractionPort? visibleMechanics = null,
             Func<Vector2, bool>? tryHandleUltimatumPanelUi = null,
             MechanicPrioritySnapshot? prioritySnapshot = null,
             Action<ClickDebugSnapshot>? setLatestClickDebug = null)
         {
-            ClickItSettings resolvedSettings = settings ?? new ClickItSettings();
+            ClickItMaxSettings resolvedSettings = settings ?? new ClickItMaxSettings();
             resolvedSettings.WalkTowardOffscreenLabels.Value = false;
 
             var debugPublisher = ClickTestDebugPublisherFactory.Create(
@@ -89,7 +89,7 @@ namespace ClickIt.Tests.Features.Click
         private static MovementSkillCoordinator CreateMovementSkillCoordinator()
         {
             return new MovementSkillCoordinator(new MovementSkillCoordinatorDependencies(
-                Settings: new ClickItSettings(),
+                Settings: new ClickItMaxSettings(),
                 GameController: null!,
                 RuntimeState: new ClickRuntimeState(),
                 PerformanceMonitor: null!,
@@ -102,7 +102,7 @@ namespace ClickIt.Tests.Features.Click
         private static ChestLootSettlementTracker CreateChestLootSettlementTracker()
         {
             return new ChestLootSettlementTracker(new ChestLootSettlementTrackerDependencies(
-                Settings: new ClickItSettings(),
+                Settings: new ClickItMaxSettings(),
                 State: new ChestLootSettlementState(),
                 GroundLabelEntityAddresses: new GroundLabelEntityAddressProvider(static () => []),
                 ClickDebugPublisher: ClickTestDebugPublisherFactory.Create(),

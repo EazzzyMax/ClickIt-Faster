@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class ManualCursorLabelInteractionHandlerTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickCandidate_ReturnsFalse_WhenHoveredLabelIsNull()
         {
-            var handler = CreateHandler(new ClickItSettings(), []);
+            var handler = CreateHandler(new ClickItMaxSettings(), []);
 
             bool clicked = handler.TryClickCandidate(null!, null, Vector2.Zero, Vector2.Zero, null);
 
@@ -16,7 +16,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickCandidate_ReturnsFalse_WhenClickPositionCannotBeResolved()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var handler = CreateHandler(
                 settings,
                 [],
@@ -37,7 +37,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickCandidate_ReturnsFalse_WhenManualCursorInteractionFails()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var handler = CreateHandler(
                 settings,
                 [],
@@ -59,7 +59,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickCandidate_ReturnsTrue_WhenManualCursorInteractionSucceeds()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = { Value = false },
                 LazyMode = { Value = false }
@@ -94,7 +94,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static ManualCursorLabelInteractionHandler CreateHandler(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             IReadOnlyList<PrimaryAltarComponent> altarSnapshot,
             ClickLabelInteractionService? labelInteraction = null)
         {
@@ -111,7 +111,7 @@ namespace ClickIt.Tests.Features.Click
         private static ChestLootSettlementTracker CreateChestLootSettlementTracker()
         {
             return new ChestLootSettlementTracker(new ChestLootSettlementTrackerDependencies(
-                Settings: new ClickItSettings(),
+                Settings: new ClickItMaxSettings(),
                 State: new ChestLootSettlementState(),
                 GroundLabelEntityAddresses: (GroundLabelEntityAddressProvider)RuntimeHelpers.GetUninitializedObject(typeof(GroundLabelEntityAddressProvider)),
                 ClickDebugPublisher: ClickTestDebugPublisherFactory.Create(),

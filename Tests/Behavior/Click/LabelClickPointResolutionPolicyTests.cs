@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Behavior.Click
+namespace ClickItMax.Tests.Behavior.Click
 {
     [TestClass]
     public class LabelClickPointResolutionPolicyTests

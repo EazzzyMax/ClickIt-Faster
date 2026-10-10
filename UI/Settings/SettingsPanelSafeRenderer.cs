@@ -1,4 +1,4 @@
-namespace ClickIt.UI.Settings
+namespace ClickItMax.UI.Settings
 {
     internal readonly record struct SettingsPanelSafeRenderHooks(
         Action Separator,
@@ -15,15 +15,15 @@ namespace ClickIt.UI.Settings
 
     internal sealed class SettingsPanelSafeRenderer
     {
-        private readonly ClickItSettings _settings;
+        private readonly ClickItMaxSettings _settings;
         private readonly SettingsPanelSafeRenderHooks _hooks;
 
-        internal SettingsPanelSafeRenderer(ClickItSettings settings)
+        internal SettingsPanelSafeRenderer(ClickItMaxSettings settings)
             : this(settings, SettingsPanelSafeRenderHooks.ImGui)
         {
         }
 
-        internal SettingsPanelSafeRenderer(ClickItSettings settings, SettingsPanelSafeRenderHooks hooks)
+        internal SettingsPanelSafeRenderer(ClickItMaxSettings settings, SettingsPanelSafeRenderHooks hooks)
         {
             _settings = settings;
             _hooks = hooks;
@@ -38,7 +38,7 @@ namespace ClickIt.UI.Settings
             catch (Exception ex)
             {
                 _settings.UiState.LastSettingsUiError = $"{panelName}: {ex.GetType().Name}: {ex.Message}";
-                System.Diagnostics.Debug.WriteLine($"[ClickItSettings UI Error] {_settings.UiState.LastSettingsUiError}{Environment.NewLine}{ex}");
+                System.Diagnostics.Debug.WriteLine($"[ClickItMaxSettings UI Error] {_settings.UiState.LastSettingsUiError}{Environment.NewLine}{ex}");
 
                 _hooks.Separator();
                 _hooks.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Settings UI error caught");

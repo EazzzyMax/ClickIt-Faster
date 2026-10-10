@@ -1,11 +1,11 @@
-namespace ClickIt.Tests.UI;
+namespace ClickItMax.Tests.UI;
 
 [TestClass]
 public class PerformanceInGameOverlayTests
 {
     private static OverlayRenderContext CreateContext(DeferredDrawQueue textQueue)
         => new(
-            new ClickItSettings(),
+            new ClickItMaxSettings(),
             GameController: null,
             Graphics: null,
             WindowArea: default,
@@ -15,7 +15,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_EnqueuesTableRows_WhenFpsDataPresent()
     {
-        var monitor = new PerformanceMonitor(new ClickItSettings());
+        var monitor = new PerformanceMonitor(new ClickItMaxSettings());
         monitor.RecordFpsSample(120);
         monitor.RecordRenderSectionTiming(RenderSection.AltarOverlay, 1.0);
         monitor.RecordProcessingTiming(ProcessingSection.Label, 2.0);
@@ -32,7 +32,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_EnqueuesLastAvgMaxColumnHeaders_ForEveryTimingTable()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         var monitor = new PerformanceMonitor(settings);
         monitor.RecordFpsSample(120);
         monitor.RecordRenderSectionTiming(RenderSection.AltarOverlay, 1.0);
@@ -54,7 +54,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_EnqueuesTotalRow_ForEveryTimingTable()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         var monitor = new PerformanceMonitor(settings);
         monitor.RecordFpsSample(120);
         monitor.RecordRenderSectionTiming(RenderSection.AltarOverlay, 1.0);
@@ -72,7 +72,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_EnqueuesIntervalTable_WhenFpsDataPresent()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         var monitor = new PerformanceMonitor(settings);
         monitor.RecordFpsSample(120);
         monitor.MarkInterval(IntervalKind.Click);
@@ -90,7 +90,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_EnqueuesLabelScanStageBreakdown_WhenLabelScanAllocationRecorded()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         var monitor = new PerformanceMonitor(settings);
         monitor.RecordFpsSample(120);
         monitor.RecordAllocation(ProcessingSection.Label, 2048);
@@ -112,7 +112,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_EnqueuesClickStageBreakdown_WhenClickAllocationRecorded()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         var monitor = new PerformanceMonitor(settings);
         monitor.RecordFpsSample(120);
         monitor.RecordAllocation(ProcessingSection.Click, 4096);
@@ -136,7 +136,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_EnqueuesGcTable_AndSkipsZeroByteBreakdownStages()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         var monitor = new PerformanceMonitor(settings);
         monitor.RecordFpsSample(120);
 
@@ -174,7 +174,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_TotalsRow_CombinesAllSectionMaxes()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         var monitor = new PerformanceMonitor(settings);
         monitor.RecordFpsSample(120);
         monitor.RecordRenderSectionTiming(RenderSection.AltarOverlay, 2.0);
@@ -194,7 +194,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_EnqueuesOnlyTopMemoryValues_WhenFpsDataPresent()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         var monitor = new PerformanceMonitor(settings);
         monitor.RecordFpsSample(120);
         monitor.RecordSuccessfulClickTiming(18);
@@ -219,7 +219,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void Draw_EnqueuesClickFrequencyTarget_WhenTargetConfigured()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         settings.ClickFrequencyTarget.Value = 200;
         var monitor = new PerformanceMonitor(settings);
         monitor.RecordFpsSample(120);
@@ -239,7 +239,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void IsEnabled_HiddenOutsideMap_WhenInMapOnlyToggleOnAndProviderFalse()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         settings.RenderPerformanceInGame.Value = true;
         settings.OnlyShowPerformanceInGameWhileInMap.Value = true;
         var overlay = new PerformanceInGameOverlay(() => default, () => false);
@@ -250,7 +250,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void IsEnabled_ShownInMap_WhenInMapOnlyToggleOnAndProviderTrue()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         settings.RenderPerformanceInGame.Value = true;
         settings.OnlyShowPerformanceInGameWhileInMap.Value = true;
         var overlay = new PerformanceInGameOverlay(() => default, () => true);
@@ -261,7 +261,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void IsEnabled_ShownOutsideMap_WhenInMapOnlyToggleOff()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         settings.RenderPerformanceInGame.Value = true;
         settings.OnlyShowPerformanceInGameWhileInMap.Value = false;
         var overlay = new PerformanceInGameOverlay(() => default, () => false);
@@ -272,7 +272,7 @@ public class PerformanceInGameOverlayTests
     [TestMethod]
     public void IsEnabled_HiddenOutsideMap_WhenProviderMissingAndToggleOn()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         settings.RenderPerformanceInGame.Value = true;
         settings.OnlyShowPerformanceInGameWhileInMap.Value = true;
         var overlay = new PerformanceInGameOverlay(() => default);

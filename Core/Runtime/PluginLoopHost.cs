@@ -1,9 +1,9 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     public partial class PluginLoopHost
     {
         private readonly PluginContext _state;
-        private readonly ClickItSettings _settings;
+        private readonly ClickItMaxSettings _settings;
         private readonly GameController _gameController;
         private readonly ErrorHandler _errorHandler;
         // Cached coroutine steps so Guarded(...) does not allocate a Func delegate on every loop iteration.
@@ -15,7 +15,7 @@ namespace ClickIt.Core.Runtime
 
         public PluginLoopHost(
             PluginContext state,
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             GameController gameController,
             ErrorHandler errorHandler)
         {
@@ -55,7 +55,7 @@ namespace ClickIt.Core.Runtime
         private double ResolveClickTargetTime(double frequencyTarget)
             => SystemMath.Max(1, frequencyTarget - (_state.Services.PerformanceMonitor?.GetAverageTimeToClickMs() ?? 0));
 
-        public void StartCoroutines(BaseSettingsPlugin<ClickItSettings> plugin)
+        public void StartCoroutines(BaseSettingsPlugin<ClickItMaxSettings> plugin)
         {
             _state.Runtime.AltarCoroutine = new Coroutine(MainScanForAltarsLogic(), plugin, PluginCoroutineNames.AltarScan, false);
             _ = ExileCoreApi.ParallelRunner.Run(_state.Runtime.AltarCoroutine);
@@ -100,6 +100,7 @@ namespace ClickIt.Core.Runtime
             {
                 if (!_settings.Enable)
                 {
+                    _state.Services.ClickAutomationPort?.CancelMaxPickup();
                     yield return new WaitTime(250);
                     continue;
                 }
@@ -189,7 +190,7 @@ namespace ClickIt.Core.Runtime
             if (_state.Runtime.IsShuttingDown || _state.Services.PerformanceMonitor == null || clickPort == null) yield break;
 
             bool hotkeyActive = PluginClickRuntimeStateEvaluator.ResolveHotkeyActive(_state.Services);
-            bool manualUiHoverMode = ResolveManualUiHoverMode(hotkeyActive);
+            bool manualUiHoverMode = !_settings.MaxPickupEnabled.Value && ResolveManualUiHoverMode(hotkeyActive);
             if (manualUiHoverMode)
             {
                 _state.Runtime.WorkFinished = true;
@@ -212,6 +213,11 @@ namespace ClickIt.Core.Runtime
                 targetTime);
             if (gateDecision.IsBlocked)
             {
+                if (_settings.MaxPickupEnabled.Value)
+                    clickPort.NoteMaxPickupGate(gateDecision.CanClick && !gateDecision.ReadyByTime ? "frequency-wait" : gateDecision.FailureReason ?? "blocked");
+                if (_settings.MaxPickupEnabled.Value && !gateDecision.CanClick
+                    && gateDecision.FailureReason != InputHandler.ToggleItemsPostClickBlockReason)
+                    clickPort.CancelMaxPickup();
                 if (gateDecision.ShouldCancelOffscreenPathing)
                     clickPort.CancelOffscreenPathingState();
 
@@ -257,6 +263,7 @@ namespace ClickIt.Core.Runtime
 
         private IEnumerator ProcessManualUiHoverClick()
         {
+            if (_settings.MaxPickupEnabled.Value) yield break;
             ClickAutomationPort? clickPort = _state.Services.ClickAutomationPort;
 
             if (_state.Runtime.IsShuttingDown || _state.Services.PerformanceMonitor == null || clickPort == null || _state.Services.InputHandler == null)
@@ -318,6 +325,7 @@ namespace ClickIt.Core.Runtime
         // The whole body runs synchronously (the only yield is the post-use cooldown), so timing is recorded here around the actual work — measuring around `yield return Guarded(...)` in the caller instead would span the coroutine scheduler's frame gap and report ~16ms of noise.
         private IEnumerator ProcessFlare()
         {
+            if (_settings.MaxPickupEnabled.Value) yield break;
             if (!_settings.ClickDelveFlares)
                 yield break;
 

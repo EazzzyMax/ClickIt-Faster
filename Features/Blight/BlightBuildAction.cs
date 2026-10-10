@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight;
+namespace ClickItMax.Features.Blight;
 
 internal enum BlightBuildActionKind
 {

@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Rendering
+namespace ClickItMax.Shared.Rendering
 {
     /// <summary>
     /// Thread-safe holder for coroutine-produced state. Refresh swaps a new instance;

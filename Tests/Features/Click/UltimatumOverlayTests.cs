@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class UltimatumOverlayTests
@@ -55,7 +55,7 @@ namespace ClickIt.Tests.Features.Click
 
         private static OverlayRenderContext CreateContext(DeferredDrawQueue queue)
             => new(
-                new ClickItSettings(),
+                new ClickItMaxSettings(),
                 GameController: null,
                 Graphics: null,
                 WindowArea: default,

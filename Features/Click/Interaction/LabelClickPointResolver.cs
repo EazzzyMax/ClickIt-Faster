@@ -1,8 +1,8 @@
-namespace ClickIt.Features.Click.Interaction
+namespace ClickItMax.Features.Click.Interaction
 {
-    internal sealed class LabelClickPointResolver(ClickItSettings settings)
+    internal sealed class LabelClickPointResolver(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
 
         // Same label's metadata (ItemOnGround/Type/Path/RenderName — 4 DLR reads) is resolved for overlap checks and click-position resolution 2-3x per tick; keyed on the label ADDRESS (stable across snapshots even when wrapper instances differ) with a short TTL.
         private readonly Dictionary<long, ResolvedLabelMetadata> _metadataCache = [];
@@ -23,6 +23,16 @@ namespace ClickIt.Features.Click.Interaction
 
         // The click coroutine and manual-hover coroutine can run on different threads (CoroutineMultiThreading); both caches are mutated from those paths, so guard them with a lock.
         private readonly Lock _cacheLock = new();
+        internal void InvalidateLayout()
+        {
+            lock (_cacheLock)
+            {
+                _rectCache.Clear();
+                _gridLabelsRef = null;
+                _gridCells = null;
+                _gridBuiltAtMs = 0;
+            }
+        }
 
         private readonly record struct ResolvedLabelMetadata(EntityType ItemType, string? ItemPath, string? RenderName);
 

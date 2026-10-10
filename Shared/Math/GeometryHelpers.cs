@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Math
+namespace ClickItMax.Shared.Math
 {
     public static class GeometryHelpers
     {

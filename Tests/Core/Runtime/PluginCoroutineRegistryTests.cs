@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     [DoNotParallelize]

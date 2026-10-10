@@ -1,11 +1,11 @@
-namespace ClickIt.Tests.Core.Settings
+namespace ClickItMax.Tests.Core.Settings
 {
     [TestClass]
     public class ItemFilterMetadataModelTests
     {
-        private static IEnumerable<string> GetEffectiveMetadataIdentifiers(ClickItSettings settings, string categoryId, bool isWhitelist, bool includeOppositeSubtypeSelections)
+        private static IEnumerable<string> GetEffectiveMetadataIdentifiers(ClickItMaxSettings settings, string categoryId, bool isWhitelist, bool includeOppositeSubtypeSelections)
         {
-            object? result = typeof(ClickItSettings)
+            object? result = typeof(ClickItMaxSettings)
                 .GetMethod("GetEffectiveMetadataIdentifiers", BindingFlags.Instance | BindingFlags.NonPublic)!
                 .Invoke(settings, [categoryId, isWhitelist, includeOppositeSubtypeSelections]);
             return (IEnumerable<string>)result!;
@@ -14,7 +14,7 @@ namespace ClickIt.Tests.Core.Settings
         [TestMethod]
         public void GetEffectiveMetadataIdentifiers_SelectedSubtypes_ReturnsOnlySelectedSubtypeMetadata()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ItemTypeWhitelistSubtypeIds["jewels"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "regular-jewels" };
 
             var metadata = GetEffectiveMetadataIdentifiers(settings, "jewels", isWhitelist: true, includeOppositeSubtypeSelections: false);
@@ -27,7 +27,7 @@ namespace ClickIt.Tests.Core.Settings
         [TestMethod]
         public void GetEffectiveMetadataIdentifiers_OppositeSubtypeSelections_ReturnsNonSelectedSubtypes()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ItemTypeWhitelistSubtypeIds["jewels"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "regular-jewels" };
 
             var metadata = GetEffectiveMetadataIdentifiers(settings, "jewels", isWhitelist: true, includeOppositeSubtypeSelections: true);
@@ -40,7 +40,7 @@ namespace ClickIt.Tests.Core.Settings
         [TestMethod]
         public void GetEffectiveMetadataIdentifiers_NoSubtypeSelection_ReturnsCategoryMetadata()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ItemTypeWhitelistSubtypeIds.Clear();
 
             var metadata = GetEffectiveMetadataIdentifiers(settings, "jewels", isWhitelist: true, includeOppositeSubtypeSelections: false);
@@ -52,7 +52,7 @@ namespace ClickIt.Tests.Core.Settings
         [TestMethod]
         public void GetEffectiveMetadataIdentifiers_NoSubtypeSelection_OppositeReturnsEmpty()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ItemTypeWhitelistSubtypeIds.Clear();
 
             GetEffectiveMetadataIdentifiers(settings, "jewels", isWhitelist: true, includeOppositeSubtypeSelections: true).Should().BeEmpty();
@@ -61,7 +61,7 @@ namespace ClickIt.Tests.Core.Settings
         [TestMethod]
         public void GetEffectiveMetadataIdentifiers_UnknownCategory_ReturnsEmpty()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
 
             GetEffectiveMetadataIdentifiers(settings, "does-not-exist", isWhitelist: true, includeOppositeSubtypeSelections: false).Should().BeEmpty();
         }
@@ -69,7 +69,7 @@ namespace ClickIt.Tests.Core.Settings
         [TestMethod]
         public void GetItemTypeWhitelistMetadataIdentifiers_WithSelectedSubtypes_ExcludesOppositeSubtypeMetadata()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ItemTypeWhitelistIds = ["jewels"];
             settings.ItemTypeBlacklistIds = [];
             settings.ItemTypeWhitelistSubtypeIds["jewels"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "regular-jewels" };

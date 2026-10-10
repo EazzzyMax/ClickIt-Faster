@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.Performance;
+namespace ClickItMax.Features.Observability.Performance;
 
 // Rolling per-stage allocation inside the label scan (windowed like GcAllocationMetricsStore so the debug tables can show last/avg/max bytes-per-run per stage). The label-scan boundary can run on any coroutine that touches CachedLabels.Value, so reads are locked.
 internal sealed class LabelScanAllocationStore

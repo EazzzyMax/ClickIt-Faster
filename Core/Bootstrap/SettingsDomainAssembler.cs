@@ -1,13 +1,13 @@
-namespace ClickIt.Core.Bootstrap
+namespace ClickItMax.Core.Bootstrap
 {
     internal readonly record struct SettingsDomainServices(
         AlertService AlertService,
-        ClickItSettings EffectiveSettings);
+        ClickItMaxSettings EffectiveSettings);
 
     internal static class SettingsDomainAssembler
     {
         // Thin runtime entry wrapper so the injected internal overload stays testable without runtime traversal.
-        public static SettingsDomainServices Assemble(ClickIt owner)
+        public static SettingsDomainServices Assemble(ClickItMax owner)
         {
             ArgumentNullException.ThrowIfNull(owner);
 
@@ -17,12 +17,12 @@ namespace ClickIt.Core.Bootstrap
         }
         internal static SettingsDomainServices Assemble(
             AlertService alertService,
-            ClickItSettings effectiveSettings)
+            ClickItMaxSettings effectiveSettings)
             => new(alertService, effectiveSettings);
 
         public static void WireActions(
-            ClickItSettings settings,
-            ClickItSettings effectiveSettings,
+            ClickItMaxSettings settings,
+            ClickItMaxSettings effectiveSettings,
             AlertService alertService,
             PluginServiceRegistry registry)
         {

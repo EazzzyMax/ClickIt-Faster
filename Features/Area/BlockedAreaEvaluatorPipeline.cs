@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Area
+namespace ClickItMax.Features.Area
 {
     internal sealed class BlockedAreaEvaluatorPipeline(IReadOnlyList<Func<AreaBlockedSnapshot, Vector2, bool>> evaluators)
     {

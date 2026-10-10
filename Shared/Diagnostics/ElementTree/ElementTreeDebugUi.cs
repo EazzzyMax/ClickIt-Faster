@@ -1,7 +1,7 @@
 using NumVec4 = System.Numerics.Vector4;
-using static ClickIt.Shared.Diagnostics.DebugUiPalette;
+using static ClickItMax.Shared.Diagnostics.DebugUiPalette;
 
-namespace ClickIt.Shared.Diagnostics.ElementTree;
+namespace ClickItMax.Shared.Diagnostics.ElementTree;
 
 // Self-contained debug UI for an ElementTreeInspector: the first capture of a target renders the full tree, later captures only render changed values (old value in red, new value in green). Also appends the same view to the copy-all dump.
 internal static class ElementTreeDebugUi

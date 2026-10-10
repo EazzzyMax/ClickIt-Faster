@@ -1,6 +1,6 @@
-using static ClickIt.Features.Blight.Planning.BlightGeometry;
+using static ClickItMax.Features.Blight.Planning.BlightGeometry;
 
-namespace ClickIt.Features.Blight;
+namespace ClickItMax.Features.Blight;
 
 internal static class BlightLaneTopology
 {

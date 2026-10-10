@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     public class DebugClipboardServiceTests
@@ -75,12 +75,12 @@ namespace ClickIt.Tests.Core.Runtime
 
         private static DebugClipboardService CreateService(
             PluginContext? state = null,
-            ClickIt? owner = null,
+            ClickItMax? owner = null,
             Func<GameController?>? getGameController = null)
         {
             return new DebugClipboardService(new DebugClipboardServiceDependencies(
                 state ?? new PluginContext(),
-                owner ?? new ClickIt(),
+                owner ?? new ClickItMax(),
                 getGameController ?? (() => null)));
         }
 

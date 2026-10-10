@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Harvest;
+namespace ClickItMax.Features.Harvest;
 
 internal static class HarvestLifeforceEstimator
 {

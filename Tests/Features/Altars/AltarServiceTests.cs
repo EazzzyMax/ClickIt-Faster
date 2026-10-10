@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Altars
+namespace ClickItMax.Tests.Features.Altars
 {
     [TestClass]
     public class AltarServiceTests
@@ -6,8 +6,8 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void ProcessAltarScanningLogic_ClearsComponents_WhenNoLabels()
         {
-            var clickIt = new ClickIt();
-            var settings = new ClickItSettings();
+            var clickIt = new ClickItMax();
+            var settings = new ClickItMaxSettings();
 
             var service = new AltarService(clickIt, settings, null);
 
@@ -30,8 +30,8 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void AddAltarComponent_RejectsDuplicateComponentsWithSameKey()
         {
-            var clickIt = new ClickIt();
-            var settings = new ClickItSettings();
+            var clickIt = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var service = new AltarService(clickIt, settings, null);
             var first = TestBuilders.BuildPrimary();
             var duplicate = TestBuilders.BuildPrimary();

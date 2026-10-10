@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Diagnostics
+namespace ClickItMax.Tests.Shared.Diagnostics
 {
     [TestClass]
     public class DeferredQueuesTests

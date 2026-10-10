@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight;
+namespace ClickItMax.Features.Blight;
 
 /// <summary>How important this tower type is. Higher priority rules are built and upgraded before lower ones.</summary>
 internal enum TowerBuildPriority

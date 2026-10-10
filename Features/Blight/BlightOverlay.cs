@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight
+namespace ClickItMax.Features.Blight
 {
     // Map helpers take GRID positions; in-world helpers take WORLD positions + world-space radii.
     public sealed class BlightOverlay : IOverlay
@@ -61,7 +61,7 @@ namespace ClickIt.Features.Blight
 
         public ProcessingSection ProcessingSection => ProcessingSection.Blight;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => settings.ClickBlightTowers.Value;
 
         // Coroutine thread — entity refresh + foundation scanning + lane coverage, off the render thread (reported as one Scan stage).

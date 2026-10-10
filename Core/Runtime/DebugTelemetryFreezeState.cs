@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     internal sealed class DebugTelemetryFreezeState
     {

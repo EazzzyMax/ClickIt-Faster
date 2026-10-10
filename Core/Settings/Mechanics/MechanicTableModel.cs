@@ -1,6 +1,6 @@
-namespace ClickIt
+namespace ClickItMax
 {
-    public partial class ClickItSettings
+    public partial class ClickItMaxSettings
     {
         internal static bool ShouldRenderMechanicEntry(MechanicToggleTableEntry entry, bool moveToClick, string filter)
             => MechanicTableModelService.ShouldRenderEntry(entry, moveToClick, filter);

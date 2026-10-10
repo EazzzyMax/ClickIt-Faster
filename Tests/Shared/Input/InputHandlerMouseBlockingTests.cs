@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Input
+namespace ClickItMax.Tests.Shared.Input
 {
     [TestClass]
     public class InputHandlerMouseBlockingTests
@@ -14,7 +14,7 @@ namespace ClickIt.Tests.Shared.Input
         [DataRow(true, true, true, true)]
         public void GetMouseButtonBlockingState_LeftButtonTruthTable(bool leftSetting, bool leftPressed, bool rightSetting, bool expectedLeft)
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DisableLazyModeLeftClickHeld.Value = leftSetting;
             settings.DisableLazyModeRightClickHeld.Value = rightSetting;
 
@@ -39,7 +39,7 @@ namespace ClickIt.Tests.Shared.Input
         [DataRow(true, true, true, true)]
         public void GetMouseButtonBlockingState_RightButtonTruthTable(bool leftSetting, bool rightPressed, bool rightSetting, bool expectedRight)
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DisableLazyModeLeftClickHeld.Value = leftSetting;
             settings.DisableLazyModeRightClickHeld.Value = rightSetting;
 
@@ -63,7 +63,7 @@ namespace ClickIt.Tests.Shared.Input
         [DataRow(true, false, true, false, false)]
         public void GetMouseButtonBlockingState_AnyIsOrOfLeftAndRight(bool leftSetting, bool leftPressed, bool rightSetting, bool rightPressed, bool expectedAny)
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DisableLazyModeLeftClickHeld.Value = leftSetting;
             settings.DisableLazyModeRightClickHeld.Value = rightSetting;
 
@@ -82,7 +82,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void GetMouseButtonBlockingState_BlocksConfiguredPressedButtons()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DisableLazyModeLeftClickHeld.Value = true;
             settings.DisableLazyModeRightClickHeld.Value = true;
 
@@ -98,7 +98,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void GetMouseButtonBlockingState_DoesNotBlockWhenSettingDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DisableLazyModeLeftClickHeld.Value = false;
             settings.DisableLazyModeRightClickHeld.Value = false;
 

@@ -1,6 +1,6 @@
 
 
-namespace ClickIt.Features.Pathfinding.Grid
+namespace ClickItMax.Features.Pathfinding.Grid
 {
     internal static class PathGridSearch
     {

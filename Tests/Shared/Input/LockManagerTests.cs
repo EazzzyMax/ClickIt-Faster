@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Input
+namespace ClickItMax.Tests.Shared.Input
 {
     [TestClass]
     [DoNotParallelize]
@@ -25,7 +25,7 @@ namespace ClickIt.Tests.Shared.Input
         public void AcquireStatic_AcquiresAndReleasesMonitor_WhenInstancePresent()
         {
             object sync = new();
-            LockManager.Instance = new LockManager(new ClickItSettings());
+            LockManager.Instance = new LockManager(new ClickItMaxSettings());
 
             using (LockManager.AcquireStatic(sync))
             {

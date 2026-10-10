@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Click.Application
+namespace ClickItMax.Features.Click.Application
 {
     internal readonly record struct ClickLabelInteractionServiceDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         GameController GameController,
         ILabelInteractionPort LabelInteractionPort,
         Func<LabelOnGround, Vector2, IReadOnlyList<LabelOnGround>?, Func<Vector2, bool>?, (bool Success, Vector2 ClickPos)> TryResolveClickPosition,
@@ -128,19 +128,20 @@ namespace ClickIt.Features.Click.Application
         internal bool PerformManualCursorInteraction(Vector2 clickPos, bool useHoldClick)
             => ExecuteInteraction(clickPos, null, _dependencies.GameController, useHoldClick, allowWhenHotkeyInactive: true, avoidCursorMove: true);
 
-        internal bool PerformResolvedLabelInteraction(Vector2 clickPos, LabelOnGround label, string? mechanicId)
+        internal bool PerformResolvedLabelInteraction(Vector2 clickPos, LabelOnGround label, string? mechanicId,
+            bool forceUiHoverVerification = false, bool skipUiHoverVerification = false)
         {
             CaptureBlightChestDebug(label, mechanicId, "click", requireChestMechanic: true);
             return ExecuteInteraction(
                 clickPos,
-                ShouldSkipUiHoverVerification(mechanicId)
+                skipUiHoverVerification || ShouldSkipUiHoverVerification(mechanicId)
                     ? null
                     : DynamicAccess.TryGetDynamicValue(label, DynamicAccessProfiles.Label, out object? rawLabel)
                         ? rawLabel as Element
                         : null,
                 _dependencies.GameController,
                 SettlersMechanicPolicy.RequiresHoldClick(mechanicId),
-                forceUiHoverVerification: OffscreenPathingMath.ShouldForceUiHoverVerificationForLabel(label));
+                forceUiHoverVerification: !skipUiHoverVerification && (forceUiHoverVerification || OffscreenPathingMath.ShouldForceUiHoverVerificationForLabel(label)));
         }
 
         private void CaptureBlightChestDebug(LabelOnGround? label, string? mechanicId, string reason, bool requireChestMechanic)

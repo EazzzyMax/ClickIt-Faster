@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Inventory
+namespace ClickItMax.Features.Labels.Inventory
 {
     internal readonly record struct InventoryLayoutEntryResolverDependencies(
         Func<object?, IEnumerable<object?>> EnumerateObjects,

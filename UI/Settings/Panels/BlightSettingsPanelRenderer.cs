@@ -1,8 +1,8 @@
-namespace ClickIt.UI.Settings.Panels;
+namespace ClickItMax.UI.Settings.Panels;
 
-internal sealed class BlightSettingsPanelRenderer(ClickItSettings settings)
+internal sealed class BlightSettingsPanelRenderer(ClickItMaxSettings settings)
 {
-    private readonly ClickItSettings _settings = settings;
+    private readonly ClickItMaxSettings _settings = settings;
 
     internal void DrawPanel()
     {
@@ -11,9 +11,9 @@ internal sealed class BlightSettingsPanelRenderer(ClickItSettings settings)
         SettingsUiRenderHelpers.DrawToggleNodeControl(
             "Click Blight Pump to Start the Encounter##ClickBlightPump",
             _settings.ClickBlightPump,
-            "When enabled, ClickIt clicks the Blight pump to start the encounter.\n\n" +
+            "When enabled, ClickItMax clicks the Blight pump to start the encounter.\n\n" +
             "The pump must be clicked before the blight lanes spawn and tower building can begin.\n\n" +
-            "Disable this if you want to start encounters manually and only let ClickIt handle the rest.");
+            "Disable this if you want to start encounters manually and only let ClickItMax handle the rest.");
 
         ImGui.Spacing();
 
@@ -23,7 +23,7 @@ internal sealed class BlightSettingsPanelRenderer(ClickItSettings settings)
         SettingsUiRenderHelpers.DrawToggleNodeControl(
             "Build Towers During Blight##ClickBlightTowers",
             _settings.ClickBlightTowers,
-            "When enabled, ClickIt automatically scans for Blight tower foundations and builds towers according to the selected strategy during Blight encounters.\n\n" +
+            "When enabled, ClickItMax automatically scans for Blight tower foundations and builds towers according to the selected strategy during Blight encounters.\n\n" +
             "Tower building only runs while a Blight encounter is active (pump clicked and lanes spawned).");
 
         if (_settings.ClickBlightTowers.Value)
@@ -57,7 +57,7 @@ internal sealed class BlightSettingsPanelRenderer(ClickItSettings settings)
         SettingsUiRenderHelpers.DrawToggleNodeControl(
             "Block Other Interactions During Blight##BlightBlockOtherInteractions",
             _settings.BlightBlockOtherInteractions,
-            "When enabled, ClickIt blocks all other interactions (e.g. clicking items, chests, etc.) while a Blight encounter is active.\n\n" +
+            "When enabled, ClickItMax blocks all other interactions (e.g. clicking items, chests, etc.) while a Blight encounter is active.\n\n" +
             "This prevents interacting with other objects while the plugin is trying to build towers.\n\n" +
             "It's recommended to keep this enabled.");
     }

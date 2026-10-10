@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Bootstrap
+namespace ClickItMax.Core.Bootstrap
 {
     internal sealed class PluginServiceRegistry
     {

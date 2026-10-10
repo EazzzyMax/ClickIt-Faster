@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace ClickIt.UI.Debug.Introspection
+namespace ClickItMax.UI.Debug.Introspection
 {
     internal sealed class RuntimeObjectTraversalEngine
     {

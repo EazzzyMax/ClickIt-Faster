@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels.Selection
+namespace ClickItMax.Tests.Features.Labels.Selection
 {
     [TestClass]
     public class LabelSelectionEngineTests

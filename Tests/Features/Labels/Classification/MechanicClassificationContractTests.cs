@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels.Classification
+namespace ClickItMax.Tests.Features.Labels.Classification
 {
     [TestClass]
     public class MechanicClassificationContractTests

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Diagnostics
+namespace ClickItMax.Features.Labels.Diagnostics
 {
     public sealed record LabelDebugSnapshot(
         bool HasData,

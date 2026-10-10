@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Inventory
+namespace ClickItMax.Features.Labels.Inventory
 {
     internal readonly struct InventoryLayoutEntry(int x, int y, int width, int height)
     {

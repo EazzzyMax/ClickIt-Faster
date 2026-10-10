@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class InteractionExecutionEngineTests
@@ -539,7 +539,7 @@ namespace ClickIt.Tests.Features.Click
         public void Execute_VisibleWalksTowardLabel_WhenClickPointCannotBeResolved()
         {
             // A selected label whose click point cannot be resolved must pathfind toward its entity (the shared click-vs-walk decision) rather than silently dropping the tick.
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.WalkTowardOffscreenLabels.Value = true;
             Entity item = EntityProbeFactory.Create(path: "Metadata/MiscellaneousObjects/WorldItem");
             LabelOnGround label = new LabelProbe { ItemOnGround = item };
@@ -568,7 +568,7 @@ namespace ClickIt.Tests.Features.Click
         public void Execute_VisibleClicksLabelInPlace_WhenClickPointIsResolvableAndClickable()
         {
             // A selected label whose click point resolves into a clickable area must be clicked in place, never walked to (the walk-to-onscreen-target regression guard). If the engine had walked instead, the tick would have stopped before HandleVisibleLabel, so the interaction never running proves the walk was skipped.
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.WalkTowardOffscreenLabels.Value = true;
             Entity item = EntityProbeFactory.Create(path: "Metadata/MiscellaneousObjects/WorldItem");
             LabelOnGround label = new LabelProbe { ItemOnGround = item };
@@ -607,9 +607,9 @@ namespace ClickIt.Tests.Features.Click
             Action<string>? holdDebugTelemetryAfterSuccess = null,
             ClickDebugPublicationService? clickDebugPublisher = null,
             Func<LabelOnGround?>? getHarvestLabelToClick = null,
-            ClickItSettings? settingsOverride = null)
+            ClickItMaxSettings? settingsOverride = null)
         {
-            ClickItSettings settings = settingsOverride ?? new();
+            ClickItMaxSettings settings = settingsOverride ?? new();
             ClickRuntimeState runtimeState = new();
             ILabelInteractionPort resolvedLabelInteractionPort = labelInteractionPort ?? ClickTestServiceFactory.CreateNoOpLabelInteractionPort();
             ClickDebugPublicationService resolvedClickDebugPublisher = clickDebugPublisher ?? ClickTestDebugPublisherFactory.Create();
@@ -667,7 +667,7 @@ namespace ClickIt.Tests.Features.Click
 
         private static SpecialLabelInteractionHandler CreateSpecialLabelInteractionHandler()
         {
-            ClickItSettings settings = new();
+            ClickItMaxSettings settings = new();
             return new SpecialLabelInteractionHandler(new SpecialLabelInteractionHandlerDependencies(
                 Settings: settings,
                 AltarAutomation: ClickTestServiceFactory.CreateAltarAutomationService(settings),
@@ -686,7 +686,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static OffscreenPathingCoordinator CreateOffscreenPathingCoordinator(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             ClickRuntimeState runtimeState,
             PathfindingService pathfindingService,
             ClickDebugPublicationService clickDebugPublisher)
@@ -731,7 +731,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static ChestLootSettlementTracker CreateChestLootSettlementTracker(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             ClickDebugPublicationService clickDebugPublisher,
             ClickLabelInteractionService labelInteraction)
         {

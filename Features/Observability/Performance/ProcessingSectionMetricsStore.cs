@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.Performance
+namespace ClickItMax.Features.Observability.Performance
 {
     // One rolling buffer per feature-processing section. Processing measures the domain work a feature does each run (label scan, altar scan, blight refresh, path build, ...) independent of rendering or the coroutine framework. Run periods are tracked so the debug table can normalize per-run ms to per-frame ms (like the coroutine table) and correlate with the render table. Locked because the label-scan boundary can run on any coroutine.
     internal sealed class ProcessingSectionMetricsStore

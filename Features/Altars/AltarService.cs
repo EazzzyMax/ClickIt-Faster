@@ -1,13 +1,13 @@
-namespace ClickIt.Features.Altars
+namespace ClickItMax.Features.Altars
 {
     public class AltarService(
-        ClickIt clickIt,
-        ClickItSettings settings,
+        ClickItMax clickIt,
+        ClickItMaxSettings settings,
         TimeCache<List<LabelOnGround>>? cachedLabels,
         BreakdownRecorder? recordBreakdown = null)
     {
-        private readonly ClickIt _clickIt = clickIt;
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMax _clickIt = clickIt;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly TimeCache<List<LabelOnGround>>? _cachedLabels = cachedLabels;
         private readonly BreakdownRecorder? _recordBreakdown = recordBreakdown;
         private readonly AltarComponentStore _altarStore = new();

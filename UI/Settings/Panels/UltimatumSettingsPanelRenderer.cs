@@ -1,8 +1,8 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
-    internal sealed class UltimatumSettingsPanelRenderer(ClickItSettings settings)
+    internal sealed class UltimatumSettingsPanelRenderer(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly record struct TakeRewardListRenderProgress(bool HasEntries, bool ShouldStopRendering);
 
         private static UltimatumModifierGroupEntry[] UltimatumModifierGroups => UltimatumModifierGroupCatalog.Groups;

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels.Application
+namespace ClickItMax.Tests.Features.Labels.Application
 {
     [TestClass]
     public class LabelMechanicResolutionServiceTests

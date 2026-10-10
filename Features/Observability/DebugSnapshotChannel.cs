@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability
+namespace ClickItMax.Features.Observability
 {
     internal sealed class DebugSnapshotChannel<TSnapshot, TEvent>(
         TSnapshot emptySnapshot,

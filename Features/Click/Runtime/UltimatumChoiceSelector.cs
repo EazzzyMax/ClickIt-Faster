@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Runtime
+namespace ClickItMax.Features.Click.Runtime
 {
     internal static class UltimatumChoiceSelector<T>
         where T : struct, IUltimatumChoice

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.Performance
+namespace ClickItMax.Features.Observability.Performance
 {
     internal sealed class FpsTracker
     {

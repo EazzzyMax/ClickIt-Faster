@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     public class DebugClipboardPayloadBuilderTests
@@ -13,7 +13,7 @@ namespace ClickIt.Tests.Core.Runtime
                 "Line B"
             ]);
 
-            payload.Should().Contain("=== ClickIt Additional Debug Information ===");
+            payload.Should().Contain("=== ClickItMax Additional Debug Information ===");
             payload.Should().Contain("Line A");
             payload.Should().Contain("Line B");
             payload.Should().NotContain("\r\n\r\n\r\n");

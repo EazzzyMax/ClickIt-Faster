@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Settings.Normalization
+namespace ClickItMax.Core.Settings.Normalization
 {
     internal sealed class SettingsNormalizationService
     {
@@ -7,13 +7,13 @@ namespace ClickIt.Core.Settings.Normalization
         private const int LazyModeNearbyMonsterDistanceMin = 1;
         private const int LazyModeNearbyMonsterDistanceMax = 300;
 
-        public void Apply(ClickItSettings settings)
+        public void Apply(ClickItMaxSettings settings)
         {
             ArgumentNullException.ThrowIfNull(settings);
             EnsureLazyModeNearbyMonsterFiltersInitialized(settings);
         }
 
-        internal static void EnsureLazyModeNearbyMonsterFiltersInitialized(ClickItSettings settings)
+        internal static void EnsureLazyModeNearbyMonsterFiltersInitialized(ClickItMaxSettings settings)
         {
             settings.LazyModeNormalMonsterBlockCount = SanitizeLazyModeNearbyMonsterCount(settings.LazyModeNormalMonsterBlockCount);
             settings.LazyModeNormalMonsterBlockDistance = SanitizeLazyModeNearbyMonsterDistance(settings.LazyModeNormalMonsterBlockDistance);

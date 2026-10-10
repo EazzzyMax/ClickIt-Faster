@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability
+namespace ClickItMax.Features.Observability
 {
     public sealed record UltimatumDebugSnapshot(
         bool HasData,

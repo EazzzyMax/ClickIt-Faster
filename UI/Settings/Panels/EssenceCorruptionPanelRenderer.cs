@@ -1,8 +1,8 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
-    internal sealed class EssenceCorruptionPanelRenderer(ClickItSettings settings)
+    internal sealed class EssenceCorruptionPanelRenderer(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
 
         public void DrawPanel()
         {
@@ -30,7 +30,7 @@ namespace ClickIt.UI.Settings.Panels
             ImGui.PushID(id);
 
             bool hasEntries = false;
-            foreach (string essenceName in ClickItSettings.EssenceAllTableNames)
+            foreach (string essenceName in ClickItMaxSettings.EssenceAllTableNames)
             {
                 if (!sourceSet.Contains(essenceName))
                     continue;

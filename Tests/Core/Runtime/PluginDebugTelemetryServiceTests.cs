@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     public class PluginDebugTelemetryServiceTests
@@ -95,7 +95,7 @@ namespace ClickIt.Tests.Core.Runtime
         public void GetSnapshot_ProjectsCachedLabelsAndRecentErrors_WhenSupportingProvidersAreAvailable()
         {
             var cachedLabels = new TimeCache<List<LabelOnGround>>(() => [null!], 50);
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             var errorHandler = new ErrorHandler(settings, static (_, _) => { }, static (_, _) => { });
             errorHandler.LogError("first error");
@@ -129,7 +129,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void GetSnapshot_ProjectsClickFrequencyTargetState_FromSettingsAndRuntimeInputs()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = false;
             settings.ClickFrequencyTarget.Value = 123;
             settings.LazyModeClickLimiting.Value = 456;
@@ -163,7 +163,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void GetSnapshot_ProjectsClickAndUltimatumSettings_FromSettingsProvider()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickHotkeyToggleMode.Value = true;
             settings.ClickDistance.Value = 91;
             settings.ClickFrequencyTarget.Value = 222;

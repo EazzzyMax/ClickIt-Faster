@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Behavior.Click
+namespace ClickItMax.Tests.Behavior.Click
 {
     // Scenario harness that composes the REAL click-pipeline components exactly the way production wires them (see ClickAutomationPort.Composition / LabelFilterPort.Composition), so scenario tests exercise the actual geometry, selection, ranking, and click-vs-walk logic against simulated game state (labels with real element rects + entity probes + blocked rectangles).
     internal static class ClickPipelineScenarioFactory
@@ -150,7 +150,7 @@ namespace ClickIt.Tests.Behavior.Click
         {
             public ScenarioConfig Config { get; }
             public GameController GameController { get; }
-            public ClickItSettings Settings { get; }
+            public ClickItMaxSettings Settings { get; }
             public LabelClickPointResolver ClickPointResolver { get; }
             public LabelSelectionService SelectionService { get; }
             public LabelSelectionScanEngine ScanEngine { get; }
@@ -195,7 +195,7 @@ namespace ClickIt.Tests.Behavior.Click
             {
                 Config = config;
                 GameController = ExileCoreVisibleObjectBuilder.CreateGameControllerWithWindow(config.Window);
-                Settings = new ClickItSettings();
+                Settings = new ClickItMaxSettings();
                 Settings.WalkTowardOffscreenLabels.Value = config.WalkTowardOffscreenLabels;
                 ClickableArea = CreateClickableArea(config);
                 ClickPointResolver = new LabelClickPointResolver(Settings);

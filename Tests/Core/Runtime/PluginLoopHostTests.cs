@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+﻿namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     public class PluginLoopHostTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void Constructor_Throws_OnNullArgs()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             var ctx = new PluginContext();
             var gc = RuntimeHelpers.GetUninitializedObject(typeof(GameController)) as GameController;
             var eh = new ErrorHandler(settings, (s, f) => { }, (m, f) => { });
@@ -27,7 +27,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void GetPlayerHealthAndESPercent_Return100_WhenRuntimeNotPresent()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             var ctx = new PluginContext();
             var gc = RuntimeHelpers.GetUninitializedObject(typeof(GameController)) as GameController;
             var eh = new ErrorHandler(settings, (s, f) => { }, (m, f) => { });
@@ -41,7 +41,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void StartCoroutines_CreatesAllCoroutines_AndSetsPriorities()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             var ctx = new PluginContext();
 
             var gc = RuntimeHelpers.GetUninitializedObject(typeof(GameController)) as GameController;
@@ -49,7 +49,7 @@ namespace ClickIt.Tests.Core.Runtime
 
             var host = new PluginLoopHost(ctx, settings, gc!, eh);
 
-            var pluginMock = new Moq.Mock<BaseSettingsPlugin<ClickItSettings>>();
+            var pluginMock = new Moq.Mock<BaseSettingsPlugin<ClickItMaxSettings>>();
             var plugin = pluginMock.Object;
 
             try
@@ -68,7 +68,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ClickLabel_SetsWorkFinished_WhenTimerBelowTarget_OrCanClickFalse()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             settings.Enable.Value = true;
             settings.ClickFrequencyTarget.Value = 1000;
 
@@ -96,7 +96,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ClickLabel_SuppressesRegularClick_WhenManualUiHoverModeOwnsTheInput()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             settings.Enable.Value = true;
             settings.ClickOnManualUiHoverOnly.Value = true;
             settings.LazyMode.Value = false;
@@ -119,7 +119,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ClickLabel_StopsImmediately_WhenPerformanceMonitorMissing()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             settings.Enable.Value = true;
 
             var ctx = new PluginContext();
@@ -138,7 +138,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ClickLabel_StopsImmediately_WhenClickPortMissing()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             settings.Enable.Value = true;
 
             var ctx = new PluginContext();
@@ -157,7 +157,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ProcessManualUiHoverClick_SkipsClick_WhenRitualIsActive()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             settings.ClickOnManualUiHoverOnly.Value = true;
             settings.LazyMode.Value = false;
 
@@ -189,7 +189,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ProcessManualUiHoverClick_SkipsClick_WhenManualHoverGateIsBlockedByTimer()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             settings.ClickOnManualUiHoverOnly.Value = true;
             settings.LazyMode.Value = false;
             settings.ClickFrequencyTarget.Value = 1000;
@@ -218,7 +218,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void MainClickLabelCoroutine_PacesIdleIterations_WithWaitTime()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             settings.Enable.Value = true;
             settings.ClickFrequencyTarget.Value = 1000;
 
@@ -243,7 +243,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ClickLabel_BlocksAndLogsReason_WhenCanClickIsFalse()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             settings.Enable.Value = true;
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
@@ -272,7 +272,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ResolveClickTargetTime_SubtractsAverageTimeToClick()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings { MaxPickupEnabled = new ToggleNode(false) };
             var ctx = new PluginContext();
             var perf = new PerformanceMonitor(settings);
             ctx.Services.PerformanceMonitor = perf;
@@ -309,7 +309,7 @@ namespace ClickIt.Tests.Core.Runtime
             return (T)method.Invoke(host, arguments)!;
         }
 
-        private static void SetSafeLazyModeContextCache(PluginLoopHost host, ClickItSettings settings, IReadOnlyList<LabelOnGround> labels)
+        private static void SetSafeLazyModeContextCache(PluginLoopHost host, ClickItMaxSettings settings, IReadOnlyList<LabelOnGround> labels)
         {
             RuntimeMemberAccessor.SetRequiredMember(
                 host,

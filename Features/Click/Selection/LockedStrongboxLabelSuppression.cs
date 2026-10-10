@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Selection
+namespace ClickItMax.Features.Click.Selection
 {
     // Fresh lock-state check for the label scan: the selection caches can serve a stale "clickable" result for a freshly-locked strongbox, and the scan must skip it to reach the next label.
     internal static class LockedStrongboxLabelSuppression

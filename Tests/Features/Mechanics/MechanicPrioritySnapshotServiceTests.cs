@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Mechanics
+namespace ClickItMax.Tests.Features.Mechanics
 {
     [TestClass]
     public class MechanicPrioritySnapshotServiceTests

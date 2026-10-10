@@ -1,6 +1,6 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
-    internal sealed class PerformanceSettingsPanelRenderer(ClickItSettings settings)
+    internal sealed class PerformanceSettingsPanelRenderer(ClickItMaxSettings settings)
     {
         private static readonly Vector4 BodyTextColor = new(0.8f, 0.8f, 0.8f, 1f);
         private static readonly Vector4 HighlightTextColor = new(0.85f, 0.85f, 0.5f, 1f);
@@ -16,17 +16,17 @@ namespace ClickIt.UI.Settings.Panels
         private static readonly Vector4 RedButtonHoveredColor = new(0.65f, 0.2f, 0.2f, 1f);
         private static readonly Vector4 RedButtonActiveColor = new(0.45f, 0.1f, 0.1f, 1f);
 
-        private const string SetupPopupTitle = "Performance Setup##ClickItPerformance";
+        private const string SetupPopupTitle = "Performance Setup##ClickItMaxPerformance";
         private const string ParseServerEntitiesName = "Parse Server Entities";
         private const string FpsExplanation = "Target FPS is 70 because ExileAPI runs a few frames below the value you set, so 70 keeps you at a steady 60 - values above 70 can cause ExileAPI to freeze temporarily in some situations when using this plugin.";
-        private const string ParseServerExplanation = "Parse Server Entities reads the server's entity stream so ClickIt can see and target things the game has not loaded in yet - keep it ON.";
-        private const string ProcessLassoWarning = "If you use Process Lasso and have the CPU -> 'ProBalance' feature enabled, you must exclude Loader.exe (ExileAPI) from it, otherwise, ExileAPI may sometimes hang when used with ClickIt.";
+        private const string ParseServerExplanation = "Parse Server Entities reads the server's entity stream so ClickItMax can see and target things the game has not loaded in yet - keep it ON.";
+        private const string ProcessLassoWarning = "If you use Process Lasso and have the CPU -> 'ProBalance' feature enabled, you must exclude Loader.exe (ExileAPI) from it, otherwise, ExileAPI may sometimes hang when used with ClickItMax.";
 
         private static Func<PerformanceSettingsPanelRenderer?>? s_current;
         // Set by the debug-box "Reset setup flag" button so the setup popup shows again after reload even when every recommended setting is already correct (otherwise the empty-changes auto-confirm silently swallows the reset). Cleared once the popup is confirmed.
         private static bool s_forceShowSetup;
 
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private string? _applyResult;
         private bool _showSkipConfirmation;
 
@@ -116,7 +116,7 @@ namespace ClickIt.UI.Settings.Panels
         private void DrawSetupContent(List<RecommendedSettingChange>? changes)
         {
             SettingsUiRenderHelpers.DrawWrappedText(
-                "ClickIt works best when a few of your ExileAPI settings are changed. Review the list below, then apply the recommended settings automatically or set them yourself in the ExileAPI menu. You will only see this screen once.",
+                "ClickItMax works best when a few of your ExileAPI settings are changed. Review the list below, then apply the recommended settings automatically or set them yourself in the ExileAPI menu. You will only see this screen once.",
                 BodyTextColor);
             ImGui.Spacing();
 

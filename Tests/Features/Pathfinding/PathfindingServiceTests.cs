@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Pathfinding
+namespace ClickItMax.Tests.Features.Pathfinding
 {
     [TestClass]
     public class PathfindingServiceTests

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class LostShipmentTargetSelectorTests
@@ -7,7 +7,7 @@ namespace ClickIt.Tests.Features.Click
         public void ResolveNextLostShipmentCandidate_ReturnsNull_WhenFeatureDisabled()
         {
             var selector = new LostShipmentTargetSelector(new LostShipmentTargetSelectorDependencies(
-                Settings: new ClickItSettings
+                Settings: new ClickItMaxSettings
                 {
                     ClickLostShipmentCrates = new ToggleNode(false),
                     ClickSettlersOre = new ToggleNode(true),
@@ -27,7 +27,7 @@ namespace ClickIt.Tests.Features.Click
             List<string> logs = [];
 
             var selector = new LostShipmentTargetSelector(new LostShipmentTargetSelectorDependencies(
-                Settings: new ClickItSettings
+                Settings: new ClickItMaxSettings
                 {
                     ClickLostShipmentCrates = new ToggleNode(true),
                     ClickSettlersOre = new ToggleNode(true),

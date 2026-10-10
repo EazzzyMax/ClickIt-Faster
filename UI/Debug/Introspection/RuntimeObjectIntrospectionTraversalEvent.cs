@@ -1,4 +1,4 @@
-namespace ClickIt.UI.Debug.Introspection
+namespace ClickItMax.UI.Debug.Introspection
 {
     internal readonly record struct RuntimeObjectTraversalEvent(
         RuntimeObjectTraversalEventKind Kind,

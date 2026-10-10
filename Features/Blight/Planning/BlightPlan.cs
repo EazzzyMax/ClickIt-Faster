@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight.Planning;
+namespace ClickItMax.Features.Blight.Planning;
 
 internal enum BlightPlanAction
 {

@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Bootstrap
+namespace ClickItMax.Core.Bootstrap
 {
     internal static class PluginCompositionBootstrapper
     {
@@ -8,7 +8,7 @@ namespace ClickIt.Core.Bootstrap
             ClickAutomationPort ClickAutomationPort,
             SettingsDomainServices SettingsDomain);
 
-        internal static void InitializeCompositionRoot(PluginContext context, ClickIt owner, ClickItSettings settings)
+        internal static void InitializeCompositionRoot(PluginContext context, ClickItMax owner, ClickItMaxSettings settings)
         {
             ArgumentNullException.ThrowIfNull(context);
             ArgumentNullException.ThrowIfNull(owner);
@@ -21,7 +21,7 @@ namespace ClickIt.Core.Bootstrap
             RegisterCompositionShutdownActions(context);
         }
 
-        internal static void FinalizeCompositionRootForStartup(PluginContext context, ClickIt owner, ClickItSettings settings)
+        internal static void FinalizeCompositionRootForStartup(PluginContext context, ClickItMax owner, ClickItMaxSettings settings)
         {
             ArgumentNullException.ThrowIfNull(context);
             ArgumentNullException.ThrowIfNull(owner);
@@ -47,7 +47,7 @@ namespace ClickIt.Core.Bootstrap
             context.ClearPublishedCompositionState();
         }
 
-        private static CompositionRootParts AssembleCompositionParts(ClickIt owner, ClickItSettings settings)
+        private static CompositionRootParts AssembleCompositionParts(ClickItMax owner, ClickItMaxSettings settings)
         {
             GameController gameController = owner.GameController
                 ?? throw new InvalidOperationException("GameController is null during plugin initialization.");
@@ -60,7 +60,7 @@ namespace ClickIt.Core.Bootstrap
             return new CompositionRootParts(core, rendering, clickAutomationPort, settingsDomain);
         }
 
-        private static void PublishCompositionState(PluginContext context, ClickItSettings settings, CompositionRootParts parts)
+        private static void PublishCompositionState(PluginContext context, ClickItMaxSettings settings, CompositionRootParts parts)
         {
             ApplyPorts(
                 context,

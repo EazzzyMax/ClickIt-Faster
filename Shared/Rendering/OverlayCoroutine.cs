@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Rendering
+namespace ClickItMax.Shared.Rendering
 {
     /// <summary>
     /// Owns one overlay's refresh coroutine: cadence (from the refresh policy), coroutine
@@ -16,7 +16,7 @@ namespace ClickIt.Shared.Rendering
         private readonly OverlayRefreshPolicy _policy;
 
         public OverlayCoroutine(
-            BaseSettingsPlugin<ClickItSettings> plugin,
+            BaseSettingsPlugin<ClickItMaxSettings> plugin,
             IOverlay overlay,
             Func<OverlayRefreshContext> refreshContextFactory,
             Func<bool> shouldContinue,

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class OnscreenMechanicPathingBlockerTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldAvoidOffscreenPathfindingBecauseOnscreenMechanicIsClickable_PublishesStage_WhenVisibleMechanicBlocks()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 PrioritizeOnscreenClickableMechanicsOverPathfinding = new ToggleNode(true),
                 ClickShrines = new ToggleNode(true),
@@ -40,7 +40,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldAvoidOffscreenPathfindingBecauseOnscreenMechanicIsClickable_ReturnsFalse_WhenPriorityDisabled()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 PrioritizeOnscreenClickableMechanicsOverPathfinding = new ToggleNode(false),
                 ClickShrines = new ToggleNode(true),

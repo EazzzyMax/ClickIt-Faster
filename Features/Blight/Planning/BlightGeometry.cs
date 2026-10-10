@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight.Planning;
+namespace ClickItMax.Features.Blight.Planning;
 
 // Single home for the blight geometry micro-helpers (squared distance for the coverage/fill radius comparisons, euclidean distance for lane merging).
 internal static class BlightGeometry

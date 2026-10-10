@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Shrines
+namespace ClickItMax.Features.Shrines
 {
     public class ShrineService
     {

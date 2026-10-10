@@ -1,5 +1,5 @@
 
-namespace ClickIt.Features.Click.Application
+namespace ClickItMax.Features.Click.Application
 {
     internal sealed record UltimatumPreviewServiceDependencies(
         UltimatumAutomationServiceDependencies Automation,

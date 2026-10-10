@@ -1,7 +1,7 @@
-namespace ClickIt.Core.Settings.Defaults
+namespace ClickItMax.Core.Settings.Defaults
 {
     internal interface ISettingsDefaultsService
     {
-        void Apply(ClickItSettings settings);
+        void Apply(ClickItMaxSettings settings);
     }
 }

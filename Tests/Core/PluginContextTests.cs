@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core
+namespace ClickItMax.Tests.Core
 {
     [TestClass]
     public class PluginContextTests
@@ -38,8 +38,8 @@ namespace ClickIt.Tests.Core
             {
                 Services =
                 {
-                    PerformanceMonitor = new PerformanceMonitor(new ClickItSettings()),
-                    ErrorHandler = new ErrorHandler(new ClickItSettings(), static (_, _) => { }, static (_, _) => { }),
+                    PerformanceMonitor = new PerformanceMonitor(new ClickItMaxSettings()),
+                    ErrorHandler = new ErrorHandler(new ClickItMaxSettings(), static (_, _) => { }, static (_, _) => { }),
                     AreaService = new AreaService(),
                     LabelFilterPort = (LabelFilterPort)RuntimeHelpers.GetUninitializedObject(typeof(LabelFilterPort)),
                     ClickAutomationPort = (ClickAutomationPort)RuntimeHelpers.GetUninitializedObject(typeof(ClickAutomationPort)),
@@ -131,8 +131,8 @@ namespace ClickIt.Tests.Core
         [TestMethod]
         public void InitializeCompositionRoot_WhenGameControllerMissing_ResetsWarmStateBeforeThrowing()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             bool disposed = false;
 
             plugin.State.ServiceRegistry.Register(() => disposed = true);
@@ -156,11 +156,11 @@ namespace ClickIt.Tests.Core
         [TestMethod]
         public void FinalizeCompositionRootForStartup_NormalizesWeights_ReloadsAlertSound_AndStartsTimers()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var performanceMonitor = new PerformanceMonitor(settings);
-            string divineKey = ClickItSettings.BuildCompositeKey(
-                ClickItSettings.AltarTypeMinion,
+            string divineKey = ClickItMaxSettings.BuildCompositeKey(
+                ClickItMaxSettings.AltarTypeMinion,
                 "#% chance to drop an additional Divine Orb");
             string configDir = Path.Combine(Path.GetTempPath(), "clickit_bootstrap_" + Guid.NewGuid().ToString("N"));
             string alertPath = Path.Combine(configDir, "alert.wav");

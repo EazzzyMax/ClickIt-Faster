@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Game
+namespace ClickItMax.Shared.Game
 {
     public class ElementAdapter(Element? element) : IElementAdapter
     {

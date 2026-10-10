@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Harvest;
+namespace ClickItMax.Features.Harvest;
 
 internal enum HarvestDecisionOutcome
 {
@@ -31,7 +31,7 @@ public sealed class HarvestService
     private const long HarvestRescanFrameIntervalMs = 0;
     private const long HarvestRescanIdleIntervalMs = 250;
 
-    private readonly ClickItSettings _settings;
+    private readonly ClickItMaxSettings _settings;
     private readonly Func<long> _getTimestampMs;
     private IReadOnlyList<LabelOnGround>? _lastProcessedList;
     private int _lastProcessedCount;
@@ -45,7 +45,7 @@ public sealed class HarvestService
 
     internal HarvestDecision CurrentDecision { get; private set; }
 
-    internal HarvestService(ClickItSettings settings, Func<long>? getTimestampMs = null)
+    internal HarvestService(ClickItMaxSettings settings, Func<long>? getTimestampMs = null)
     {
         _settings = settings;
         _getTimestampMs = getTimestampMs ?? (static () => Environment.TickCount64);

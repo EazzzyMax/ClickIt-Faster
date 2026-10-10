@@ -1,9 +1,9 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     internal static class ClickTestServiceFactory
     {
         internal static AltarAutomationService CreateAltarAutomationService(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             IReadOnlyList<PrimaryAltarComponent>? snapshot = null,
             Func<string, bool>? ensureCursorInsideGameWindowForClick = null)
         {
@@ -33,7 +33,7 @@ namespace ClickIt.Tests.Features.Click
             Func<bool>? groundItemsVisible = null)
         {
             return new ClickLabelInteractionService(new ClickLabelInteractionServiceDependencies(
-                Settings: new ClickItSettings(),
+                Settings: new ClickItMaxSettings(),
                 GameController: gameController ?? (GameController)RuntimeHelpers.GetUninitializedObject(typeof(GameController)),
                 LabelInteractionPort: labelInteractionPort ?? (ILabelInteractionPort)RuntimeHelpers.GetUninitializedObject(typeof(LabelFilterPort)),
                 TryResolveClickPosition: tryResolveClickPosition ?? (static (_, _, _, _) => (false, default)),
@@ -44,7 +44,7 @@ namespace ClickIt.Tests.Features.Click
                 DebugLog: static _ => { }));
         }
 
-        internal static UltimatumAutomationService CreateUltimatumAutomationService(ClickItSettings settings)
+        internal static UltimatumAutomationService CreateUltimatumAutomationService(ClickItMaxSettings settings)
         {
             return new UltimatumAutomationService(new UltimatumAutomationServiceDependencies(
                 Settings: settings,

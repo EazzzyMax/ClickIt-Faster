@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability
+namespace ClickItMax.Features.Observability
 {
     internal sealed record LabelTelemetrySnapshot(
         bool ServiceAvailable,

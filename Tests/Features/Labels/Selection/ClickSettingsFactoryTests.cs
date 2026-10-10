@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels.Selection
+namespace ClickItMax.Tests.Features.Labels.Selection
 {
     [TestClass]
     public class ClickSettingsFactoryTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Labels.Selection
         [TestMethod]
         public void Create_UsesSettingsValues_WhenNoLazyRestrictionApplied()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var snapshotProvider = new MechanicPrioritySnapshotService();
 
             var factory = new ClickSettingsFactory(
@@ -28,7 +28,7 @@ namespace ClickIt.Tests.Features.Labels.Selection
         [TestMethod]
         public void Create_DisablesLeagueChestsAndSettlers_WhenLazyRestrictionIsActive()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.ClickLeagueChests.Value = true;
             settings.ClickSettlersOre.Value = true;
@@ -48,7 +48,7 @@ namespace ClickIt.Tests.Features.Labels.Selection
         [TestMethod]
         public void Create_KeepsSettlersEnabled_WhenHotkeyHeld_DuringLazyRestriction()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.ClickSettlersOre.Value = true;
 
@@ -66,7 +66,7 @@ namespace ClickIt.Tests.Features.Labels.Selection
         [TestMethod]
         public void BuildEnabledLeagueChestSpecificIds_ReflectsSpecificSettings()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickLeagueChests.Value = true;
             settings.ClickMirageGoldenDjinnCache.Value = true;
             settings.ClickMirageSilverDjinnCache.Value = false;
@@ -89,7 +89,7 @@ namespace ClickIt.Tests.Features.Labels.Selection
         public void Create_SpecDefaults_DisabledByDefaultMechanicsStayOff_EnabledByDefaultStayOn()
         {
             // Spec 20.3: basic chests, area transitions, labyrinth trials, altar clicks, and ultimatum initial/choices are DISABLED by default; strongboxes, items, essences, shrines, and the ultimatum take-reward button are ENABLED by default.
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var factory = new ClickSettingsFactory(
                 settings,
                 new MechanicPrioritySnapshotService(),

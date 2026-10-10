@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight;
+namespace ClickItMax.Features.Blight;
 
 // One BlightPathway IngameIcon = one real lane segment. BeamStart is the segment's own world position; BeamEnd is the world position one step OUTWARD (away from the pump). Lanes form a WEB: every icon whose BeamEnd matches this icon's BeamStart is a pump-ward parent. Parents[0] is the primary/tree parent (used for coverage propagation and branch naming); Parents[1..] are the extra real beam connections at convergence junctions (two lanes joining into one). Computed per scan.
 internal readonly record struct BlightPathwayIcon(
@@ -15,7 +15,7 @@ internal readonly record struct BlightPathwayIcon(
 
 internal sealed class BlightEntityCache
 {
-    private readonly ClickItSettings _settings;
+    private readonly ClickItMaxSettings _settings;
     private readonly BlightDebugEvents _debug;
     private readonly BlightEncounter _encounter;
 
@@ -23,7 +23,7 @@ internal sealed class BlightEntityCache
     internal event Action? EncounterEnded;
     internal event Action? DataChanged;
 
-    // Plugin disable/reload teardown: clears the cache's blight state (and the shared hub's blight category); the hub's EntityAdded/EntityRemoved subscription is unhooked in ClickIt.OnClose.
+    // Plugin disable/reload teardown: clears the cache's blight state (and the shared hub's blight category); the hub's EntityAdded/EntityRemoved subscription is unhooked in ClickItMax.OnClose.
     internal void DisposeForShutdown()
     {
         ClearData();
@@ -100,7 +100,7 @@ internal sealed class BlightEntityCache
     // The shared EntityEventHub retains the blight set (pathways + pump + towers + foundations) with ONE EntityAdded/EntityRemoved subscription and ONE path read per event (the walking burst must never do a read per consumer per entity — the freeze source). The refresh re-reads each retained entity's CURRENT path on the small retained set to classify pathway vs structure, and tower level/type from the component because it changes in place and does not fire events. Reports the accumulated entity-event cost (bytes, ms) once per refresh; wired to the Blight breakdown's "Events" stage so the walking-triggered entity-event burst is visible.
     private readonly Action<long, double>? _recordEventCost;
 
-    internal BlightEntityCache(ClickItSettings settings, BlightDebugEvents debug, BlightEncounter encounter, Action<long, double>? recordEventCost = null)
+    internal BlightEntityCache(ClickItMaxSettings settings, BlightDebugEvents debug, BlightEncounter encounter, Action<long, double>? recordEventCost = null)
     {
         _settings = settings;
         _debug = debug;

@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Game
+namespace ClickItMax.Shared.Game
 {
     public static class Constants
     {

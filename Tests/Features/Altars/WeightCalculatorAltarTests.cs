@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Altars
+namespace ClickItMax.Tests.Features.Altars
 {
     [TestClass]
     public class WeightCalculatorAltarTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateAltarWeights_NullAltar_ThrowsArgumentException()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
 
             Assert.ThrowsException<System.ArgumentException>(() => calc.CalculateAltarWeights(null!));
@@ -15,7 +15,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateAltarWeights_MissingComponents_ThrowsArgumentException()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
 
             var altar = new PrimaryAltarComponent(AltarType.Unknown, null!, new AltarButton(null), null!, new AltarButton(null));
@@ -25,7 +25,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateAltarWeights_NullElements_ThrowsArgumentException()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
 
             var top = new SecondaryAltarComponent(null, ["up0"], ["down0"]);
@@ -39,7 +39,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateAltarWeights_ValidComponents_ComputesExpectedTotalsAndRatios()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
 
             settings.ModTiers["up0"] = 2;
             settings.ModTiers["up1"] = 3;

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Application
+namespace ClickItMax.Features.Click.Application
 {
     internal readonly record struct OffscreenStickyTargetHandlerDependencies(
         GameController GameController,

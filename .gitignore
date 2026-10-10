@@ -159,3 +159,13 @@ ThirdParty/Decompiled/
 .github/copilot-instructions.md
 .groupedtimelineinclude
 .history_machine/
+# Private workstation journals, runtime profiles and diagnostics
+MODLOG.md
+diagnostics/
+Logs/
+config/
+*.jsonl
+# Public standalone movement tests
+!.scripts/MaxPickupPolicyTests/
+!.scripts/MaxPickupPolicyTests/*.cs
+!.scripts/MaxPickupPolicyTests/*.csproj

@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Diagnostics;
+namespace ClickItMax.Shared.Diagnostics;
 
 // Copies text to the Windows clipboard from any thread: STA threads use Clipboard.SetText directly, other threads pipe through clip.exe so background coroutines can copy without an STA marshaller.
 internal static class ClipboardText

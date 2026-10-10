@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Pathfinding
+namespace ClickItMax.Features.Pathfinding
 {
     /// <summary>
     /// Owns the offscreen-pathfinding line overlay. The path itself is computed off-frame by the
@@ -39,7 +39,7 @@ namespace ClickIt.Features.Pathfinding
 
         public ProcessingSection ProcessingSection => ProcessingSection.Pathfinding;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => settings.WalkTowardOffscreenLabels.Value;
 
         public void Refresh(OverlayRefreshContext ctx)

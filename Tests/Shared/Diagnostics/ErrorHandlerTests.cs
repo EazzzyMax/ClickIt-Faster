@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Diagnostics
+namespace ClickItMax.Tests.Shared.Diagnostics
 {
     [TestClass]
     public class ErrorHandlerTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Shared.Diagnostics
         [TestMethod]
         public void LogError_WhenDebugModeDisabled_DoesNotLogButTracksRecentErrors()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var loggedErrors = new List<string>();
             var handler = new ErrorHandler(
                 settings,
@@ -25,7 +25,7 @@ namespace ClickIt.Tests.Shared.Diagnostics
         [TestMethod]
         public void LogError_WhenDebugModeEnabled_LogsAndTracksRecentErrors()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var loggedErrors = new List<(string Message, int Frame)>();
             var handler = new ErrorHandler(
                 settings,

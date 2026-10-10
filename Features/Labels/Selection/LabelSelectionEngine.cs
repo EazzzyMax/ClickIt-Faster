@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Selection
+namespace ClickItMax.Features.Labels.Selection
 {
     internal readonly record struct LabelCandidateBuildResult(
         bool Success,

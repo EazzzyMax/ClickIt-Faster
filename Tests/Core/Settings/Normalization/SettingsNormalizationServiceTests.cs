@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Settings.Normalization
+namespace ClickItMax.Tests.Core.Settings.Normalization
 {
     [TestClass]
     public class SettingsNormalizationServiceTests
@@ -26,7 +26,7 @@ namespace ClickIt.Tests.Core.Settings.Normalization
         [TestMethod]
         public void EnsureLazyModeNearbyMonsterFiltersInitialized_NormalizesAllRaritySettings()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 LazyModeNormalMonsterBlockCount = 500,
                 LazyModeNormalMonsterBlockDistance = 0,

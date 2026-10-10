@@ -1,4 +1,4 @@
-namespace ClickIt.UI.Debug.Layout
+namespace ClickItMax.UI.Debug.Layout
 {
     internal static class DebugTextLayoutEngine
     {

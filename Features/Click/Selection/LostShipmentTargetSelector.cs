@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Click.Selection
+namespace ClickItMax.Features.Click.Selection
 {
     internal readonly record struct LostShipmentTargetSelectorDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         GameController GameController,
         Action<string> DebugLog,
         Func<Vector2, bool> IsInsideWindowInEitherSpace,

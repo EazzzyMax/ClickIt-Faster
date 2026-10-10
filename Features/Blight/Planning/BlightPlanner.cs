@@ -1,7 +1,7 @@
-using static ClickIt.Features.Blight.Planning.BlightBranches;
-using static ClickIt.Features.Blight.Planning.BlightGeometry;
+using static ClickItMax.Features.Blight.Planning.BlightBranches;
+using static ClickItMax.Features.Blight.Planning.BlightGeometry;
 
-namespace ClickIt.Features.Blight.Planning;
+namespace ClickItMax.Features.Blight.Planning;
 
 internal static class BlightPlanner
 {

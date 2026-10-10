@@ -1,11 +1,11 @@
-namespace ClickIt.UI.Settings
+namespace ClickItMax.UI.Settings
 {
     internal static class SettingsUiBootstrapper
     {
-        internal static void InitializeScreenNodes(ClickItSettings settings)
+        internal static void InitializeScreenNodes(ClickItMaxSettings settings)
             => CreateScreenNodes(settings).ApplyTo(settings);
 
-        internal static ClickItSettingsScreenNodes CreateScreenNodes(ClickItSettings settings)
+        internal static ClickItMaxSettingsScreenNodes CreateScreenNodes(ClickItMaxSettings settings)
         {
             ArgumentNullException.ThrowIfNull(settings);
 
@@ -26,7 +26,7 @@ namespace ClickIt.UI.Settings
             MechanicsEmbeddedSettingsPanelRenderer mechanicsEmbeddedSettingsPanelRenderer = new(settings, itemTypeFiltersPanelRenderer, essenceCorruptionPanelRenderer, strongboxFilterPanelRenderer, ultimatumSettingsPanelRenderer, altarSettingsPanelRenderer, harvestSettingsPanelRenderer, blightSettingsPanelRenderer);
             MechanicsTablePanelRenderer mechanicsTablePanelRenderer = new(settings, mechanicsEmbeddedSettingsPanelRenderer);
 
-            return ClickItSettingsScreen.Compose(new ClickItSettingsScreenBindings(
+            return ClickItMaxSettingsScreen.Compose(new ClickItMaxSettingsScreenBindings(
                 debugTestingPanelRenderer.Draw,
                 controlsPanelRenderer.Draw,
                 performancePanelRenderer.Draw,

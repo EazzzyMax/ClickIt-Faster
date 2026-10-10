@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Classification.Policies
+namespace ClickItMax.Features.Labels.Classification.Policies
 {
     // The six Settlers ore toggles read from either settings type; the enabled rule is a single method over this value.
     internal readonly record struct SettlersClickFlags(
@@ -18,7 +18,7 @@ namespace ClickIt.Features.Labels.Classification.Policies
                 settings.ClickSettlersBismuth,
                 settings.ClickSettlersVerisium);
 
-        internal static SettlersClickFlags From(ClickItSettings settings)
+        internal static SettlersClickFlags From(ClickItMaxSettings settings)
             => new(
                 settings.ClickSettlersOre?.Value == true,
                 settings.ClickSettlersCrimsonIron?.Value == true,

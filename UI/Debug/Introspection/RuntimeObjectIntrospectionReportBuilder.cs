@@ -1,4 +1,4 @@
-namespace ClickIt.UI.Debug.Introspection
+namespace ClickItMax.UI.Debug.Introspection
 {
     internal static class RuntimeObjectIntrospectionReportBuilder
     {

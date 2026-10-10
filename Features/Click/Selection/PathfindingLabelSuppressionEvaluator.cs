@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Click.Selection
+namespace ClickItMax.Features.Click.Selection
 {
     internal readonly record struct PathfindingLabelSuppressionEvaluatorDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         ClickRuntimeState RuntimeState);
 
     internal sealed class PathfindingLabelSuppressionEvaluator(PathfindingLabelSuppressionEvaluatorDependencies dependencies)

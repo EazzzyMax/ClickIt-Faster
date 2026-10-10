@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Rendering
+namespace ClickItMax.Tests.Shared.Rendering
 {
     [TestClass]
     public class OverlayRefreshPolicyTests

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Lifecycle
+namespace ClickItMax.Tests.Core.Lifecycle
 {
     [TestClass]
     [DoNotParallelize]
@@ -28,8 +28,8 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Shutdown_ClearsThreadLocalBuffers_AndAltarRuntimeCaches()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var altarService = new AltarService(plugin, settings, null);
             plugin.State.Services.AltarService = altarService;
 
@@ -58,8 +58,8 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Shutdown_DisposesCompositionRoot_AfterRuntimeCleanup()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
 
             plugin.State.Services.PerformanceMonitor = new PerformanceMonitor(settings);
             plugin.State.Services.ErrorHandler = new ErrorHandler(settings, static (_, _) => { }, static (_, _) => { });
@@ -79,8 +79,8 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Shutdown_ClearsInventoryInteractionPolicyCaches()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var gameController = (GameController)RuntimeHelpers.GetUninitializedObject(typeof(GameController));
             int snapshotBuildCount = 0;
 
@@ -125,16 +125,16 @@ namespace ClickIt.Tests.Core.Lifecycle
         }
 
         [TestMethod]
-        public void Shutdown_StopsTrackedCoroutines_ClearsRuntimeReferences_AndOnlyStopsNamedClickItCoroutines()
+        public void Shutdown_StopsTrackedCoroutines_ClearsRuntimeReferences_AndOnlyStopsNamedClickItMaxCoroutines()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var altarCoroutine = CoroutineTestHarness.CreateCoroutine("Scan Altars", isDone: false);
             var clickLabelCoroutine = CoroutineTestHarness.CreateCoroutine("Click", isDone: false);
             var manualUiHoverCoroutine = CoroutineTestHarness.CreateCoroutine("Manual UI Hover", isDone: false);
             var delveFlareCoroutine = CoroutineTestHarness.CreateCoroutine("Flare", isDone: false);
             var gameStateDumpCoroutine = CoroutineTestHarness.CreateCoroutine("Game State Dump", isDone: false);
-            var namedClickItCoroutine = CoroutineTestHarness.CreateCoroutine("Blocked UI", isDone: false);
+            var namedClickItMaxCoroutine = CoroutineTestHarness.CreateCoroutine("Blocked UI", isDone: false);
             var namedForeignCoroutine = CoroutineTestHarness.CreateCoroutine("Other.Coroutine", isDone: false);
 
             plugin.State.Runtime.AltarCoroutine = altarCoroutine;
@@ -145,7 +145,7 @@ namespace ClickIt.Tests.Core.Lifecycle
 
             using var scope = CoroutineTestHarness.ReplaceParallelRunnerCoroutines(
             [
-                namedClickItCoroutine,
+                namedClickItMaxCoroutine,
                 namedForeignCoroutine,
             ]);
 
@@ -156,7 +156,7 @@ namespace ClickIt.Tests.Core.Lifecycle
             manualUiHoverCoroutine.IsDone.Should().BeTrue();
             delveFlareCoroutine.IsDone.Should().BeTrue();
             gameStateDumpCoroutine.IsDone.Should().BeTrue();
-            namedClickItCoroutine.IsDone.Should().BeTrue();
+            namedClickItMaxCoroutine.IsDone.Should().BeTrue();
             namedForeignCoroutine.IsDone.Should().BeFalse();
 
             plugin.State.Runtime.AltarCoroutine.Should().BeNull();
@@ -169,8 +169,8 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Initialise_WhenGameControllerMissing_ThrowsAfterPrimingLifecycleState()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
 
             Action act = () => PluginLifecycleCoordinator.Initialise(plugin, settings);
 
@@ -182,7 +182,7 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Initialise_WhenOwnerIsNull_ThrowsArgumentNullException()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
 
             Action act = () => PluginLifecycleCoordinator.Initialise(null!, settings);
 
@@ -193,7 +193,7 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Initialise_WhenSettingsAreNull_ThrowsArgumentNullException()
         {
-            var plugin = new ClickIt();
+            var plugin = new ClickItMax();
 
             Action act = () => PluginLifecycleCoordinator.Initialise(plugin, null!);
 
@@ -204,7 +204,7 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Shutdown_WhenOwnerIsNull_ThrowsArgumentNullException()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
 
             Action act = () => PluginLifecycleCoordinator.Shutdown(null!, settings);
 
@@ -215,7 +215,7 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Shutdown_WhenSettingsAreNull_ThrowsArgumentNullException()
         {
-            var plugin = new ClickIt();
+            var plugin = new ClickItMax();
 
             Action act = () => PluginLifecycleCoordinator.Shutdown(plugin, null!);
 
@@ -282,27 +282,27 @@ namespace ClickIt.Tests.Core.Lifecycle
         }
 
         [TestMethod]
-        public void StopNamedClickItCoroutines_DoesNotThrow_WhenParallelRunnerIsUnavailable()
+        public void StopNamedClickItMaxCoroutines_DoesNotThrow_WhenParallelRunnerIsUnavailable()
         {
             using var scope = CoroutineTestHarness.ReplaceParallelRunner(null);
 
-            Action act = () => InvokePrivateLifecycleMethod("StopNamedClickItCoroutines");
+            Action act = () => InvokePrivateLifecycleMethod("StopNamedClickItMaxCoroutines");
 
             act.Should().NotThrow();
         }
 
         [TestMethod]
-        public void WaitForNamedClickItCoroutinesShutdown_DoesNotThrow_WhenParallelRunnerIsUnavailable()
+        public void WaitForNamedClickItMaxCoroutinesShutdown_DoesNotThrow_WhenParallelRunnerIsUnavailable()
         {
             using var scope = CoroutineTestHarness.ReplaceParallelRunner(null);
 
-            Action act = () => InvokePrivateLifecycleMethod("WaitForNamedClickItCoroutinesShutdown", 0);
+            Action act = () => InvokePrivateLifecycleMethod("WaitForNamedClickItMaxCoroutinesShutdown", 0);
 
             act.Should().NotThrow();
         }
 
         [TestMethod]
-        public void WaitForNamedClickItCoroutinesShutdown_WaitsUntilActiveClickItCoroutineCompletes()
+        public void WaitForNamedClickItMaxCoroutinesShutdown_WaitsUntilActiveClickItMaxCoroutineCompletes()
         {
             var activeCoroutine = CoroutineTestHarness.CreateCoroutine("Click", isDone: false);
             using var scope = CoroutineTestHarness.ReplaceParallelRunnerCoroutines([activeCoroutine]);
@@ -318,7 +318,7 @@ namespace ClickIt.Tests.Core.Lifecycle
 
             try
             {
-                Action act = () => InvokePrivateLifecycleMethod("WaitForNamedClickItCoroutinesShutdown", 50);
+                Action act = () => InvokePrivateLifecycleMethod("WaitForNamedClickItMaxCoroutinesShutdown", 50);
 
                 act.Should().NotThrow();
                 completionSignal.Wait(200).Should().BeTrue();

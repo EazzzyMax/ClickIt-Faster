@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Linq.Expressions;
 
-namespace ClickIt.Shared.Diagnostics.ElementTree;
+namespace ClickItMax.Shared.Diagnostics.ElementTree;
 
 // Walks any object graph (LabelOnGround, Element, Entity, ...) and captures every scalar property, named object property, collection, element child and entity component as nested nodes. Bounded by depth and node count.
 internal static class ElementTreeDumper

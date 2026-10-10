@@ -1,4 +1,4 @@
-namespace ClickIt.UI.Settings.Panels;
+namespace ClickItMax.UI.Settings.Panels;
 
 // Maps oil colour names and blight tower names in strategy descriptions to their display colours, so the rule lines and recommended-anoint lines render each colour with its actual hue. Words and phrases are matched case-insensitively with punctuation ignored, so "Seismic." resolves through "Seismic" and "(Chilling Beams)" keeps the whole parenthetical evenly tinted instead of half-blue. Only singular "Tower" phrases are matched — a plural "Towers" stays in the base colour.
 internal static class BlightDescriptionColors

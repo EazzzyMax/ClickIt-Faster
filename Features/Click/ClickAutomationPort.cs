@@ -1,8 +1,8 @@
 
-namespace ClickIt.Features.Click
+namespace ClickItMax.Features.Click
 {
     internal readonly record struct ClickAutomationPortDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         GameController GameController,
         ErrorHandler ErrorHandler,
         AltarService AltarService,
@@ -28,7 +28,7 @@ namespace ClickIt.Features.Click
             MovementSkillMath.ClearThreadSkillBarEntriesBuffer();
         }
 
-        private readonly ClickItSettings _settings;
+        private readonly ClickItMaxSettings _settings;
         private readonly GameController _gameController;
         private readonly ErrorHandler _errorHandler;
         private readonly AltarService _altarService;
@@ -63,7 +63,7 @@ namespace ClickIt.Features.Click
 
         internal ClickAutomationPort(ClickAutomationPortDependencies dependencies)
         {
-            ClickItSettings settings = _settings = dependencies.Settings ?? throw new ArgumentNullException(nameof(dependencies.Settings));
+            ClickItMaxSettings settings = _settings = dependencies.Settings ?? throw new ArgumentNullException(nameof(dependencies.Settings));
             _gameController = dependencies.GameController ?? throw new ArgumentNullException(nameof(dependencies.GameController));
             ErrorHandler errorHandler = _errorHandler = dependencies.ErrorHandler ?? throw new ArgumentNullException(nameof(dependencies.ErrorHandler));
             _altarService = dependencies.AltarService ?? throw new ArgumentNullException(nameof(dependencies.AltarService));
@@ -100,6 +100,7 @@ namespace ClickIt.Features.Click
 
         internal void CancelOffscreenPathingState()
         {
+            CancelMaxPickup();
             OffscreenPathing.CancelTraversalState();
         }
 
@@ -130,6 +131,12 @@ namespace ClickIt.Features.Click
 
         internal IEnumerator ProcessRegularClick()
         {
+            if (_settings.MaxPickupEnabled.Value)
+            {
+                RunMaxPickupTick();
+                yield break;
+            }
+            CancelMaxPickup();
             yield return RegularClick.Run();
         }
 

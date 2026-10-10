@@ -1,8 +1,8 @@
-namespace ClickIt.Features.Essence
+namespace ClickItMax.Features.Essence
 {
-    public class EssenceService(ClickItSettings settings)
+    public class EssenceService(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
 
         public bool ShouldCorruptEssence(Element? label)
         {

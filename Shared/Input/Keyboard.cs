@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Input
+namespace ClickItMax.Shared.Input
 {
     internal static class Keyboard
     {

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click.Interaction
+namespace ClickItMax.Tests.Features.Click.Interaction
 {
     [TestClass]
     public class WorldItemUiHoverPolicyTests

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click.Interaction
+namespace ClickItMax.Tests.Features.Click.Interaction
 {
     [TestClass]
     public class LabelClickPointResolverTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void IsLabelFullyOverlapped_ValueOverload_ReturnsFalse_WhenNoPotentialBlockersExist()
         {
-            var resolver = new LabelClickPointResolver(new ClickItSettings());
+            var resolver = new LabelClickPointResolver(new ClickItMaxSettings());
             RectangleF rect = new(10, 20, 80, 20);
 
             bool overlapped = resolver.IsLabelFullyOverlapped(rect, EntityType.WorldItem, "Metadata/TestLabel", "Test Label", []);
@@ -17,7 +17,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void IsLabelFullyOverlapped_ValueOverload_ReturnsFalse_WhenAnyProbePointStaysVisible()
         {
-            var resolver = new LabelClickPointResolver(new ClickItSettings());
+            var resolver = new LabelClickPointResolver(new ClickItMaxSettings());
             RectangleF rect = new(10, 20, 80, 20);
             RectangleF blocker = new(45, 25, 10, 10);
 
@@ -29,7 +29,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void IsLabelFullyOverlapped_ValueOverload_ReturnsTrue_WhenBlockingAreasCoverEntireTarget()
         {
-            var resolver = new LabelClickPointResolver(new ClickItSettings());
+            var resolver = new LabelClickPointResolver(new ClickItMaxSettings());
             RectangleF rect = new(10, 20, 80, 20);
             RectangleF blocker = new(10, 20, 80, 20);
 
@@ -41,7 +41,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void CalculateClickPosition_ValueOverload_ReturnsPointInsideLabelRectOffsetByWindowTopLeft()
         {
-            var resolver = new LabelClickPointResolver(new ClickItSettings());
+            var resolver = new LabelClickPointResolver(new ClickItMaxSettings());
             RectangleF rect = new(10, 20, 80, 20);
             Vector2 windowTopLeft = new(100, 200);
 
@@ -57,7 +57,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void CalculateClickPosition_ValueOverload_UsesOverlapResolution_WhenBlockingAreasExist()
         {
-            var resolver = new LabelClickPointResolver(new ClickItSettings());
+            var resolver = new LabelClickPointResolver(new ClickItMaxSettings());
             RectangleF rect = new(10, 20, 80, 20);
             RectangleF blocker = new(40, 20, 40, 20);
 
@@ -72,7 +72,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void TryCalculateClickPosition_ValueOverload_ReturnsFalse_WhenNoClickablePointExists()
         {
-            var resolver = new LabelClickPointResolver(new ClickItSettings());
+            var resolver = new LabelClickPointResolver(new ClickItMaxSettings());
             RectangleF rect = new(10, 20, 80, 20);
 
             bool ok = resolver.TryCalculateClickPosition(
@@ -93,7 +93,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void TryCalculateClickPosition_ValueOverload_ReturnsPointInsideLabelRectOffsetByWindowTopLeft_WhenClickablePointExists()
         {
-            var resolver = new LabelClickPointResolver(new ClickItSettings());
+            var resolver = new LabelClickPointResolver(new ClickItMaxSettings());
             RectangleF rect = new(10, 20, 80, 20);
             Vector2 windowTopLeft = new(100, 200);
 
@@ -118,7 +118,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void TryCalculateClickPosition_ValueOverload_UsesOverlapResolution_WhenBlockingAreasExist()
         {
-            var resolver = new LabelClickPointResolver(new ClickItSettings());
+            var resolver = new LabelClickPointResolver(new ClickItMaxSettings());
             RectangleF rect = new(10, 20, 80, 20);
             Vector2 windowTopLeft = new(100, 200);
             RectangleF blocker = new(40, 20, 40, 20);

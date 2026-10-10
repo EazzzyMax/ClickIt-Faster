@@ -1,8 +1,8 @@
-namespace ClickIt.Features.Altars
+namespace ClickItMax.Features.Altars
 {
     public class AlertService(
-        Func<ClickItSettings?> settingsProvider,
-        Func<ClickItSettings> effectiveSettingsProvider,
+        Func<ClickItMaxSettings?> settingsProvider,
+        Func<ClickItMaxSettings> effectiveSettingsProvider,
         Func<string> configDirectoryProvider,
         Func<GameController?> gameControllerProvider,
         Action<string, int> logMessage,
@@ -10,8 +10,8 @@ namespace ClickIt.Features.Altars
         Action<string>? openDirectory = null,
         Action<string, int>? playSound = null)
     {
-        private readonly Func<ClickItSettings?> _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
-        private readonly Func<ClickItSettings> _effectiveSettingsProvider = effectiveSettingsProvider ?? throw new ArgumentNullException(nameof(effectiveSettingsProvider));
+        private readonly Func<ClickItMaxSettings?> _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+        private readonly Func<ClickItMaxSettings> _effectiveSettingsProvider = effectiveSettingsProvider ?? throw new ArgumentNullException(nameof(effectiveSettingsProvider));
         private readonly Func<string> _configDirectoryProvider = configDirectoryProvider ?? throw new ArgumentNullException(nameof(configDirectoryProvider));
         private readonly Func<GameController?> _gameControllerProvider = gameControllerProvider ?? throw new ArgumentNullException(nameof(gameControllerProvider));
         private readonly Action<string, int> _logMessage = logMessage ?? throw new ArgumentNullException(nameof(logMessage));
@@ -91,7 +91,7 @@ namespace ClickIt.Features.Altars
         public string? ResolveCompositeKey(string matchedId)
         {
             string key = matchedId;
-            ClickItSettings effectiveSettings = _effectiveSettingsProvider();
+            ClickItMaxSettings effectiveSettings = _effectiveSettingsProvider();
             if (!effectiveSettings.ModAlerts.ContainsKey(key))
             {
                 string suffix = "|" + matchedId;

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class AltarAutomationServiceTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void HasClickableAltars_ReturnsFalse_WhenBothAltarTypesAreDisabled()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 ClickEaterAltars = new(false),
                 ClickExarchAltars = new(false)
@@ -20,7 +20,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickManualCursorPreferredAltarOption_ReturnsFalse_WhenThereAreNoTrackedAltars()
         {
-            var service = CreateService(new ClickItSettings(), []);
+            var service = CreateService(new ClickItMaxSettings(), []);
 
             bool clicked = service.TryClickManualCursorPreferredAltarOption(new Vector2(10f, 10f), new Vector2(0f, 0f));
 
@@ -30,7 +30,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ProcessAltarClicking_CompletesImmediately_WhenThereAreNoTrackedAltars()
         {
-            var service = CreateService(new ClickItSettings(), []);
+            var service = CreateService(new ClickItMaxSettings(), []);
 
             var enumerator = service.ProcessAltarClicking();
 
@@ -40,7 +40,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldClickAltar_ReturnsFalse_WhenAltarTypeIsNotEnabled()
         {
-            var service = CreateService(new ClickItSettings(), []);
+            var service = CreateService(new ClickItMaxSettings(), []);
             var altar = CreateAltar(AltarType.Unknown);
 
             service.ShouldClickAltar(altar, clickEater: true, clickExarch: true).Should().BeFalse();
@@ -50,7 +50,7 @@ namespace ClickIt.Tests.Features.Click
         public void HasClickableAltars_ReturnsFalse_AndLogsValidationFailure_WhenEnabledAltarIsNotValidCached()
         {
             List<string> debugLogs = [];
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 ClickEaterAltars = new(true),
                 ClickExarchAltars = new(false)
@@ -69,7 +69,7 @@ namespace ClickIt.Tests.Features.Click
             List<string> debugLogs = [];
             var altar = CreateAltar(AltarType.EaterOfWorlds);
             var service = CreateService(
-                new ClickItSettings(),
+                new ClickItMaxSettings(),
                 [altar],
                 configureSettings: static settings =>
                 {
@@ -89,7 +89,7 @@ namespace ClickIt.Tests.Features.Click
         {
             int executionCalls = 0;
             List<string> debugLogs = [];
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 ClickEaterAltars = new(true),
                 ClickExarchAltars = new(false)
@@ -117,7 +117,7 @@ namespace ClickIt.Tests.Features.Click
             List<string> debugLogs = [];
             PrimaryAltarComponent altar = CreateCachePrimedAltar(AltarType.EaterOfWorlds);
             altar.TopMods.HasUnmatchedMods = true;
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 ClickEaterAltars = new(true),
                 ClickExarchAltars = new(false)
@@ -137,7 +137,7 @@ namespace ClickIt.Tests.Features.Click
             PrimaryAltarComponent altar = CreateCachePrimedAltar(AltarType.EaterOfWorlds);
             altar.TopMods.Element = null;
             var service = CreateService(
-                new ClickItSettings(),
+                new ClickItMaxSettings(),
                 [altar],
                 configureSettings: static settings =>
                 {
@@ -159,7 +159,7 @@ namespace ClickIt.Tests.Features.Click
             List<string> debugLogs = [];
             PrimaryAltarComponent altar = CreateCachePrimedAltar(AltarType.EaterOfWorlds);
             altar.BottomMods.Element = null;
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 ClickEaterAltars = new(true),
                 ClickExarchAltars = new(false)
@@ -182,9 +182,9 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static AltarAutomationService CreateService(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             IReadOnlyList<PrimaryAltarComponent> snapshot,
-            Action<ClickItSettings>? configureSettings = null,
+            Action<ClickItMaxSettings>? configureSettings = null,
             Func<InteractionExecutionRequest, bool>? executeInteraction = null,
             List<string>? debugLogs = null)
         {

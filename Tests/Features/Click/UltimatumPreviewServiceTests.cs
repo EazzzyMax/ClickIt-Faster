@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class UltimatumPreviewServiceTests
@@ -237,13 +237,13 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static UltimatumPreviewService CreateService(
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             GameController? gameController = null,
             TimeCache<List<LabelOnGround>>? cachedLabels = null,
             bool useNullGameController = false,
             Func<bool>? isGruelingGauntletPassiveActive = null)
         {
-            settings ??= new ClickItSettings();
+            settings ??= new ClickItMaxSettings();
             if (!useNullGameController)
                 gameController ??= (GameController)RuntimeHelpers.GetUninitializedObject(typeof(GameController));
             cachedLabels ??= new TimeCache<List<LabelOnGround>>(() => [], 50);

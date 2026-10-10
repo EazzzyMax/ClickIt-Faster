@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels.Classification.Policies
+namespace ClickItMax.Tests.Features.Labels.Classification.Policies
 {
     [TestClass]
     public class SettlersMechanicPolicyTests
@@ -81,9 +81,9 @@ namespace ClickIt.Tests.Features.Labels.Classification.Policies
         }
 
         [TestMethod]
-        public void IsEnabled_ReturnsFalse_WhenSettlersOreIsDisabled_ForClickItSettings()
+        public void IsEnabled_ReturnsFalse_WhenSettlersOreIsDisabled_ForClickItMaxSettings()
         {
-            ClickItSettings settings = CreateRootSettings();
+            ClickItMaxSettings settings = CreateRootSettings();
             settings.ClickSettlersOre.Value = false;
 
             bool result = SettlersMechanicPolicy.IsEnabled(SettlersClickFlags.From(settings), MechanicIds.SettlersCopper);
@@ -92,9 +92,9 @@ namespace ClickIt.Tests.Features.Labels.Classification.Policies
         }
 
         [TestMethod]
-        public void IsEnabled_ReturnsFalse_WhenMechanicIdIsUnknown_ForClickItSettings()
+        public void IsEnabled_ReturnsFalse_WhenMechanicIdIsUnknown_ForClickItMaxSettings()
         {
-            ClickItSettings settings = CreateRootSettings();
+            ClickItMaxSettings settings = CreateRootSettings();
 
             bool result = SettlersMechanicPolicy.IsEnabled(SettlersClickFlags.From(settings), "settlers-unknown");
 
@@ -102,17 +102,17 @@ namespace ClickIt.Tests.Features.Labels.Classification.Policies
         }
 
         [DataTestMethod]
-        [DataRow(MechanicIds.SettlersCrimsonIron, nameof(ClickItSettings.ClickSettlersCrimsonIron))]
-        [DataRow(MechanicIds.SettlersCopper, nameof(ClickItSettings.ClickSettlersCopper))]
-        [DataRow(MechanicIds.SettlersPetrifiedWood, nameof(ClickItSettings.ClickSettlersPetrifiedWood))]
-        [DataRow(MechanicIds.SettlersBismuth, nameof(ClickItSettings.ClickSettlersBismuth))]
-        [DataRow(MechanicIds.SettlersVerisium, nameof(ClickItSettings.ClickSettlersVerisium))]
-        public void IsEnabled_UsesPerMechanicToggle_ForClickItSettings(string mechanicId, string enabledPropertyName)
+        [DataRow(MechanicIds.SettlersCrimsonIron, nameof(ClickItMaxSettings.ClickSettlersCrimsonIron))]
+        [DataRow(MechanicIds.SettlersCopper, nameof(ClickItMaxSettings.ClickSettlersCopper))]
+        [DataRow(MechanicIds.SettlersPetrifiedWood, nameof(ClickItMaxSettings.ClickSettlersPetrifiedWood))]
+        [DataRow(MechanicIds.SettlersBismuth, nameof(ClickItMaxSettings.ClickSettlersBismuth))]
+        [DataRow(MechanicIds.SettlersVerisium, nameof(ClickItMaxSettings.ClickSettlersVerisium))]
+        public void IsEnabled_UsesPerMechanicToggle_ForClickItMaxSettings(string mechanicId, string enabledPropertyName)
         {
-            ClickItSettings enabledSettings = CreateRootSettings();
+            ClickItMaxSettings enabledSettings = CreateRootSettings();
             SetToggleNodeValue(enabledSettings, enabledPropertyName, true);
 
-            ClickItSettings disabledSettings = CreateRootSettings();
+            ClickItMaxSettings disabledSettings = CreateRootSettings();
             SetToggleNodeValue(disabledSettings, enabledPropertyName, false);
 
             SettlersMechanicPolicy.IsEnabled(SettlersClickFlags.From(enabledSettings), mechanicId).Should().BeTrue();
@@ -120,9 +120,9 @@ namespace ClickIt.Tests.Features.Labels.Classification.Policies
         }
 
         [TestMethod]
-        public void IsEnabled_UsesGlobalOreToggle_ForHourglass_ForClickItSettings()
+        public void IsEnabled_UsesGlobalOreToggle_ForHourglass_ForClickItMaxSettings()
         {
-            ClickItSettings settings = CreateRootSettings();
+            ClickItMaxSettings settings = CreateRootSettings();
 
             bool enabled = SettlersMechanicPolicy.IsEnabled(SettlersClickFlags.From(settings), MechanicIds.SettlersHourglass);
 
@@ -146,9 +146,9 @@ namespace ClickIt.Tests.Features.Labels.Classification.Policies
             };
         }
 
-        private static ClickItSettings CreateRootSettings()
+        private static ClickItMaxSettings CreateRootSettings()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickSettlersOre.Value = true;
             settings.ClickSettlersCrimsonIron.Value = false;
             settings.ClickSettlersCopper.Value = false;
@@ -165,9 +165,9 @@ namespace ClickIt.Tests.Features.Labels.Classification.Policies
             settings = (ClickSettings)boxed;
         }
 
-        private static void SetToggleNodeValue(ClickItSettings settings, string propertyName, bool value)
+        private static void SetToggleNodeValue(ClickItMaxSettings settings, string propertyName, bool value)
         {
-            ToggleNode toggle = (ToggleNode)typeof(ClickItSettings).GetProperty(propertyName)!.GetValue(settings)!;
+            ToggleNode toggle = (ToggleNode)typeof(ClickItMaxSettings).GetProperty(propertyName)!.GetValue(settings)!;
             toggle.Value = value;
         }
     }

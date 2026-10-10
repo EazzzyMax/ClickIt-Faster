@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class ManualCursorLabelSelectorTests
@@ -555,7 +555,7 @@ namespace ClickIt.Tests.Features.Click
             Func<LabelOnGround?, string?>? getMechanicIdForLabel = null)
         {
             gameController ??= (GameController)RuntimeHelpers.GetUninitializedObject(typeof(GameController));
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.AvoidOverlappingLabelClickPoints.Value = false;
             var runtimeState = new ClickRuntimeState();
             var pathfindingLabelSuppression = new PathfindingLabelSuppressionEvaluator(new PathfindingLabelSuppressionEvaluatorDependencies(

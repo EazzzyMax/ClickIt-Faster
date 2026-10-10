@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Application
+namespace ClickItMax.Features.Labels.Application
 {
     internal delegate bool LabelCandidateBuilder(
         LabelOnGround label,
@@ -38,6 +38,13 @@ namespace ClickIt.Features.Labels.Application
         private readonly Dictionary<long, CachedLabelRectEntry> _rectCache = [];
         private long _rectCacheWindowStartMs;
         private const long RectCacheWindowMs = 250;
+        public void ResetCaches()
+        {
+            _selectionCacheLabelsRef = null;
+            _selectionCacheByRange.Clear();
+            _buildCache.Clear();
+            _rectCache.Clear();
+        }
 
         public LabelOnGround? GetNextLabelToClick(
             IReadOnlyList<LabelOnGround>? allLabels,
@@ -47,7 +54,7 @@ namespace ClickIt.Features.Labels.Application
         {
             long now = Environment.TickCount64;
 
-            if (ReferenceEquals(allLabels, _selectionCacheLabelsRef))
+            if (isAcceptable == null && ReferenceEquals(allLabels, _selectionCacheLabelsRef))
             {
                 if (_selectionCacheByRange.TryGetValue((startIndex, maxCount), out (LabelOnGround? Selected, long AtMs) cached)
                     && now - cached.AtMs < SelectionCacheWindowMs)

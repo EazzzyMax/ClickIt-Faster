@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class LabelSelectionScanEngineTests
@@ -144,7 +144,7 @@ namespace ClickIt.Tests.Features.Click
             GameController gameController = (GameController)RuntimeHelpers.GetUninitializedObject(typeof(GameController));
             ILabelInteractionPort safeLabelInteractionPort = labelInteractionPort ?? new FakeLabelInteractionPort();
             ILabelSelectionService safeLabelSelectionService = labelSelectionService ?? new FakeLabelSelectionService();
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.AvoidOverlappingLabelClickPoints.Value = false;
             var labelClickPointResolver = new LabelClickPointResolver(settings);
             var mechanicPriorityContextProvider = new MechanicPriorityContextProvider(settings, new MechanicPrioritySnapshotService());

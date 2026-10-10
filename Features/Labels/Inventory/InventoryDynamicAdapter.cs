@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Inventory
+namespace ClickItMax.Features.Labels.Inventory
 {
     internal readonly record struct InventoryDynamicAdapterDependencies(
         Func<object, (bool Success, object? First)> TryGetFirstCollectionObject);

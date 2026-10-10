@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Essence
+namespace ClickItMax.Tests.Features.Essence
 {
     [TestClass]
     public class EssenceCorruptionTableTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Essence
         [TestMethod]
         public void Defaults_ContainOnlyScreamingShriekingAndDeafeningEssences()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
 
             settings.EssenceCorruptNames.Should().OnlyContain(x => x.StartsWith("Screaming Essence of ", StringComparison.OrdinalIgnoreCase)
                 || x.StartsWith("Shrieking Essence of ", StringComparison.OrdinalIgnoreCase)
@@ -19,7 +19,7 @@ namespace ClickIt.Tests.Features.Essence
         [TestMethod]
         public void Defaults_CorruptMeds_AndDontCorruptEverythingElse()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
 
             var corrupt = settings.GetCorruptEssenceNames();
             corrupt.Should().Contain("Screaming Essence of Misery");
@@ -43,7 +43,7 @@ namespace ClickIt.Tests.Features.Essence
         [TestMethod]
         public void CorruptAndDontCorruptLists_TogetherCoverAllConfiguredEssences()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
 
             var allConfigured = settings.EssenceCorruptNames
                 .Concat(settings.EssenceDontCorruptNames)
@@ -56,7 +56,7 @@ namespace ClickIt.Tests.Features.Essence
         [TestMethod]
         public void EssenceCorruption_RoundTrip_PreservesMovedEntries()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
 
             const string movedToDontCorrupt = "Screaming Essence of Misery";
             const string movedToCorrupt = "Screaming Essence of Greed";
@@ -68,7 +68,7 @@ namespace ClickIt.Tests.Features.Essence
             settings.EssenceCorruptNames.Add(movedToCorrupt);
 
             string json = JsonConvert.SerializeObject(settings);
-            var restored = JsonConvert.DeserializeObject<ClickItSettings>(json);
+            var restored = JsonConvert.DeserializeObject<ClickItMaxSettings>(json);
 
             restored.Should().NotBeNull();
             restored!.EssenceCorruptNames.Should().Contain(movedToCorrupt);

@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Settings.Mechanics
+namespace ClickItMax.Core.Settings.Mechanics
 {
     internal static class MechanicTableModelService
     {
@@ -47,9 +47,9 @@ namespace ClickIt.Core.Settings.Mechanics
 
         }
 
-        internal static IReadOnlyList<MechanicToggleTableEntry> GetTableEntries(ClickItSettings settings)
+        internal static IReadOnlyList<MechanicToggleTableEntry> GetTableEntries(ClickItMaxSettings settings)
         {
-            ClickItSettingsRuntimeCacheState runtimeCache = settings.TransientState.RuntimeCache;
+            ClickItMaxSettingsRuntimeCacheState runtimeCache = settings.TransientState.RuntimeCache;
             if (runtimeCache.MechanicTableEntriesCache == null)
             {
                 runtimeCache.MechanicTableEntriesCache = BuildTableEntries(settings);
@@ -69,7 +69,7 @@ namespace ClickIt.Core.Settings.Mechanics
             return nodesById;
         }
 
-        private static MechanicToggleTableEntry[] BuildTableEntries(ClickItSettings settings)
+        private static MechanicToggleTableEntry[] BuildTableEntries(ClickItMaxSettings settings)
         {
             return
             [

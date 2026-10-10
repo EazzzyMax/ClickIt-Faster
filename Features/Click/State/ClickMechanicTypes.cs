@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.State
+namespace ClickItMax.Features.Click.State
 {
     internal readonly struct LostShipmentCandidate(Entity entity, Vector2 clickPosition, float distance)
     {

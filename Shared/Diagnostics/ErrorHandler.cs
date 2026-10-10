@@ -1,15 +1,15 @@
-namespace ClickIt.Shared.Diagnostics
+namespace ClickItMax.Shared.Diagnostics
 {
     /// <summary>
-    /// Centralized error handling and logging system for the ClickIt plugin.
+    /// Centralized error handling and logging system for the ClickItMax plugin.
     /// Provides consistent error management, logging, and safety mechanisms.
     /// </summary>
     public class ErrorHandler(
-        ClickItSettings settings,
+        ClickItMaxSettings settings,
         Action<string, int> logError,
         Action<string, int> logMessage)
     {
-        private readonly ClickItSettings _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+        private readonly ClickItMaxSettings _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         private readonly Action<string, int> _logError = logError ?? throw new ArgumentNullException(nameof(logError));
         private readonly Action<string, int> _logMessage = logMessage ?? throw new ArgumentNullException(nameof(logMessage));
         private bool _globalHandlersRegistered;
@@ -85,7 +85,7 @@ namespace ClickIt.Shared.Diagnostics
                 // Fallback to direct file logging if plugin logging fails
                 try
                 {
-                    File.AppendAllText("ClickIt_Crash.log", $"{DateTime.Now}: {message}\n");
+                    File.AppendAllText("ClickItMax_Crash.log", $"{DateTime.Now}: {message}\n");
                 }
                 catch { }
             }

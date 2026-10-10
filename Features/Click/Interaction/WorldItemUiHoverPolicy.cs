@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Interaction
+namespace ClickItMax.Features.Click.Interaction
 {
     internal static class WorldItemUiHoverPolicy
     {

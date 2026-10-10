@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.UI;
+namespace ClickItMax.Tests.UI;
 
 [TestClass]
 public class PerformanceTableRowsTests
@@ -21,7 +21,7 @@ public class PerformanceTableRowsTests
             "Pathfinding",
             "Perf.Overlay",
             "Strongbox",
-            "ClickIt.ClickIt.UI.Rect",
+            "ClickItMax.ClickItMax.UI.Rect",
             "Ultimatum",
         ];
 
@@ -32,7 +32,7 @@ public class PerformanceTableRowsTests
     [TestMethod]
     public void Render_Accessors_ResolveTheRightRenderSection()
     {
-        var monitor = new PerformanceMonitor(new ClickItSettings());
+        var monitor = new PerformanceMonitor(new ClickItMaxSettings());
         monitor.RecordFpsSample(120);
         monitor.RecordRenderSectionTiming(RenderSection.AltarOverlay, 1.25);
         monitor.RecordRenderSectionTiming(RenderSection.BlightOverlay, 2.5);
@@ -95,7 +95,7 @@ public class PerformanceTableRowsTests
     [TestMethod]
     public void Coroutine_Accessors_ResolveTheRightChannels()
     {
-        var monitor = new PerformanceMonitor(new ClickItSettings());
+        var monitor = new PerformanceMonitor(new ClickItMaxSettings());
         monitor.RecordFpsSample(120);
         monitor.StartCoroutineTiming(TimingChannel.Altar);
         monitor.StopCoroutineTiming(TimingChannel.Altar);

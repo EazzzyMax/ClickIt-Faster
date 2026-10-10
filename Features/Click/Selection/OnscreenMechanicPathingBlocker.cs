@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Click.Selection
+namespace ClickItMax.Features.Click.Selection
 {
     internal readonly record struct OnscreenMechanicPathingBlockerDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         AltarAutomationService AltarAutomation,
         IVisibleMechanicQueryPort VisibleMechanics,
         ClickDebugPublicationService ClickDebugPublisher);

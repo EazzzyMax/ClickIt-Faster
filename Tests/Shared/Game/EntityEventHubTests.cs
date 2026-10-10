@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Game
+namespace ClickItMax.Tests.Shared.Game
 {
     // The shared EntityEventHub is a static singleton, so this class resets it and must not run in parallel with any other hub consumer.
     [TestClass]

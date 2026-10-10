@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Click.Runtime
+namespace ClickItMax.Features.Click.Runtime
 {
     internal readonly record struct OffscreenPathingCoordinatorDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         GameController GameController,
         PathfindingService PathfindingService,
         OnscreenMechanicPathingBlocker OnscreenMechanicPathingBlocker,

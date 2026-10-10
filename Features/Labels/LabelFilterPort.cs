@@ -1,8 +1,8 @@
-namespace ClickIt.Features.Labels
+namespace ClickItMax.Features.Labels
 {
     public sealed partial class LabelFilterPort : ILabelInteractionPort
     {
-        private readonly ClickItSettings _settings;
+        private readonly ClickItMaxSettings _settings;
         private readonly EssenceService _essenceService;
         private readonly ErrorHandler _errorHandler;
         private readonly GameController? _gameController;
@@ -11,7 +11,7 @@ namespace ClickIt.Features.Labels
         private readonly LabelSelectionDiagnostics _labelSelectionDiagnostics = new(100);
         private InventoryDomainServices? _inventoryDomainServices;
 
-        internal LabelFilterPort(ClickItSettings settings, EssenceService essenceService, ErrorHandler errorHandler, GameController? gameController)
+        internal LabelFilterPort(ClickItMaxSettings settings, EssenceService essenceService, ErrorHandler errorHandler, GameController? gameController)
         {
             _settings = settings;
             _essenceService = essenceService;

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels
+namespace ClickItMax.Features.Labels
 {
     public sealed partial class LabelFilterPort
     {

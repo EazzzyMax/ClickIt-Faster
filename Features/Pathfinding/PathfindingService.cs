@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Pathfinding
+namespace ClickItMax.Features.Pathfinding
 {
     public sealed class PathfindingService(
         ErrorHandler? errorHandler = null,

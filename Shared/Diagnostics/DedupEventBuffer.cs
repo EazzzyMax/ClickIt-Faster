@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Diagnostics;
+namespace ClickItMax.Shared.Diagnostics;
 
 // Deduplicating event buffer for debug "Recent Events"/"Recent Stages" lists. Repeated messages collapse into a single entry with an (xN) suffix (timestamp ignored when matching), so hot loops show as one accumulating entry instead of flooding the list.
 internal sealed class DedupEventBuffer

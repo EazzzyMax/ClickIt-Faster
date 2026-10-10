@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class SettlersOreTargetSelectorTests
@@ -44,7 +44,7 @@ namespace ClickIt.Tests.Features.Click
         {
             bool collectedAddresses = false;
             var selector = new SettlersOreTargetSelector(new SettlersOreTargetSelectorDependencies(
-                Settings: new ClickItSettings
+                Settings: new ClickItMaxSettings
                 {
                     ClickLostShipmentCrates = new ToggleNode(true),
                     ClickSettlersOre = new ToggleNode(false),
@@ -68,7 +68,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveNextSettlersOreCandidate_ReturnsNull_AndLogsFailure_WhenWindowReadThrows()
         {
-            ClickItSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
+            ClickItMaxSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
             List<string> logs = [];
 
             SettlersOreTargetSelector selector = CreateSelector(
@@ -87,7 +87,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveNextSettlersOreCandidate_PublishesNoCandidateDiagnostics_WhenWindowExistsButNoEntitiesMatch()
         {
-            ClickItSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
+            ClickItMaxSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
             List<string> logs = [];
 
             SettlersOreTargetSelector selector = CreateSelector(
@@ -179,7 +179,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryBuildSettlersCandidate_ReturnsFalse_WhenSettlersMechanicIsDisabled()
         {
-            ClickItSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
+            ClickItMaxSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
             settings.ClickSettlersVerisium = new ToggleNode(false);
             Entity entity = EntityProbeFactory.Create(
                 path: MechanicIds.SettlersVerisiumMarker,
@@ -246,7 +246,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryResolveSettlersMechanic_UsesSeededEntityMembers_FromEntityProbeFactory()
         {
-            ClickItSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
+            ClickItMaxSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
             SettlersOreTargetSelector selector = CreateSelector(
                 settings,
                 gameController: ExileCoreVisibleObjectBuilder.CreateGameControllerWithEntities(),
@@ -270,7 +270,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryResolveSettlersMechanic_RejectsEntityProbe_WhenSeededDistanceExceedsClickDistance()
         {
-            ClickItSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
+            ClickItMaxSettings settings = CreateSettings(clickDistance: 20, debugMode: false);
             SettlersOreTargetSelector selector = CreateSelector(
                 settings,
                 gameController: ExileCoreVisibleObjectBuilder.CreateGameControllerWithEntities(),
@@ -292,7 +292,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static SettlersOreTargetSelector CreateSelector(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             GameController gameController,
             Func<IList<LabelOnGround>?> labelsProvider,
             Action<string>? debugLog = null,
@@ -352,9 +352,9 @@ namespace ClickIt.Tests.Features.Click
             bool MatchedMechanic,
             bool AttemptedProbe);
 
-        private static ClickItSettings CreateSettings(int clickDistance, bool debugMode)
+        private static ClickItMaxSettings CreateSettings(int clickDistance, bool debugMode)
         {
-            return new ClickItSettings
+            return new ClickItMaxSettings
             {
                 ClickLostShipmentCrates = new ToggleNode(true),
                 ClickSettlersOre = new ToggleNode(true),

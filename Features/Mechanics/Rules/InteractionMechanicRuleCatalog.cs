@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Mechanics.Rules
+namespace ClickItMax.Features.Mechanics.Rules
 {
     internal readonly record struct InteractionRuleContext(
         ClickSettings Settings,

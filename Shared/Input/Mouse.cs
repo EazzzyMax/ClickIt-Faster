@@ -1,10 +1,10 @@
-namespace ClickIt.Shared.Input
+namespace ClickItMax.Shared.Input
 {
     internal class Mouse
     {
         public static bool DisableNativeInput;
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", EntryPoint = "SetCursorPos")]
         private static extern bool NativeSetCursorPos(int x, int y);
 
         public static bool SetCursorPos(int x, int y)

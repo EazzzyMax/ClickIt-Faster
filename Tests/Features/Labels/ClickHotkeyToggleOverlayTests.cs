@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels
+namespace ClickItMax.Tests.Features.Labels
 {
     [TestClass]
     public class ClickHotkeyToggleOverlayTests

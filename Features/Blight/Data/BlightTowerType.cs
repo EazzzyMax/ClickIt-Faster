@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight.Data;
+namespace ClickItMax.Features.Blight.Data;
 
 internal enum BlightTowerType
 {

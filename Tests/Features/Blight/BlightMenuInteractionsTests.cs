@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Blight;
+namespace ClickItMax.Tests.Features.Blight;
 
 [TestClass]
 public class BlightMenuInteractionsTests

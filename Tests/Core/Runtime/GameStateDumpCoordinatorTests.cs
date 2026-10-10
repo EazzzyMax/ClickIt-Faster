@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     public class GameStateDumpCoordinatorTests
@@ -60,7 +60,7 @@ namespace ClickIt.Tests.Core.Runtime
         private static GameStateDumpCoordinator CreateCoordinator(Func<GameController?> getGameController, PluginContext? context = null)
             => new(new DebugClipboardServiceDependencies(
                 context ?? new PluginContext(),
-                new ClickIt(),
+                new ClickItMax(),
                 getGameController));
 
         private static object? InvokeResolveRoot(GameStateDumpCoordinator coordinator, GameStateDumpTarget target)

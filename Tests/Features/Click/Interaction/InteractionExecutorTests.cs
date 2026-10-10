@@ -1,12 +1,27 @@
-namespace ClickIt.Tests.Features.Click.Interaction
+namespace ClickItMax.Tests.Features.Click.Interaction
 {
     [TestClass]
     public class InteractionExecutorTests
     {
         [TestMethod]
+        public void FinalDispatchGuardRejects_AfterPreparation_WithoutRecordingSuccessfulInput()
+        {
+            var settings = new ClickItMaxSettings();
+            var monitor = new PerformanceMonitor(settings);
+            int checkedCount = 0;
+            var executor = new InteractionExecutor(settings, monitor, () => true)
+            {
+                BeforeDispatch = () => { checkedCount++; return false; }
+            };
+            executor.PerformClick(new Vector2(50f, 50f)).Should().BeFalse();
+            checkedCount.Should().Be(1);
+            ReadPrivateLong(executor, "_successfulClickSequence").Should().Be(0);
+        }
+
+        [TestMethod]
         public void PerformClick_MarksClickInterval_WhenClickIsDispatched()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var monitor = new PerformanceMonitor(settings);
             var executor = new InteractionExecutor(settings, monitor, () => true);
 
@@ -22,7 +37,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void PerformClick_MarksWalkInterval_WhenWalkInterval()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var monitor = new PerformanceMonitor(settings);
             var executor = new InteractionExecutor(settings, monitor, () => true);
 
@@ -39,7 +54,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void PerformClick_DoesNotMarkWalkInterval_WhenWalkClickIsRejected()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var monitor = new PerformanceMonitor(settings);
             var executor = new InteractionExecutor(settings, monitor, () => false);
 
@@ -51,7 +66,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void PerformClick_DoesNotMarkClickInterval_WhenClickIsRejected()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var monitor = new PerformanceMonitor(settings);
             var executor = new InteractionExecutor(settings, monitor, () => false);
 
@@ -63,7 +78,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void PerformClick_LogsAndReturns_WhenLazyModeLimiterIsActive()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             settings.LazyMode.Value = true;
@@ -85,7 +100,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void PerformClick_LogsAndReturns_WhenPointOutsideVirtualScreen()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             var messages = new List<string>();
@@ -104,7 +119,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void PerformClickAndHold_LogsAndReturns_WhenLazyModeLimiterIsActive()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 ClickLabelKey = new HotkeyNodeV2(Keys.F)
             };
@@ -129,7 +144,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void PerformClickAndHold_LogsAndReturns_WhenPointOutsideVirtualScreen()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 ClickLabelKey = new HotkeyNodeV2(Keys.F)
             };
@@ -151,7 +166,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void PerformClick_LogsInvalidPoint_WhenHotkeyInactiveButAllowed()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             var messages = new List<string>();
@@ -170,7 +185,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void PerformClickAndHold_LogsInvalidPoint_WhenHotkeyInactiveButAllowed()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 ClickLabelKey = new HotkeyNodeV2(Keys.F)
             };
@@ -259,7 +274,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void TryPrepareClickExecution_ReturnsTrue_AndLogsExpectedElementMissing_WhenExecutionCanProceed()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             var messages = new List<string>();
@@ -290,7 +305,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void TryPrepareClickExecution_ReturnsFalse_AndLogsHoverMismatch_WhenForcedVerificationFails()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             var messages = new List<string>();
@@ -322,7 +337,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void MarkLazyModeClickCompleted_UpdatesTimestamp_WhenLazyModeEnabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             var executor = new InteractionExecutor(settings, new PerformanceMonitor(settings), () => true);
 
@@ -334,7 +349,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void MarkLazyModeClickCompleted_DoesNotUpdateTimestamp_WhenLazyModeDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var executor = new InteractionExecutor(settings, new PerformanceMonitor(settings), () => true);
             RuntimeMemberAccessor.SetRequiredMember(executor, "_lastClickTimestampMs", 77L);
 
@@ -346,7 +361,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void TryConsumeLazyModeLimiter_ReturnsTrue_WhenNoPreviousLazyClickWasRecorded()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.LazyModeClickLimiting.Value = 500;
             var executor = new InteractionExecutor(settings, new PerformanceMonitor(settings), () => true);
@@ -357,7 +372,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void RestoreCursorIfLazyMode_DoesNothing_WhenLazyModeIsDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             var messages = new List<string>();
@@ -375,7 +390,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void RestoreCursorIfLazyMode_DoesNothing_WhenRestoreCursorSettingIsDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             settings.LazyMode.Value = true;
@@ -395,7 +410,7 @@ namespace ClickIt.Tests.Features.Click.Interaction
         [TestMethod]
         public void RestoreCursorIfLazyMode_ReturnsWithoutLogging_WhenPreviousCursorPointIsUnsafe()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             settings.LazyMode.Value = true;

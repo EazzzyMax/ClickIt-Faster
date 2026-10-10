@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Safety
+namespace ClickItMax.Features.Click.Safety
 {
     internal sealed class ClickSafetyPolicy
     {

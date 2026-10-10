@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Ranking
+namespace ClickItMax.Features.Click.Ranking
 {
     internal static class OffscreenTargetRanker
     {

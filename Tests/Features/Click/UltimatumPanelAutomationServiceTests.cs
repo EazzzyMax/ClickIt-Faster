@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class UltimatumPanelAutomationServiceTests
@@ -10,7 +10,7 @@ namespace ClickIt.Tests.Features.Click
             bool gruelingCheckInvoked = false;
             bool gruelingDebugInvoked = false;
             bool clickInvoked = false;
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = false;
             UltimatumPanelAutomationService service = CreateService(
                 settings: settings,
@@ -49,7 +49,7 @@ namespace ClickIt.Tests.Features.Click
             bool gruelingCheckInvoked = false;
             bool gruelingDebugInvoked = false;
             bool clickInvoked = false;
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
             UltimatumPanelAutomationService service = CreateService(
                 settings: settings,
@@ -89,7 +89,7 @@ namespace ClickIt.Tests.Features.Click
             List<UltimatumDebugEvent> debugEvents = [];
             bool gruelingCheckInvoked = false;
             bool gruelingDebugInvoked = false;
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
             UltimatumPanelUiQueryTests.FakeGameControllerShim gameController =
                 (UltimatumPanelUiQueryTests.FakeGameControllerShim)RuntimeHelpers.GetUninitializedObject(typeof(UltimatumPanelUiQueryTests.FakeGameControllerShim));
@@ -132,7 +132,7 @@ namespace ClickIt.Tests.Features.Click
         {
             List<UltimatumDebugEvent> debugEvents = [];
             bool gruelingCheckInvoked = false;
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
             UltimatumPanelUiQueryTests.FakeGameControllerShim gameController =
                 (UltimatumPanelUiQueryTests.FakeGameControllerShim)RuntimeHelpers.GetUninitializedObject(typeof(UltimatumPanelUiQueryTests.FakeGameControllerShim));
@@ -168,7 +168,7 @@ namespace ClickIt.Tests.Features.Click
         {
             List<UltimatumDebugEvent> debugEvents = [];
             List<Element> clickedElements = [];
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
             UltimatumPanel panel = (UltimatumPanel)RuntimeHelpers.GetUninitializedObject(typeof(UltimatumPanel));
             Element choiceElement = (Element)RuntimeHelpers.GetUninitializedObject(typeof(Element));
@@ -207,7 +207,7 @@ namespace ClickIt.Tests.Features.Click
             List<UltimatumDebugEvent> debugEvents = [];
             Element choiceElement = (Element)RuntimeHelpers.GetUninitializedObject(typeof(Element));
             UltimatumPanel panel = (UltimatumPanel)RuntimeHelpers.GetUninitializedObject(typeof(UltimatumPanel));
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
 
             UltimatumPanelAutomationService service = CreateService(
@@ -236,7 +236,7 @@ namespace ClickIt.Tests.Features.Click
         {
             List<UltimatumDebugEvent> debugEvents = [];
             List<Element> clickedElements = [];
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
             settings.ClickUltimatumTakeRewardButton.Value = true;
             settings.UltimatumTakeRewardModifierNames = new HashSet<string>(["Ruin I"], StringComparer.OrdinalIgnoreCase);
@@ -277,7 +277,7 @@ namespace ClickIt.Tests.Features.Click
         {
             List<UltimatumDebugEvent> debugEvents = [];
             bool clickInvoked = false;
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
             settings.ClickUltimatumTakeRewardButton.Value = false;
             settings.UltimatumTakeRewardModifierNames = new HashSet<string>(["Ruin I"], StringComparer.OrdinalIgnoreCase);
@@ -313,7 +313,7 @@ namespace ClickIt.Tests.Features.Click
         public void TryHandlePanelUi_ReturnsFalse_WhenGruelingTakeRewardsClickFails_ThroughRuntimeSeam()
         {
             List<UltimatumDebugEvent> debugEvents = [];
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
             settings.ClickUltimatumTakeRewardButton.Value = true;
             settings.UltimatumTakeRewardModifierNames = new HashSet<string>(["Ruin I"], StringComparer.OrdinalIgnoreCase);
@@ -349,7 +349,7 @@ namespace ClickIt.Tests.Features.Click
             List<Element> clickedElements = [];
             UltimatumPanel panel = (UltimatumPanel)RuntimeHelpers.GetUninitializedObject(typeof(UltimatumPanel));
             Element confirmElement = (Element)RuntimeHelpers.GetUninitializedObject(typeof(Element));
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
 
             UltimatumPanelAutomationService service = CreateService(
@@ -386,7 +386,7 @@ namespace ClickIt.Tests.Features.Click
             List<UltimatumDebugEvent> debugEvents = [];
             Element confirmElement = (Element)RuntimeHelpers.GetUninitializedObject(typeof(Element));
             UltimatumPanel panel = (UltimatumPanel)RuntimeHelpers.GetUninitializedObject(typeof(UltimatumPanel));
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
 
             UltimatumPanelAutomationService service = CreateService(
@@ -494,7 +494,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static UltimatumPanelAutomationService CreateService(
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             GameController? gameController = null,
             bool useNullGameController = false,
             Action<UltimatumDebugEvent>? publishUltimatumDebug = null,
@@ -503,7 +503,7 @@ namespace ClickIt.Tests.Features.Click
             Func<bool>? getGruelingGauntletDetectionForDebug = null,
             IUltimatumPanelRuntimeSeam? panelRuntimeSeam = null)
         {
-            settings ??= new ClickItSettings();
+            settings ??= new ClickItMaxSettings();
             if (!useNullGameController)
                 gameController ??= ExileCoreOpaqueFactory.CreateOpaqueGameController();
             publishUltimatumDebug ??= static _ => { };

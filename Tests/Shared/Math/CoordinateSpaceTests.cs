@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Math
+namespace ClickItMax.Tests.Shared.Math
 {
     [TestClass]
     public class CoordinateSpaceTests

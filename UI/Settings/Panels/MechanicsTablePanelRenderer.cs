@@ -1,10 +1,10 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
     internal sealed class MechanicsTablePanelRenderer(
-        ClickItSettings settings,
+        ClickItMaxSettings settings,
         MechanicsEmbeddedSettingsPanelRenderer embeddedSettingsPanelRenderer)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly MechanicsEmbeddedSettingsPanelRenderer _embeddedSettingsPanelRenderer = embeddedSettingsPanelRenderer;
 
         private const string ClickMechanicsListId = "Click##Mechanics";
@@ -165,7 +165,7 @@ namespace ClickIt.UI.Settings.Panels
             {
                 if (!string.IsNullOrEmpty(entry.GroupId))
                     continue;
-                if (!ClickItSettings.ShouldRenderMechanicEntry(entry, moveToClick, _settings.UiState.MechanicsSearchFilter))
+                if (!ClickItMaxSettings.ShouldRenderMechanicEntry(entry, moveToClick, _settings.UiState.MechanicsSearchFilter))
                     continue;
 
                 hasEntries = true;
@@ -199,14 +199,14 @@ namespace ClickIt.UI.Settings.Panels
 
             foreach (MechanicToggleGroupEntry group in MechanicToggleGroups)
             {
-                if (!ClickItSettings.ShouldRenderMechanicGroup(group, entries, moveToClick, _settings.UiState.MechanicsSearchFilter))
+                if (!ClickItMaxSettings.ShouldRenderMechanicGroup(group, entries, moveToClick, _settings.UiState.MechanicsSearchFilter))
                     continue;
 
                 hasEntries = true;
                 SettingsUiRenderHelpers.ExpandableTransferRowState rowState = DrawMechanicGroupRow(listId, group, moveToClick, textColor);
                 if (rowState.ArrowClicked)
                 {
-                    ClickItSettings.SetMechanicGroupState(group.Id, entries, moveToClick);
+                    ClickItMaxSettings.SetMechanicGroupState(group.Id, entries, moveToClick);
                     _settings.UiState.ExpandedMechanicsTableRowId = string.Empty;
                     return new MechanicsListRenderProgress(hasEntries, ShouldStopRendering: true);
                 }

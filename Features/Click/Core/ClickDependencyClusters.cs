@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Core
+namespace ClickItMax.Features.Click.Core
 {
     // Shared dependency clusters (S12): the common groups that recur across the Click
     // dependency records, so the large records converge on one shape instead of 26 ad-hoc
@@ -13,7 +13,7 @@ namespace ClickIt.Features.Click.Core
         Action<int, long, double>? RecordBreakdownStage);
 
     internal readonly record struct ClickPolicyDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         InputHandler InputHandler,
         Func<Vector2, string, bool> PointIsInClickableArea,
         ClickSuccessAnchor? ClickSuccessAnchor);

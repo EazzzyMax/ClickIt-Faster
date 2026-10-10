@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Altars
+namespace ClickItMax.Tests.Features.Altars
 {
     [TestClass]
     public class WeightCalculatorTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateUpsideWeight_ReturnsSumOfModTiers()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
             var upsides = new List<string> { "mod_a", "mod_b" };
 
@@ -18,7 +18,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateDownsideWeight_ReturnsOnePlusSumWhenNullOrEmpty()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
             calc.CalculateDownsideWeight((List<string>?)null!).Should().Be(1m);
             calc.CalculateDownsideWeight([]).Should().Be(1m);
@@ -27,7 +27,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateAltarWeights_ThrowsWhenElementsNull()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
             var primary = TestBuilders.BuildPrimary();
             Action act = () => calc.CalculateAltarWeights(primary);
@@ -37,7 +37,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateAltarWeights_ReturnsExpectedWeights()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ModTiers["Player|upA"] = 50;
             settings.ModTiers["Boss|downA"] = 25;
 
@@ -64,14 +64,14 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void GetModWeightFromString_UsesCompositeKeyWhenPresent_AndReturnsOneWhenMissing()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ModTiers["Player|upA"] = 99;
             var calc = new WeightCalculator(settings);
 
             var ups = new List<string> { "Player|upA" };
             calc.CalculateUpsideWeight(ups).Should().Be(99m);
 
-            var settings2 = new ClickItSettings();
+            var settings2 = new ClickItMaxSettings();
             settings2.ModTiers["upA"] = 20;
             var calc2 = new WeightCalculator(settings2);
             calc2.CalculateUpsideWeight(["Player|upA"]).Should().Be(1m);
@@ -80,7 +80,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateWeightFromList_IgnoresNullOrWhitespaceEntries()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ModTiers["a"] = 5;
             var calc = new WeightCalculator(settings);
 
@@ -112,7 +112,7 @@ namespace ClickIt.Tests.Features.Altars
         [DataRow("", 0.0d)]
         public void CalculateUpsideWeight_NullOrEmpty_ReturnsZero(object listObj, double expected)
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
 
             List<string>? list = listObj as List<string>;
@@ -123,7 +123,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateUpsideWeight_UsesModTiersAndCompositeKeys()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ModTiers["mod_a"] = 5;
             settings.ModTiers["Player|special"] = 7;
 
@@ -138,7 +138,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateUpsideWeight_UsesDefaultTier_WhenTypedModHasTrailingSeparator()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ModTiers["Player|"] = 11;
             var calc = new WeightCalculator(settings);
 
@@ -150,7 +150,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateDownsideWeight_IncludesConfiguredTiers()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ModTiers["d1"] = 2; // downside tier
 
             var calc = new WeightCalculator(settings);
@@ -185,7 +185,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateUpsideWeight_EmptyList_ReturnsZero()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
 
             calc.CalculateUpsideWeight([]).Should().Be(0m);
@@ -194,7 +194,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateDownsideWeight_EmptyList_ReturnsOne()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
 
             calc.CalculateDownsideWeight([]).Should().Be(1m);
@@ -203,7 +203,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateWeightFromList_SkipsEmptyStrings()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
             var list = new List<string> { "", "" };
             calc.CalculateUpsideWeight(list).Should().Be(0m);
@@ -212,7 +212,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateUpsideWeight_HandlesZeroAndNegative_Tiers()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ModTiers["zero_mod"] = 0;
             settings.ModTiers["neg_mod"] = -2;
 
@@ -225,7 +225,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateDownsideWeight_HandlesZeroAndNegative_Tiers()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ModTiers["zero_mod"] = 0;
             settings.ModTiers["neg_mod"] = -1;
 
@@ -238,7 +238,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateAltarWeights_SafeDivision_WhenAllModStringsEmpty_DownsideZero_ProducesZeroWeights()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
 
             var elTop = (Element)RuntimeHelpers.GetUninitializedObject(typeof(Element));
@@ -262,7 +262,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateAltarWeights_Throws_WhenTopOrBottomElementNull()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var calc = new WeightCalculator(settings);
 
             var top = new SecondaryAltarComponent(null, [], []);
@@ -283,7 +283,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void CalculateAltarWeights_ComputesRatiosAndSums_Correctly()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ModTiers["modTop1"] = 3;
             settings.ModTiers["modTop2"] = 2;
             settings.ModTiers["modBottom1"] = 4;

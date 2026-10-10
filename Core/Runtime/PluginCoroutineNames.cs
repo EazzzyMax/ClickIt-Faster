@@ -1,6 +1,6 @@
-namespace ClickIt.Core.Runtime;
+namespace ClickItMax.Core.Runtime;
 
-// The plugin's coroutine names, without a "ClickIt." prefix — ExileCore's runner already groups coroutines under the owning plugin, so the prefix is redundant in its coroutine list UI. Shutdown and hotkey re-attach look coroutines up by these exact names.
+// The plugin's coroutine names, without a "ClickItMax." prefix — ExileCore's runner already groups coroutines under the owning plugin, so the prefix is redundant in its coroutine list UI. Shutdown and hotkey re-attach look coroutines up by these exact names.
 internal static class PluginCoroutineNames
 {
     internal const string AltarScan = "Scan Altars";

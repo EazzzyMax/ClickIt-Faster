@@ -1,8 +1,8 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
-    internal sealed class LazyModeNearbyMonsterRulesPanelRenderer(ClickItSettings settings)
+    internal sealed class LazyModeNearbyMonsterRulesPanelRenderer(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
 
         private readonly struct LazyModeNearbyMonsterRuleDescriptor(
             string rowId,

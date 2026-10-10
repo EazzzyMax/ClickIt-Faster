@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.TestUtils
+namespace ClickItMax.Tests.Shared.TestUtils
 {
     internal sealed record ExileCoreOpaqueUsageNote(
         string TypeName,

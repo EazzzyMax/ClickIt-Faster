@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Game
+namespace ClickItMax.Shared.Game
 {
     internal static class LabelGeometry
     {

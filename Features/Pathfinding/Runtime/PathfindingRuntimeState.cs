@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Pathfinding.Runtime
+namespace ClickItMax.Features.Pathfinding.Runtime
 {
     internal sealed class PathfindingRuntimeState
     {

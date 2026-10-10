@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels
+namespace ClickItMax.Features.Labels
 {
     /// <summary>
     /// Owns the Lazy Mode status text overlay. Pure per-frame: reads input/settings state and
@@ -41,7 +41,7 @@ namespace ClickIt.Features.Labels
 
         public ProcessingSection ProcessingSection => ProcessingSection.Label;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => settings.LazyMode.Value;
 
         public void Refresh(OverlayRefreshContext ctx)

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Observability.Performance;
+namespace ClickItMax.Tests.Features.Observability.Performance;
 
 [TestClass]
 public class IntervalTimingStoreTests

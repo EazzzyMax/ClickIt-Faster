@@ -1,17 +1,18 @@
-namespace ClickIt.Features.Click.Interaction
+namespace ClickItMax.Features.Click.Interaction
 {
     internal sealed class InteractionExecutor(
-        ClickItSettings settings,
+        ClickItMaxSettings settings,
         PerformanceMonitor performanceMonitor,
         Func<bool> isClickHotkeyActive,
         ErrorHandler? errorHandler = null)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly PerformanceMonitor _performanceMonitor = performanceMonitor;
         private readonly Func<bool> _isClickHotkeyActive = isClickHotkeyActive;
         private readonly ErrorHandler? _errorHandler = errorHandler;
         private long _lastClickTimestampMs;
         private long _successfulClickSequence;
+        internal Func<bool>? BeforeDispatch { get; set; }
         // Safety-sleep reading taken when a click starts, so the recorded click cost excludes the deliberate hover/post-click settles that happened inside it. Click thread only.
         private double _clickSleepStartMs;
 
@@ -41,6 +42,7 @@ namespace ClickIt.Features.Click.Interaction
                 return false;
 
 
+            if (BeforeDispatch?.Invoke() == false) return false;
             if (_settings?.LeftHanded?.Value == true)
                 Mouse.RightClick();
             else
@@ -196,18 +198,22 @@ namespace ClickIt.Features.Click.Interaction
 
             ClickPipelineTiming.Sleep(_settings?.LazyMode?.Value == true ? _settings.LazyModeUIHoverSleep.Value : 10);
 
-            Element? uiHover = gameController?.IngameState?.UIHoverElement;
             bool lazyModeEnabled = _settings?.LazyMode?.Value == true;
             bool verifyUiHoverWhenNotLazy = _settings?.VerifyUIHoverWhenNotLazy?.Value != false;
             ulong expectedAddress = unchecked((ulong)(expectedElement?.Address ?? 0));
-            ulong hoverAddress = unchecked((ulong)(uiHover?.Address ?? 0));
-
-            if (ShouldSkipClickDueToHoverMismatch(lazyModeEnabled, verifyUiHoverWhenNotLazy, expectedAddress, hoverAddress, forceUiHoverVerification))
+            // A null expected element explicitly skips label-hover verification
+            // (Max checkbox off, Harvest and non-label interactions). Do not read
+            // UIHover in that case, regardless of the generic verification settings.
+            if (expectedAddress != 0 && (forceUiHoverVerification || lazyModeEnabled || verifyUiHoverWhenNotLazy))
             {
-                _errorHandler?.LogMessage(true, true, hoverMismatchMessage, 5);
-                RestoreCursorIfLazyMode(before, gameController);
-                swTotal.Stop();
-                return false;
+                ulong hoverAddress = unchecked((ulong)(gameController?.IngameState?.UIHoverElement?.Address ?? 0));
+                if (ShouldSkipClickDueToHoverMismatch(lazyModeEnabled, verifyUiHoverWhenNotLazy, expectedAddress, hoverAddress, forceUiHoverVerification))
+                {
+                    _errorHandler?.LogMessage(true, true, hoverMismatchMessage, 5);
+                    RestoreCursorIfLazyMode(before, gameController);
+                    swTotal.Stop();
+                    return false;
+                }
             }
 
             if (logExpectedElementMissing && expectedAddress == 0)

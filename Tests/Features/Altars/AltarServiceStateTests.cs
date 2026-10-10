@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Altars
+namespace ClickItMax.Tests.Features.Altars
 {
     [TestClass]
     public class AltarServiceStateTests
@@ -6,8 +6,8 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void Add_Get_Clear_AltarComponents_RepositoryPaths()
         {
-            var clickIt = new ClickIt();
-            var settings = new ClickItSettings();
+            var clickIt = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var service = new AltarService(clickIt, settings, null);
 
             service.GetAltarComponents().Should().BeEmpty();
@@ -23,8 +23,8 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void RemoveAltarComponentsByElement_NullElement_Noop()
         {
-            var clickIt = new ClickIt();
-            var settings = new ClickItSettings();
+            var clickIt = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var service = new AltarService(clickIt, settings, null);
 
             var component = TestBuilders.BuildPrimary();

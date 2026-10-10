@@ -1,8 +1,8 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
-    internal sealed class MechanicPriorityTablePanelRenderer(ClickItSettings settings)
+    internal sealed class MechanicPriorityTablePanelRenderer(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
 
         private readonly struct VisibleMechanicPriorityRow(int orderIndex, string mechanicId, MechanicPriorityEntry entry)
         {
@@ -163,9 +163,9 @@ namespace ClickIt.UI.Settings.Panels
             {
                 int currentWithin = _settings.MechanicPriorityIgnoreDistanceWithinById.TryGetValue(mechanicId, out int configuredWithin)
                     ? configuredWithin
-                    : ClickItSettings.MechanicIgnoreDistanceWithinDefault;
+                    : ClickItMaxSettings.MechanicIgnoreDistanceWithinDefault;
                 ImGui.SetNextItemWidth(400f);
-                if (ImGui.SliderInt($"Ignore Distance Within##IgnoreDistanceWithin_{mechanicId}", ref currentWithin, ClickItSettings.MechanicIgnoreDistanceWithinMin, ClickItSettings.MechanicIgnoreDistanceWithinMax))
+                if (ImGui.SliderInt($"Ignore Distance Within##IgnoreDistanceWithin_{mechanicId}", ref currentWithin, ClickItMaxSettings.MechanicIgnoreDistanceWithinMin, ClickItMaxSettings.MechanicIgnoreDistanceWithinMax))
                 {
                     _settings.MechanicPriorityIgnoreDistanceWithinById[mechanicId] = currentWithin;
                 }

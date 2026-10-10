@@ -1,6 +1,6 @@
 [assembly: SupportedOSPlatform("windows7.0")]
 
-namespace ClickIt.Tests.Core
+namespace ClickItMax.Tests.Core
 {
     [TestClass]
     public static class TestAssemblySetup

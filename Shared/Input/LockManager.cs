@@ -1,8 +1,8 @@
-namespace ClickIt.Shared.Input
+namespace ClickItMax.Shared.Input
 {
     public class LockManager
     {
-        public LockManager(ClickItSettings settings)
+        public LockManager(ClickItMaxSettings settings)
         {
             _ = settings ?? throw new ArgumentNullException(nameof(settings));
         }

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Lifecycle
+namespace ClickItMax.Tests.Core.Lifecycle
 {
     [TestClass]
     public class PluginLifecycleButtonBindingsTests
@@ -6,8 +6,8 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Subscribe_WiresCopyAdditionalDebugInfoButton_ToClipboardRequestPath()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             DebugClipboardService debugClipboardService = plugin.GetDebugClipboardService();
             var bindings = new PluginLifecycleButtonBindings(debugClipboardService);
 
@@ -21,9 +21,9 @@ namespace ClickIt.Tests.Core.Lifecycle
         [TestMethod]
         public void Unsubscribe_RemovesCopyAdditionalDebugInfoHandler_FromRuntimeAndEffectiveSettings()
         {
-            var plugin = new ClickIt();
-            var runtimeSettings = new ClickItSettings();
-            var effectiveSettings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var runtimeSettings = new ClickItMaxSettings();
+            var effectiveSettings = new ClickItMaxSettings();
             DebugClipboardService debugClipboardService = plugin.GetDebugClipboardService();
             var bindings = new PluginLifecycleButtonBindings(debugClipboardService);
 

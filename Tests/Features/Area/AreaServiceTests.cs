@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Area
+namespace ClickItMax.Tests.Features.Area
 {
     [TestClass]
     public class AreaServiceTests

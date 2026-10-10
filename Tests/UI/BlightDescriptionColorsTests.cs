@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.UI;
+namespace ClickItMax.Tests.UI;
 
 [TestClass]
 public class BlightDescriptionColorsTests

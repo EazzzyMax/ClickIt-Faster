@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class ClickAutomationSupportTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void PublishClickSnapshot_DoesNothing_WhenClickDebugCaptureDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = false;
 
             var support = CreateSupport(settings);
@@ -35,7 +35,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldCaptureUltimatumDebug_ReturnsTrueOnlyWhenDebugModeAndUltimatumDebugAreEnabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var support = CreateSupport(settings);
 
             support.ShouldCaptureUltimatumDebug().Should().BeFalse();
@@ -50,7 +50,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void PublishUltimatumEvent_PublishesProjectedSnapshotAndTrail_WhenCaptureEnabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.DebugShowUltimatum.Value = true;
             settings.ClickInitialUltimatum.Value = true;
@@ -96,7 +96,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void DebugLog_PublishesRuntimeLog_AndForwardsMessage_WhenLoggingEnabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             string? loggedMessage = null;
@@ -112,7 +112,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void EnsureCursorInsideGameWindowForClick_ReturnsFalse_AndLogs_WhenVerificationFails()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.VerifyCursorInGameWindowBeforeClick.Value = true;
             string? loggedMessage = null;
@@ -133,7 +133,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void HoldDebugTelemetryAfterSuccessfulInteraction_InvokesFreeze_WhenDebugRenderingEnabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.RenderDebug.Value = true;
             settings.DebugFreezeSuccessfulInteractionMs.Value = 321;
@@ -157,7 +157,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void IsClickableInEitherSpace_UsesWindowTopLeftOffset_WhenEvaluatingPoint()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var probedPoints = new List<Vector2>();
             var probedPaths = new List<string>();
 
@@ -179,7 +179,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static ClickAutomationSupport CreateSupport(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             Func<RectangleF>? getWindowRectangle = null,
             Func<Vector2>? getCursorPosition = null,
             Func<Vector2, string, bool>? pointIsInClickableArea = null,

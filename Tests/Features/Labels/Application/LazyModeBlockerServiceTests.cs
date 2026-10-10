@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels.Application
+namespace ClickItMax.Tests.Features.Labels.Application
 {
     [TestClass]
     public class LazyModeBlockerServiceTests
@@ -30,7 +30,7 @@ namespace ClickIt.Tests.Features.Labels.Application
         [TestMethod]
         public void TryLogLazyModeRestriction_ThrottlesDuplicateReasons_WithinThrottleWindow()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var logs = new List<string>();
             long now = 1_000;
             var service = new LazyModeBlockerService(settings, null, logs.Add, () => now);
@@ -50,7 +50,7 @@ namespace ClickIt.Tests.Features.Labels.Application
         [TestMethod]
         public void TryLogLazyModeRestriction_LogsChangedReason_EvenInsideThrottleWindow()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var logs = new List<string>();
             long now = 2_000;
             var service = new LazyModeBlockerService(settings, null, logs.Add, () => now);
@@ -68,7 +68,7 @@ namespace ClickIt.Tests.Features.Labels.Application
         [TestMethod]
         public void HasRestrictedItemsOnScreen_ReturnsFalseAndClearsReason_WhenNoRestrictionsMatch()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyModeNormalMonsterBlockCount = 0;
             settings.LazyModeMagicMonsterBlockCount = 0;
             settings.LazyModeRareMonsterBlockCount = 0;
@@ -86,7 +86,7 @@ namespace ClickIt.Tests.Features.Labels.Application
         [TestMethod]
         public void HasRestrictedItemsOnScreen_ReturnsFalse_WhenLabelsAreNull()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyModeNormalMonsterBlockCount = 0;
             settings.LazyModeMagicMonsterBlockCount = 0;
             settings.LazyModeRareMonsterBlockCount = 0;
@@ -379,9 +379,9 @@ namespace ClickIt.Tests.Features.Labels.Application
             result.Should().Be(expected);
         }
 
-        private static ClickItSettings CreateNearbyMonsterSettings()
+        private static ClickItMaxSettings CreateNearbyMonsterSettings()
         {
-            return new ClickItSettings
+            return new ClickItMaxSettings
             {
                 LazyModeNormalMonsterBlockCount = 1,
                 LazyModeNormalMonsterBlockDistance = 40,
@@ -396,7 +396,7 @@ namespace ClickIt.Tests.Features.Labels.Application
 
         private static void SeedNearbyMonsterCache(
             LazyModeBlockerService service,
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             long now,
             bool cachedResult,
             string? cachedReason)

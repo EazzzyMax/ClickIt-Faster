@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Pathfinding.Diagnostics
+namespace ClickItMax.Features.Pathfinding.Diagnostics
 {
     internal sealed class OffscreenMovementDiagnosticsChannel
     {

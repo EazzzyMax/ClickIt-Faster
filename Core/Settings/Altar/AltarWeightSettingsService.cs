@@ -1,8 +1,8 @@
-namespace ClickIt.Core.Settings.Altar
+namespace ClickItMax.Core.Settings.Altar
 {
     internal static class AltarWeightSettingsService
     {
-        internal static void InitializeDefaultWeights(ClickItSettings settings)
+        internal static void InitializeDefaultWeights(ClickItMaxSettings settings)
         {
             // A hand-edited/corrupted config can deserialize ModTiers/ModAlerts as null; never NRE at startup.
             settings.ModTiers ??= new(StringComparer.OrdinalIgnoreCase);
@@ -23,8 +23,8 @@ namespace ClickIt.Core.Settings.Altar
             foreach ((string id, string _, string type, int _) in AltarModsConstants.UpsideMods)
             {
                 string compositeKey = BuildCompositeKey(type, id);
-                bool isDivineOrbAlert = (type == ClickItSettings.AltarTypeMinion && id == "#% chance to drop an additional Divine Orb")
-                    || (type == ClickItSettings.AltarTypeBoss && id == "Final Boss drops # additional Divine Orbs");
+                bool isDivineOrbAlert = (type == ClickItMaxSettings.AltarTypeMinion && id == "#% chance to drop an additional Divine Orb")
+                    || (type == ClickItMaxSettings.AltarTypeBoss && id == "Final Boss drops # additional Divine Orbs");
 
                 if (settings.ModAlerts.TryAdd(compositeKey, false) && isDivineOrbAlert)
                     settings.ModAlerts[compositeKey] = true;
@@ -35,7 +35,7 @@ namespace ClickIt.Core.Settings.Altar
         internal static string BuildCompositeKey(string type, string id)
             => $"{type}|{id}";
 
-        internal static int GetModTier(ClickItSettings settings, string modId)
+        internal static int GetModTier(ClickItMaxSettings settings, string modId)
         {
             if (string.IsNullOrEmpty(modId))
                 return 1;
@@ -43,7 +43,7 @@ namespace ClickIt.Core.Settings.Altar
             return settings.ModTiers.TryGetValue(modId, out int value) ? value : 1;
         }
 
-        internal static int GetModTier(ClickItSettings settings, string modId, string type)
+        internal static int GetModTier(ClickItMaxSettings settings, string modId, string type)
         {
             if (string.IsNullOrEmpty(modId))
                 return 1;
@@ -52,7 +52,7 @@ namespace ClickIt.Core.Settings.Altar
             return settings.ModTiers.TryGetValue(compositeKey, out int value) ? value : 1;
         }
 
-        internal static bool GetModAlert(ClickItSettings settings, string modId, string type)
+        internal static bool GetModAlert(ClickItMaxSettings settings, string modId, string type)
         {
             if (string.IsNullOrEmpty(modId))
                 return false;

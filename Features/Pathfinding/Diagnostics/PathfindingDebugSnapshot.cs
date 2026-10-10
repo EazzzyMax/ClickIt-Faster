@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Pathfinding.Diagnostics
+namespace ClickItMax.Features.Pathfinding.Diagnostics
 {
     public sealed record PathfindingDebugSnapshot(
         bool TerrainLoaded,

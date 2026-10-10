@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Core
+namespace ClickItMax.Features.Click.Core
 {
     internal sealed class InteractionExecutionEngine(ClickRuntimeEngineDependencies dependencies)
     {

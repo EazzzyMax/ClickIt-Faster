@@ -1,8 +1,8 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
-    internal sealed class AltarSettingsPanelRenderer(ClickItSettings settings)
+    internal sealed class AltarSettingsPanelRenderer(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
 
         public void DrawAltarsPanel(bool embedded = false)
         {

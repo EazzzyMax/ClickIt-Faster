@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Click.Runtime
+namespace ClickItMax.Features.Click.Runtime
 {
     internal readonly record struct ChestLootSettlementTrackerDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         ChestLootSettlementState State,
         GroundLabelEntityAddressProvider GroundLabelEntityAddresses,
         ClickDebugPublicationService ClickDebugPublisher,
@@ -27,7 +27,7 @@ namespace ClickIt.Features.Click.Runtime
 
         public void StartPostChestLootSettlementWatch(string? mechanicId)
         {
-            ClickItSettings settings = _dependencies.Settings;
+            ClickItMaxSettings settings = _dependencies.Settings;
             ChestLootSettlementState state = _dependencies.State;
 
             if (!ChestLootSettlementMath.ShouldWaitForChestLootSettlement(
@@ -107,7 +107,7 @@ namespace ClickIt.Features.Click.Runtime
 
         public void MarkPendingChestOpenConfirmation(string? mechanicId, LabelOnGround? chestLabel)
         {
-            ClickItSettings settings = _dependencies.Settings;
+            ClickItMaxSettings settings = _dependencies.Settings;
             ChestLootSettlementState state = _dependencies.State;
             DynamicAccess.TryGetLabelItemOnGround(chestLabel, out Entity? chestItem);
 
@@ -215,7 +215,7 @@ namespace ClickIt.Features.Click.Runtime
 
         internal bool ShouldAllowMechanicInteractionDuringPostChestLootSettlement(string? mechanicId, bool hasCandidateGrid, Vector2 entityGridPos, out string decision)
         {
-            ClickItSettings settings = _dependencies.Settings;
+            ClickItMaxSettings settings = _dependencies.Settings;
             ChestLootSettlementState state = _dependencies.State;
 
             if (!state.IsWatcherActive)

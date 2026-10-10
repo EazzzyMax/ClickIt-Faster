@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Diagnostics
+namespace ClickItMax.Shared.Diagnostics
 {
     internal static class StopwatchMath
     {

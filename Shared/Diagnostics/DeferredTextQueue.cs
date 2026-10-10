@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Diagnostics
+namespace ClickItMax.Shared.Diagnostics
 {
     public class DeferredTextQueue
     {

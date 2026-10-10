@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class OffscreenStickyTargetHandlerTests
@@ -7,7 +7,7 @@ namespace ClickIt.Tests.Features.Click
         public void TryResolveStickyOffscreenTarget_ReturnsFalse_WhenNoStickyTargetAddressIsSet()
         {
             var runtimeState = new ClickRuntimeState();
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var pathfindingLabelSuppression = new PathfindingLabelSuppressionEvaluator(new PathfindingLabelSuppressionEvaluatorDependencies(
                 settings,
                 runtimeState));
@@ -91,7 +91,7 @@ namespace ClickIt.Tests.Features.Click
             {
                 StickyOffscreenTargetAddress = 42
             };
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var pathfindingLabelSuppression = new PathfindingLabelSuppressionEvaluator(new PathfindingLabelSuppressionEvaluatorDependencies(
                 settings,
                 runtimeState));
@@ -267,7 +267,7 @@ namespace ClickIt.Tests.Features.Click
             {
                 StickyOffscreenTargetAddress = 42
             };
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.PauseAfterOpeningBasicChests.Value = true;
             var chestState = new ChestLootSettlementState();
             var requests = new List<InteractionExecutionRequest>();
@@ -302,12 +302,12 @@ namespace ClickIt.Tests.Features.Click
         private static OffscreenStickyTargetHandler CreateHandler(
             ClickRuntimeState runtimeState,
             GameController gameController,
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             ClickLabelInteractionService? labelInteraction = null,
             ILabelInteractionPort? labelInteractionPort = null,
             ChestLootSettlementState? chestState = null)
         {
-            settings ??= new ClickItSettings();
+            settings ??= new ClickItMaxSettings();
             var pathfindingLabelSuppression = new PathfindingLabelSuppressionEvaluator(new PathfindingLabelSuppressionEvaluatorDependencies(
                 settings,
                 runtimeState));
@@ -326,7 +326,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static ChestLootSettlementTracker CreateChestLootSettlementTracker(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             ChestLootSettlementState state)
         {
             return new ChestLootSettlementTracker(new ChestLootSettlementTrackerDependencies(

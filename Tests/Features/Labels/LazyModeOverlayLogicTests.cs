@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels
+namespace ClickItMax.Tests.Features.Labels
 {
     [TestClass]
     public class LazyModeOverlayLogicTests
@@ -55,7 +55,7 @@ namespace ClickIt.Tests.Features.Labels
         [TestMethod]
         public void ComposeLazyModeStatus_ReturnsToggleResumeHint_WhenDisableHotkeyIsLatched()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyModeDisableKey = new HotkeyNodeV2(Keys.Y);
             var overlay = CreateOverlay(settings);
 
@@ -319,11 +319,11 @@ namespace ClickIt.Tests.Features.Labels
         }
 
         private static LazyModeOverlay CreateOverlay(
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             InputHandler? inputHandler = null,
             LazyModeBlockerService? lazyModeBlockerService = null)
         {
-            settings ??= new ClickItSettings();
+            settings ??= new ClickItMaxSettings();
             inputHandler ??= new InputHandler(settings);
 
             return new LazyModeOverlay(inputHandler, lazyModeBlockerService);

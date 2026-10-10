@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels.Application
+namespace ClickItMax.Tests.Features.Labels.Application
 {
     [TestClass]
     public class LabelFilterPortTelemetryTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Labels.Application
         [TestMethod]
         public void LabelDebugService_GetVisibleLabelCounts_ReturnsUnavailable_WhenGameControllerMissing()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var service = new LabelDebugService(
                 settings,
                 new ErrorHandler(settings, static (_, _) => { }, static (_, _) => { }),
@@ -26,7 +26,7 @@ namespace ClickIt.Tests.Features.Labels.Application
         [TestMethod]
         public void LabelDebugService_GetLatestDebugAndTrail_ReturnEmptyState_WhenNoEventsPublished()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var service = new LabelDebugService(
                 settings,
                 new ErrorHandler(settings, static (_, _) => { }, static (_, _) => { }),
@@ -65,7 +65,7 @@ namespace ClickIt.Tests.Features.Labels.Application
         [TestMethod]
         public void LabelDebugService_LogSelectionDiagnostics_LogsNone_WhenNoLabelsAreAvailable()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             List<string> messages = [];
@@ -80,7 +80,7 @@ namespace ClickIt.Tests.Features.Labels.Application
         [TestMethod]
         public void LabelDebugService_LogSelectionDiagnostics_LogsBadRange_WhenWindowIsEmpty()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.LogMessages.Value = true;
             List<string> messages = [];
@@ -102,10 +102,10 @@ namespace ClickIt.Tests.Features.Labels.Application
 
         private static LabelDebugService CreateLabelDebugService(
             ClickSettings clickSettings,
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             List<string>? messages = null)
         {
-            settings ??= new ClickItSettings();
+            settings ??= new ClickItMaxSettings();
             messages ??= [];
 
             return new LabelDebugService(

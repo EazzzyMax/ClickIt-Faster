@@ -1,6 +1,6 @@
-namespace ClickIt
+namespace ClickItMax
 {
-    public partial class ClickItSettings
+    public partial class ClickItMaxSettings
     {
         internal void ResetUltimatumModifierPriorityDefaults()
         {

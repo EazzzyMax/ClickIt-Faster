@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class ChestLootSettlementTrackerTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void StartPostChestLootSettlementWatch_SeedsWatcherState_AndTiming()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.PauseAfterOpeningBasicChests.Value = true;
 
             var state = new ChestLootSettlementState();
@@ -26,7 +26,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void StartPostChestLootSettlementWatch_DoesNothing_WhenMechanicIsNotConfiguredToWait()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.PauseAfterOpeningBasicChests.Value = false;
 
             var state = new ChestLootSettlementState();
@@ -42,7 +42,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void MarkPendingChestOpenConfirmation_SetsPendingState_ForConfiguredBasicChestEvenWithoutLabel()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.PauseAfterOpeningBasicChests.Value = true;
 
             var state = new ChestLootSettlementState();
@@ -60,7 +60,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ClearPendingChestOpenConfirmation_ResetsPendingState()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var state = new ChestLootSettlementState
             {
                 PendingOpenConfirmationActive = true,
@@ -81,7 +81,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void IsPostChestLootSettlementBlocking_ReturnsTrue_DuringInitialDelay()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var state = new ChestLootSettlementState
             {
                 IsWatcherActive = true,
@@ -103,7 +103,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void IsPostChestLootSettlementBlocking_ClearsWatcher_WhenQuietWindowHasElapsed()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var state = new ChestLootSettlementState
             {
                 IsWatcherActive = true,
@@ -130,7 +130,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldAllowMechanicInteractionDuringPostChestLootSettlement_ReturnsFalse_WhenBypassSettingDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettle.Value = false;
 
             var state = new ChestLootSettlementState
@@ -150,7 +150,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldAllowMechanicInteractionDuringPostChestLootSettlement_ReturnsFalse_WhenSourceGridUnavailable()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettle.Value = true;
 
             var state = new ChestLootSettlementState
@@ -169,7 +169,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldAllowMechanicInteractionDuringPostChestLootSettlement_ReturnsFalse_WhenMechanicIsIneligible()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettle.Value = true;
 
             var state = new ChestLootSettlementState
@@ -189,7 +189,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldAllowMechanicInteractionDuringPostChestLootSettlement_ReturnsFalse_WhenCandidateGridUnavailable()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettle.Value = true;
 
             var state = new ChestLootSettlementState
@@ -213,7 +213,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldAllowMechanicInteractionDuringPostChestLootSettlement_ReturnsFalse_WhenWatcherInactive()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettle.Value = true;
             var state = new ChestLootSettlementState();
             var tracker = CreateTracker(settings, state);
@@ -227,7 +227,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldAllowMechanicInteractionDuringPostChestLootSettlement_ReturnsTrue_WhenCandidateGridIsWithinDistance_ThroughBoundedSeam()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettle.Value = true;
             settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettleDistance.Value = 10;
 
@@ -253,7 +253,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldAllowMechanicInteractionDuringPostChestLootSettlement_ReturnsFalse_WhenCandidateGridIsOutOfDistance_ThroughBoundedSeam()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettle.Value = true;
             settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettleDistance.Value = 10;
 
@@ -279,7 +279,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryHandlePendingChestOpenConfirmation_DoesNotReclick_WhenBlightTransitionSuppressionActive()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.PauseAfterOpeningBasicChests.Value = true;
 
             var state = new ChestLootSettlementState();
@@ -297,7 +297,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryHandlePendingChestOpenConfirmation_StillReclicks_WhenNotBlightSuppressed()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.PauseAfterOpeningBasicChests.Value = true;
 
             var state = new ChestLootSettlementState();
@@ -313,7 +313,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static ChestLootSettlementTracker CreateTracker(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             ChestLootSettlementState state,
             Func<IReadOnlySet<long>>? snapshotProvider = null,
             Func<LabelOnGround, string?, bool>? shouldSuppressBlightChestClick = null)

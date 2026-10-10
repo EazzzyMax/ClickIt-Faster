@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.TelemetryProjection
+namespace ClickItMax.Features.Observability.TelemetryProjection
 {
     internal static partial class DebugTelemetryProjection
     {
@@ -14,7 +14,7 @@ namespace ClickIt.Features.Observability.TelemetryProjection
             PluginRenderingState? renderingState,
             GameController? gameController,
             InputHandler? inputHandler,
-            ClickItSettings? settings,
+            ClickItMaxSettings? settings,
             TimeCache<List<LabelOnGround>>? cachedLabels,
             ErrorHandler? errorHandler)
         {

@@ -1,8 +1,8 @@
-﻿namespace ClickIt.Features.Blight;
+﻿namespace ClickItMax.Features.Blight;
 
 public sealed class BlightService
 {
-    private readonly ClickItSettings _settings;
+    private readonly ClickItMaxSettings _settings;
     private readonly Func<Vector2, bool> _isPointInClickableArea;
     private readonly BreakdownRecorder? _recordBreakdown;
     private readonly Action<long, double>? _recordExecutorStage;
@@ -22,7 +22,7 @@ public sealed class BlightService
     internal IReadOnlyDictionary<NumVector2, System.Numerics.Vector3> PathwayWorldPositions => _cache.PathwayWorldPositions;
 
     internal BlightService(
-        ClickItSettings settings,
+        ClickItMaxSettings settings,
         Func<Vector2, bool>? isPointInClickableArea = null,
         BreakdownRecorder? recordBreakdown = null,
         Action<long, double>? recordExecutorStage = null,

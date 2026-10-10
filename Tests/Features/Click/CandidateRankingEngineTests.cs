@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class CandidateRankingEngineTests
@@ -281,7 +281,7 @@ namespace ClickIt.Tests.Features.Click
 
         private static (LabelSelectionScanEngine, ClickLabelInteractionService) CreateEngine()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             ILabelInteractionPort port = new FakeLabelInteractionPort();
 
             GameController gameController = ExileCoreOpaqueFactory.CreateOpaqueGameController();

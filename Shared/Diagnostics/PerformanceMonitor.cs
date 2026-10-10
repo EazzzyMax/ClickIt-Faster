@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Diagnostics
+namespace ClickItMax.Shared.Diagnostics
 {
     public enum TimingChannel
     {
@@ -62,12 +62,12 @@ namespace ClickIt.Shared.Diagnostics
     }
 
     /// <summary>
-    /// Handles all performance monitoring, timing, and FPS calculations for the ClickIt plugin.
+    /// Handles all performance monitoring, timing, and FPS calculations for the ClickItMax plugin.
     /// Provides thread-safe access to timing queues and performance metrics.
     /// </summary>
-    public class PerformanceMonitor(ClickItSettings settings)
+    public class PerformanceMonitor(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+        private readonly ClickItMaxSettings _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
         // Stage index of the Blight breakdown's "Events" stage (the off-refresh work: blight plan executor on the click thread + entity-event background tracking), merged with the executor for table brevity.
         internal const int BlightEventsStageIndex = 1;

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class UltimatumAutomationServiceTests
@@ -36,7 +36,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryHandlePanelUi_ReturnsFalse_WhenOtherUltimatumClickIsDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = false;
             List<UltimatumDebugEvent> debugEvents = [];
             var gameController = (GameController)RuntimeHelpers.GetUninitializedObject(typeof(GameController));
@@ -65,7 +65,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryHandlePanelUi_ReturnsFalse_WhenPanelIsMissing_AndPublishesPanelMissingDebug()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickUltimatumChoices.Value = true;
             List<UltimatumDebugEvent> debugEvents = [];
             UltimatumAutomationService service = CreateService(
@@ -98,7 +98,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickPreferredModifier_ReturnsFalse_WhenInitialUltimatumClickIsDisabled()
         {
-            ClickItSettings settings = new();
+            ClickItMaxSettings settings = new();
             settings.ClickInitialUltimatum.Value = false;
             List<UltimatumDebugEvent> debugEvents = [];
             UltimatumAutomationService service = CreateService(
@@ -118,7 +118,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickPreferredModifier_ReturnsFalse_WhenLabelIsNotUltimatum()
         {
-            ClickItSettings settings = new();
+            ClickItMaxSettings settings = new();
             settings.ClickInitialUltimatum.Value = true;
             List<UltimatumDebugEvent> debugEvents = [];
             UltimatumAutomationService service = CreateService(settings: settings, publishUltimatumDebug: debugEvents.Add);
@@ -577,7 +577,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static UltimatumAutomationService CreateService(
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             GameController? gameController = null,
             TimeCache<List<LabelOnGround>>? cachedLabels = null,
             bool useNullGameController = false,
@@ -588,7 +588,7 @@ namespace ClickIt.Tests.Features.Click
             Action? recordClickInterval = null,
             Func<bool>? shouldCaptureUltimatumDebug = null)
         {
-            settings ??= new ClickItSettings();
+            settings ??= new ClickItMaxSettings();
             if (!useNullGameController)
                 gameController ??= (GameController)RuntimeHelpers.GetUninitializedObject(typeof(GameController));
 
@@ -629,9 +629,9 @@ namespace ClickIt.Tests.Features.Click
                 .SetValue(null, false);
         }
 
-        private static ClickItSettings CreateInitialUltimatumEnabledSettings()
+        private static ClickItMaxSettings CreateInitialUltimatumEnabledSettings()
         {
-            ClickItSettings settings = new();
+            ClickItMaxSettings settings = new();
             settings.ClickInitialUltimatum.Value = true;
             settings.ClickUltimatumChoices.Value = true;
             return settings;

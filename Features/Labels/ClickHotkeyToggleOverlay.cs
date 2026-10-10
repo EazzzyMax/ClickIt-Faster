@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels
+namespace ClickItMax.Features.Labels
 {
     /// <summary>
     /// Owns the click-hotkey-toggle status text overlay (Clicking / Not Clicking). Pure per-frame.
@@ -26,7 +26,7 @@ namespace ClickIt.Features.Labels
 
         public ProcessingSection ProcessingSection => ProcessingSection.Unknown;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => settings.IsClickHotkeyToggleModeEnabled();
 
         public void Refresh(OverlayRefreshContext ctx)

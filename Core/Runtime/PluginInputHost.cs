@@ -1,8 +1,8 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     internal sealed class PluginInputHost
     {
-        public static void Tick(PluginContext state, ClickItSettings? settings)
+        public static void Tick(PluginContext state, ClickItMaxSettings? settings)
         {
             PluginRuntimeState runtime = state.Runtime;
             if (runtime.IsShuttingDown)
@@ -41,7 +41,7 @@ namespace ClickIt.Core.Runtime
             runtime.WorkFinished = false;
         }
 
-        internal static void HandleHotkeyReleased(PluginContext state, ClickItSettings? settings)
+        internal static void HandleHotkeyReleased(PluginContext state, ClickItMaxSettings? settings)
         {
             PluginRuntimeState runtime = state.Runtime;
             PluginServices services = state.Services;

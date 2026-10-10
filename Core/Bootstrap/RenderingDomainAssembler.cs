@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Bootstrap
+namespace ClickItMax.Core.Bootstrap
 {
     internal readonly record struct RenderingDomainServices(
         AltarChoiceEvaluator AltarChoiceEvaluator,
@@ -9,7 +9,7 @@ namespace ClickIt.Core.Bootstrap
     internal static class RenderingDomainAssembler
     {
         // Thin runtime entry wrapper so the injected internal overload stays testable without runtime traversal.
-        public static RenderingDomainServices Assemble(ClickIt owner, ClickItSettings settings, CoreDomainServices core)
+        public static RenderingDomainServices Assemble(ClickItMax owner, ClickItMaxSettings settings, CoreDomainServices core)
             => Assemble(
                 owner,
                 settings,
@@ -17,8 +17,8 @@ namespace ClickIt.Core.Bootstrap
                 owner.LogMessage);
 
         internal static RenderingDomainServices Assemble(
-            BaseSettingsPlugin<ClickItSettings> plugin,
-            ClickItSettings settings,
+            BaseSettingsPlugin<ClickItMaxSettings> plugin,
+            ClickItMaxSettings settings,
             CoreDomainServices core,
             Action<string, int> logMessage)
         {

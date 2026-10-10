@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Rendering
+namespace ClickItMax.Shared.Rendering
 {
     public enum OverlayRefreshMode
     {

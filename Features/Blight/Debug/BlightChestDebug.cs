@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight.Debug;
+namespace ClickItMax.Features.Blight.Debug;
 
 internal static class BlightChestDebug
 {

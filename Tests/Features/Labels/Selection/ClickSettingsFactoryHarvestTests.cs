@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels.Selection;
+namespace ClickItMax.Tests.Features.Labels.Selection;
 
 [TestClass]
 public class ClickSettingsFactoryHarvestTests
@@ -6,7 +6,7 @@ public class ClickSettingsFactoryHarvestTests
     [TestMethod]
     public void Create_LifeforceEstimationEnabled_SetsBlockedFlag()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         settings.ClickHigherHarvestEstimate.Value = true;
         var factory = new ClickSettingsFactory(
             settings,
@@ -22,7 +22,7 @@ public class ClickSettingsFactoryHarvestTests
     [TestMethod]
     public void Create_LifeforceEstimationDisabled_NoBlocked()
     {
-        var settings = new ClickItSettings();
+        var settings = new ClickItMaxSettings();
         settings.ClickHigherHarvestEstimate.Value = false;
         var factory = new ClickSettingsFactory(
             settings,

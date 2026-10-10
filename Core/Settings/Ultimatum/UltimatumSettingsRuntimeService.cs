@@ -1,11 +1,11 @@
-namespace ClickIt.Core.Settings.Ultimatum
+namespace ClickItMax.Core.Settings.Ultimatum
 {
     internal static class UltimatumSettingsRuntimeService
     {
-        internal static IReadOnlyList<string> GetModifierPriority(ClickItSettings settings)
+        internal static IReadOnlyList<string> GetModifierPriority(ClickItMaxSettings settings)
         {
             settings.EnsureUltimatumModifiersInitialized();
-            ClickItSettingsRuntimeCacheState runtimeCache = settings.TransientState.RuntimeCache;
+            ClickItMaxSettingsRuntimeCacheState runtimeCache = settings.TransientState.RuntimeCache;
 
             if (HasMatchingPrioritySnapshot(settings))
             {
@@ -16,13 +16,13 @@ namespace ClickIt.Core.Settings.Ultimatum
             return runtimeCache.UltimatumPrioritySnapshot;
         }
 
-        internal static IReadOnlyCollection<string> GetTakeRewardModifierNames(ClickItSettings settings)
+        internal static IReadOnlyCollection<string> GetTakeRewardModifierNames(ClickItMaxSettings settings)
         {
             settings.EnsureUltimatumTakeRewardModifiersInitialized();
             return settings.UltimatumTakeRewardModifierNames;
         }
 
-        internal static bool ShouldTakeRewardForGruelingGauntletModifier(ClickItSettings settings, string? modifierName)
+        internal static bool ShouldTakeRewardForGruelingGauntletModifier(ClickItMaxSettings settings, string? modifierName)
         {
             if (settings.UltimatumTakeRewardModifierNames == null || settings.UltimatumContinueModifierNames == null)
                 settings.EnsureUltimatumTakeRewardModifiersInitialized();
@@ -65,7 +65,7 @@ namespace ClickIt.Core.Settings.Ultimatum
             return normalized;
         }
 
-        private static bool HasMatchingPrioritySnapshot(ClickItSettings settings)
+        private static bool HasMatchingPrioritySnapshot(ClickItMaxSettings settings)
         {
             string[] snapshot = settings.TransientState.RuntimeCache.UltimatumPrioritySnapshot;
             if (snapshot.Length != settings.UltimatumModifierPriority.Count)

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Runtime
+namespace ClickItMax.Features.Click.Runtime
 {
     public readonly struct UltimatumPanelOptionPreview(RectangleF rect, Element element, string modifierName, int priorityIndex, bool isSelected)
     {

@@ -1,4 +1,4 @@
-namespace ClickIt.UI.Settings
+namespace ClickItMax.UI.Settings
 {
     internal static class SettingsScreenComposer
     {

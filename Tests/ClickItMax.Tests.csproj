@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>x64</Platforms>
+    <Prefer32Bit>false</Prefer32Bit>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IncludeIntegrationTests Condition="'$(IncludeIntegrationTests)' == ''">true</IncludeIntegrationTests>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IncludeIntegrationTests)' != 'true'">
+    <Compile Remove="**\*IntegrationTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="**\obj\**\*.cs" />
+    <Compile Remove="**\bin\**\*.cs" />
+    <Compile Remove="..\ThirdParty\Decompiled\**\*.cs" />
+    <Compile Remove="Harness\GameOffsetsShim\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Moq" Version="4.20.2" />
+    <PackageReference Include="AutoFixture" Version="4.17.0" />
+    <PackageReference Include="AutoFixture.AutoMoq" Version="4.17.0" />
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="10.0.5" />
+    <PackageReference Include="coverlet.collector" Version="6.0.1" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="coverlet.msbuild" Version="6.0.0" />
+  
+    <ProjectReference Include="..\ClickItMax.csproj" />
+    <ProjectReference Include="Harness\GameOffsetsShim\GameOffsetsShim.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Reference the third-party ExileCore DLLs provided at repo root ThirdParty/ -->
+    <Reference Include="ExileCore">
+      <HintPath Condition="'$(exapiPackage)' == ''">..\ThirdParty\ExileCore.dll</HintPath>
+      <HintPath Condition="'$(exapiPackage)' != ''">$(exapiPackage)\ExileCore.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="ProcessMemoryUtilities">
+      <HintPath Condition="'$(exapiPackage)' == ''">..\ThirdParty\ProcessMemoryUtilities.dll</HintPath>
+      <HintPath Condition="'$(exapiPackage)' != ''">$(exapiPackage)\ProcessMemoryUtilities.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CollectCoverage Condition="'$(CollectCoverage)' == ''">false</CollectCoverage>
+    <CoverletOutputFormat>lcov</CoverletOutputFormat>
+    <Include>[ClickItMax]*</Include>
+    <Exclude>[SharpDX*]*,[ImGui.NET*]*,[ExileCore*]*,[GameOffsets*]*,[ProcessMemoryUtilities*]*,[Newtonsoft.Json*]*</Exclude>
+        <!-- Write coverage output to the test project's TestResults folder (single canonical location)
+          Using a relative path without the leading 'Tests/' prevents creating Tests/Tests/TestResults
+          when this file is interpreted relative to the tests project directory. -->
+        <CoverletOutput>TestResults/lcov.info</CoverletOutput>
+  </PropertyGroup>
+    <PropertyGroup>
+      <!-- Keep LCOV file exclusions aligned with runsettings.xml so every coverage surface uses the same file set. -->
+      <ExcludeByFile>**/obj/**/*.*,**/bin/**/*.*</ExcludeByFile>
+    </PropertyGroup>
+
+  <PropertyGroup>
+    <ThirdPartyDecompileScript>$(MSBuildProjectDirectory)\..\.scripts\decompile-thirdparty.ps1</ThirdPartyDecompileScript>
+    <ThirdPartyDecompilerProject>$(MSBuildProjectDirectory)\..\.scripts\ThirdPartyDecompiler\ThirdPartyDecompiler.csproj</ThirdPartyDecompilerProject>
+    <ThirdPartyDecompileEnabled Condition="'$(ThirdPartyDecompileEnabled)' == '' and Exists('$(ThirdPartyDecompileScript)') and Exists('$(ThirdPartyDecompilerProject)')">true</ThirdPartyDecompileEnabled>
+    <ThirdPartyDecompileEnabled Condition="'$(ThirdPartyDecompileEnabled)' == ''">false</ThirdPartyDecompileEnabled>
+    <SkipThirdPartyDecompile Condition="'$(SkipThirdPartyDecompile)' == ''">false</SkipThirdPartyDecompile>
+  </PropertyGroup>
+
+  <Target Name="RefreshThirdPartyDecompiledSources" BeforeTargets="CoreCompile" Condition="'$(ThirdPartyDecompileEnabled)' == 'true' and '$(DesignTimeBuild)' != 'true' and '$(SkipThirdPartyDecompile)' != 'true'">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ThirdPartyDecompileScript)&quot;"
+          WorkingDirectory="$(MSBuildProjectDirectory)"
+          ConsoleToMSBuild="true"
+          StandardOutputImportance="High"
+          StandardErrorImportance="High" />
+  </Target>
+
+</Project>

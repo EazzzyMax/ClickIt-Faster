@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Altars
+namespace ClickItMax.Tests.Features.Altars
 {
     [TestClass]
     public class AltarChoiceEvaluatorTests
@@ -8,7 +8,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void EvaluateChoice_ReturnsUnmatchedMods_WhenEitherSideHasUnmatchedMods()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var evaluator = new AltarChoiceEvaluator(settings);
             var altar = TestBuilders.BuildPrimary(
                 TestBuilders.BuildSecondary(hasUnmatched: true),
@@ -23,7 +23,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void EvaluateChoice_ReturnsInvalidRectangles_WhenAnyRectangleIsInvalid()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var evaluator = new AltarChoiceEvaluator(settings);
             var altar = TestBuilders.BuildPrimary();
 
@@ -40,7 +40,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void EvaluateChoice_ReturnsUnrecognizedTopUpside_WithUnrecognizedMods()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var evaluator = new AltarChoiceEvaluator(settings);
             var altar = TestBuilders.BuildPrimary(
                 TestBuilders.BuildSecondary(upsides: ["Gain a dubious upside"], downsides: ["Minor downside"]),
@@ -65,7 +65,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void EvaluateChoice_ReturnsUnrecognizedTopDownside_WithUnrecognizedMods()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var evaluator = new AltarChoiceEvaluator(settings);
             var altar = TestBuilders.BuildPrimary(
                 TestBuilders.BuildSecondary(upsides: ["Known top upside"], downsides: ["Unmapped top downside"]),
@@ -89,7 +89,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void EvaluateChoice_ReturnsUnrecognizedBottomUpside_WithUnrecognizedMods()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var evaluator = new AltarChoiceEvaluator(settings);
             var altar = TestBuilders.BuildPrimary(
                 TestBuilders.BuildSecondary(upsides: ["Known top upside"], downsides: ["Known top downside"]),
@@ -113,7 +113,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void EvaluateChoice_ReturnsUnrecognizedBottomDownside_WithUnrecognizedMods()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var evaluator = new AltarChoiceEvaluator(settings);
             var altar = TestBuilders.BuildPrimary(
                 TestBuilders.BuildSecondary(upsides: ["Known top upside"], downsides: ["Known top downside"]),
@@ -137,7 +137,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void EvaluateChoice_ReturnsDangerousTopChooseBottom_WhenTopDownsideExceedsThreshold()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var evaluator = new AltarChoiceEvaluator(settings);
             var altar = TestBuilders.BuildPrimary();
             var weights = TestBuilders.BuildAltarWeights(
@@ -178,7 +178,7 @@ namespace ClickIt.Tests.Features.Altars
         [TestMethod]
         public void EvaluateChoice_ReturnsHighValueBottomChosen_WhenBottomUpsideExceedsThreshold()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var evaluator = new AltarChoiceEvaluator(settings);
             var altar = TestBuilders.BuildPrimary();
             var weights = TestBuilders.BuildAltarWeights(
@@ -443,9 +443,9 @@ namespace ClickIt.Tests.Features.Altars
             messages.Should().ContainSingle(message => message.Contains("TopButton is null", StringComparison.Ordinal));
         }
 
-        private static ClickItSettings CreateWeightOnlySettings()
+        private static ClickItMaxSettings CreateWeightOnlySettings()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DangerousDownside.Value = false;
             settings.ValuableUpside.Value = false;
             settings.UnvaluableUpside.Value = false;

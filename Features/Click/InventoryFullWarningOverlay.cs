@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click
+namespace ClickItMax.Features.Click
 {
     /// <summary>
     /// Owns the inventory-full warning text overlay. Sequence-dirty-tracked internally (the
@@ -41,7 +41,7 @@ namespace ClickIt.Features.Click
 
         public ProcessingSection ProcessingSection => ProcessingSection.Unknown;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => true;
 
         public void Refresh(OverlayRefreshContext ctx)

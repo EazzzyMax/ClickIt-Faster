@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     public class PluginClickRuntimeStateEvaluatorTests
@@ -119,7 +119,7 @@ namespace ClickIt.Tests.Core.Runtime
         public void ResolveHotkeyActive_ReturnsTrue_WhenLazyModeCanDriveInputWithoutRestrictions()
         {
             // The lazy-mode click input must not depend on the live mouse state during tests: the mouse-held disable toggles default ON and read real input, so they are disabled here to keep this deterministic (mirrors InputHandlerCanClickTests).
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.DisableLazyModeLeftClickHeld.Value = false;
             settings.DisableLazyModeRightClickHeld.Value = false;
@@ -138,7 +138,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ResolveHotkeyActive_ReturnsFalse_WhenLazyModeRestrictionsExist()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             var handler = new InputHandler(settings);
             var cachedLabels = new TimeCache<List<LabelOnGround>>(() => [], 50);
@@ -163,7 +163,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ResolveLazyModeDisableActive_UsesInputHandlerState_WhenHandlerPresent()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.LazyModeDisableKeyToggleMode.Value = true;
             var handler = new InputHandler(settings);
@@ -187,7 +187,7 @@ namespace ClickIt.Tests.Core.Runtime
         [DataRow(true, true, false)]
         public void ShouldRunManualUiHoverCoroutine_SettingsOverload_ReturnsExpected(bool manualUiHoverEnabled, bool lazyModeEnabled, bool expected)
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickOnManualUiHoverOnly.Value = manualUiHoverEnabled;
             settings.LazyMode.Value = lazyModeEnabled;
 
@@ -196,7 +196,7 @@ namespace ClickIt.Tests.Core.Runtime
 
         private static void SeedNearbyMonsterCache(
             LazyModeBlockerService service,
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             long now,
             bool cachedResult,
             string? cachedReason)

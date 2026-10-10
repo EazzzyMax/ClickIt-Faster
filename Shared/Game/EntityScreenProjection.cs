@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Game
+namespace ClickItMax.Shared.Game
 {
     // Projects an entity's world position to raw screen coordinates through the game camera, fail-closed on any DLR read or projection failure. Single home for the projection chain that was hand-duplicated at ~8 sites.
     internal static class EntityScreenProjection

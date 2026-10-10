@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Bootstrap
+namespace ClickItMax.Tests.Core.Bootstrap
 {
     [TestClass]
     public class PluginServiceRegistryTests

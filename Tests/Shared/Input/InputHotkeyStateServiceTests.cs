@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Input
+namespace ClickItMax.Tests.Shared.Input
 {
     [TestClass]
     public class InputHotkeyStateServiceTests
@@ -33,7 +33,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickHotkeyActive_ReturnsFalse_WhenNoBindingConfigured()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickLabelKey = new HotkeyNodeV2(Keys.None);
             var service = new InputHotkeyStateService(settings);
 
@@ -43,7 +43,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickHotkeyActive_HoldMode_ReflectsKeyState()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickLabelKey = new HotkeyNodeV2(Keys.F5);
             settings.ClickHotkeyToggleMode.Value = false;
             var service = new InputHotkeyStateService(settings);
@@ -55,7 +55,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsLazyModeDisableActive_ToggleMode_TogglesOnFreshPressEdge()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.LazyModeDisableKeyToggleMode.Value = true;
             var service = new InputHotkeyStateService(settings);

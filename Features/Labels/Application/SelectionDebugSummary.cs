@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Application
+namespace ClickItMax.Features.Labels.Application
 {
     public readonly struct SelectionDebugSummary(
         int start,

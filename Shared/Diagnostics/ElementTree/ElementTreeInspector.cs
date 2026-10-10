@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Diagnostics.ElementTree;
+namespace ClickItMax.Shared.Diagnostics.ElementTree;
 
 // Captures an object graph (element tree + entity components) and diffs it against the previous capture: the first capture of a target is a baseline, later captures bake PreviousValue into every changed property.
 internal sealed class ElementTreeInspector

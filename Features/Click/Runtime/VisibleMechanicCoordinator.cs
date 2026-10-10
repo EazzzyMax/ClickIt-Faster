@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Runtime
+namespace ClickItMax.Features.Click.Runtime
 {
     internal readonly record struct VisibleMechanicSelectionSnapshot(
         LostShipmentCandidate? LostShipment,
@@ -65,7 +65,7 @@ namespace ClickIt.Features.Click.Runtime
     }
 
     internal readonly record struct VisibleMechanicCoordinatorDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         GameController GameController,
         ShrineService ShrineService,
         LostShipmentTargetSelector LostShipmentTargets,

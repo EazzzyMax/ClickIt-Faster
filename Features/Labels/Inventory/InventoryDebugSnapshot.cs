@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Inventory
+namespace ClickItMax.Features.Labels.Inventory
 {
     internal sealed record InventoryDebugSnapshot(
         bool HasData,

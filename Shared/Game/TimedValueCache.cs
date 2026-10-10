@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Game
+namespace ClickItMax.Shared.Game
 {
     internal readonly record struct TimedValueCacheSettings(
         bool RequireNonNegativeAge = false,

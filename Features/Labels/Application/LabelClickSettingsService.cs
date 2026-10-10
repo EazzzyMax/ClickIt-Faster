@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Labels.Application
+namespace ClickItMax.Features.Labels.Application
 {
     internal sealed class LabelClickSettingsService(
-        ClickItSettings settings,
+        ClickItMaxSettings settings,
         IMechanicPrioritySnapshotProvider mechanicPrioritySnapshotProvider,
         Func<IReadOnlyList<LabelOnGround>?, bool> hasLazyModeRestrictedItems,
         Func<Keys, bool> isClickHotkeyHeld)

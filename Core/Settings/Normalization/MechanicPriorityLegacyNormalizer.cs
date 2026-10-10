@@ -1,8 +1,8 @@
-namespace ClickIt.Core.Settings.Normalization
+namespace ClickItMax.Core.Settings.Normalization
 {
     internal static class MechanicPriorityLegacyNormalizer
     {
-        internal static void Normalize(ClickItSettings settings)
+        internal static void Normalize(ClickItMaxSettings settings)
         {
             ArgumentNullException.ThrowIfNull(settings);
 

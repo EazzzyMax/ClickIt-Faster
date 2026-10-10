@@ -1,8 +1,8 @@
-namespace ClickIt.Shared.Input
+namespace ClickItMax.Shared.Input
 {
-    internal sealed class InputHotkeyStateService(ClickItSettings settings)
+    internal sealed class InputHotkeyStateService(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly Lock _lock = new();
         private bool _lazyModeDisableToggled;
         private bool _lazyModeDisableKeyWasDown;
@@ -54,7 +54,7 @@ namespace ClickIt.Shared.Input
             return toggledState;
         }
 
-        internal static (bool leftClickBlocks, bool rightClickBlocks, bool mouseButtonBlocks) GetMouseButtonBlockingState(ClickItSettings settings, Func<Keys, bool> keyStateProvider)
+        internal static (bool leftClickBlocks, bool rightClickBlocks, bool mouseButtonBlocks) GetMouseButtonBlockingState(ClickItMaxSettings settings, Func<Keys, bool> keyStateProvider)
         {
             if (settings == null || keyStateProvider == null)
                 return (false, false, false);

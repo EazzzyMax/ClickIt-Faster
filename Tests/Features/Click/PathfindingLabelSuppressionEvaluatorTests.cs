@@ -1,11 +1,11 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class PathfindingLabelSuppressionEvaluatorTests
     {
         private const string LeverPath = "Metadata/Terrain/Levers/Switch_Once";
 
-        private static PathfindingLabelSuppressionEvaluator CreateEvaluator(ClickItSettings settings, ClickRuntimeState runtimeState)
+        private static PathfindingLabelSuppressionEvaluator CreateEvaluator(ClickItMaxSettings settings, ClickRuntimeState runtimeState)
             => new(new PathfindingLabelSuppressionEvaluatorDependencies(settings, runtimeState));
 
         private static LabelOnGround CreateLeverLabel(long address)
@@ -17,7 +17,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldSuppressLeverClick_ReturnsFalse_WhenLazyModeDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = false;
             PathfindingLabelSuppressionEvaluator evaluator = CreateEvaluator(settings, new ClickRuntimeState());
 
@@ -27,7 +27,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldSuppressLeverClick_ReturnsFalse_WhenLabelIsNotLever()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             PathfindingLabelSuppressionEvaluator evaluator = CreateEvaluator(settings, new ClickRuntimeState());
 
@@ -42,7 +42,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldSuppressLeverClick_ReturnsTrue_WithinCooldown_AfterRecordLeverClick()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             ClickRuntimeState runtimeState = new();
             PathfindingLabelSuppressionEvaluator evaluator = CreateEvaluator(settings, runtimeState);
@@ -57,7 +57,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldSuppressLeverClick_ReturnsFalse_ForDifferentLeverIdentity()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             PathfindingLabelSuppressionEvaluator evaluator = CreateEvaluator(settings, new ClickRuntimeState());
             LabelOnGround leverA = CreateLeverLabel(42);
@@ -70,7 +70,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void RecordLeverClick_RecordsNothing_WhenLazyModeDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = false;
             ClickRuntimeState runtimeState = new();
             PathfindingLabelSuppressionEvaluator evaluator = CreateEvaluator(settings, runtimeState);
@@ -85,7 +85,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldSuppressPathfindingLabel_ReturnsTrue_WhenLeverClickIsSuppressed()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             PathfindingLabelSuppressionEvaluator evaluator = CreateEvaluator(settings, new ClickRuntimeState());
             LabelOnGround lever = CreateLeverLabel(42);
@@ -98,7 +98,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ShouldSuppressPathfindingLabel_ReturnsFalse_WhenNothingIsSuppressed()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             PathfindingLabelSuppressionEvaluator evaluator = CreateEvaluator(settings, new ClickRuntimeState());
 

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     public class PluginRenderHostTests
@@ -7,7 +7,7 @@ namespace ClickIt.Tests.Core.Runtime
         public void Render_DoesNotThrow_WhenOptionalRenderersAreUnavailable()
         {
             var state = new PluginContext();
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
 
             FluentActions.Invoking(() => PluginRenderHost.Render(
                     state,
@@ -22,9 +22,9 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void Render_CompletesPendingDebugCopy_WhenDebugRenderingIsEnabled()
         {
-            var plugin = new ClickIt();
+            var plugin = new ClickItMax();
             var state = plugin.State;
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             DebugClipboardService debugClipboardService = plugin.GetDebugClipboardService();
 
             settings.DebugMode.Value = true;
@@ -46,9 +46,9 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void Render_ConsumesPendingDebugCopy_EvenWhenDebugRenderingIsDisabled()
         {
-            var plugin = new ClickIt();
+            var plugin = new ClickItMax();
             var state = plugin.State;
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             DebugClipboardService debugClipboardService = plugin.GetDebugClipboardService();
 
             settings.DebugMode.Value = true;

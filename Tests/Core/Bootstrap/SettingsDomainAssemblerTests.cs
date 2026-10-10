@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Bootstrap
+namespace ClickItMax.Tests.Core.Bootstrap
 {
     [TestClass]
     public class SettingsDomainAssemblerTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void WireActions_AttachesAndRemovesHandlers_OnSingleSettingsInstance()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var registry = new PluginServiceRegistry();
             var logs = new List<string>();
             string configDir = Path.Combine(Path.GetTempPath(), "clickit_settingsdomain_" + Guid.NewGuid().ToString("N"));
@@ -42,8 +42,8 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void WireActions_AttachesAndRemovesHandlers_OnRuntimeAndEffectiveSettings_WhenDifferentInstancesProvided()
         {
-            var settings = new ClickItSettings();
-            var effectiveSettings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
+            var effectiveSettings = new ClickItMaxSettings();
             var registry = new PluginServiceRegistry();
             string configDir = Path.Combine(Path.GetTempPath(), "clickit_settingsdomain_" + Guid.NewGuid().ToString("N"));
             int runtimeOpenHandlersBefore = GetHandlerCount(settings.OpenConfigDirectory);
@@ -77,7 +77,7 @@ namespace ClickIt.Tests.Core.Bootstrap
             }
         }
 
-        private static AlertService CreateAlertService(ClickItSettings settings, string configDir, List<string> logs)
+        private static AlertService CreateAlertService(ClickItMaxSettings settings, string configDir, List<string> logs)
         {
             return new AlertService(
                 () => settings,

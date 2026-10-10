@@ -1,8 +1,8 @@
-namespace ClickIt.Features.Area
+namespace ClickItMax.Features.Area
 {
-    public class AreaService(ClickItSettings? settings = null)
+    public class AreaService(ClickItMaxSettings? settings = null)
     {
-        private readonly ClickItSettings? _settings = settings;
+        private readonly ClickItMaxSettings? _settings = settings;
         private readonly AreaBlockedSnapshotProvider _blockedSnapshotProvider = new();
 
         private readonly BlockedAreaEvaluatorPipeline _blockedAreaEvaluatorPipeline = new(

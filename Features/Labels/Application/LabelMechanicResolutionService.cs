@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Application
+namespace ClickItMax.Features.Labels.Application
 {
     internal sealed class LabelMechanicResolutionService(
         GameController? gameController,

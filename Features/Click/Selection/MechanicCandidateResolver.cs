@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Selection
+namespace ClickItMax.Features.Click.Selection
 {
     internal static class MechanicCandidateResolver
     {

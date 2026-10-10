@@ -1,9 +1,9 @@
-namespace ClickIt.Core.Bootstrap
+namespace ClickItMax.Core.Bootstrap
 {
     internal static class ClickDomainAssembler
     {
         // Thin runtime entry wrapper so the injected internal overload stays testable without runtime traversal.
-        public static ClickAutomationPort Assemble(ClickIt owner, ClickItSettings settings, GameController gameController, CoreDomainServices core, AltarChoiceEvaluator altarChoiceEvaluator)
+        public static ClickAutomationPort Assemble(ClickItMax owner, ClickItMaxSettings settings, GameController gameController, CoreDomainServices core, AltarChoiceEvaluator altarChoiceEvaluator)
             => Assemble(
                 settings,
                 gameController,
@@ -15,7 +15,7 @@ namespace ClickIt.Core.Bootstrap
                 owner.State.FreezeDebugTelemetrySnapshot);
 
         internal static ClickAutomationPort Assemble(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             GameController gameController,
             CoreDomainServices core,
             AltarChoiceEvaluator altarChoiceEvaluator,

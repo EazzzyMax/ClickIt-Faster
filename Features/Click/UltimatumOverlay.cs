@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click
+namespace ClickItMax.Features.Click
 {
     /// <summary>
     /// Owns the ultimatum option-frame overlay: refresh (preview recompute on the host coroutine)
@@ -27,7 +27,7 @@ namespace ClickIt.Features.Click
 
         public ProcessingSection ProcessingSection => ProcessingSection.Ultimatum;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => settings.ShowUltimatumOptionOverlay?.Value == true;
 
         public void Refresh(OverlayRefreshContext ctx)

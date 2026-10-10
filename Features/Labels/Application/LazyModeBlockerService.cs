@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Application
+namespace ClickItMax.Features.Labels.Application
 {
     internal readonly record struct NearbyMonsterCandidate(
         bool IsValid,
@@ -58,7 +58,7 @@ namespace ClickIt.Features.Labels.Application
     }
 
     public sealed class LazyModeBlockerService(
-        ClickItSettings settings,
+        ClickItMaxSettings settings,
         GameController? gameController,
         Action<string> logRestriction,
         Func<long>? nowProvider = null)
@@ -66,7 +66,7 @@ namespace ClickIt.Features.Labels.Application
         internal const int NearbyMonsterRestrictionCacheDurationMs = 50;
         private const int LazyModeRestrictionLogThrottleMs = 500;
 
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly GameController? _gameController = gameController;
         private readonly Action<string> _logRestriction = logRestriction;
         private readonly Func<long> _nowProvider = nowProvider ?? (() => Environment.TickCount64);

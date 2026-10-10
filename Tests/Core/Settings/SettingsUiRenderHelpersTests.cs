@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Settings
+namespace ClickItMax.Tests.Core.Settings
 {
     [TestClass]
     public class SettingsUiRenderHelpersTests

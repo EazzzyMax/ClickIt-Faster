@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Inventory.Composition
+namespace ClickItMax.Features.Labels.Inventory.Composition
 {
     internal sealed class InventoryDomainCompositionContext(
         InventoryDomainFactoryDependencies dependencies,

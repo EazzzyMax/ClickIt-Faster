@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Blight;
+namespace ClickItMax.Tests.Features.Blight;
 
 [TestClass]
 public class BlightOverlayTests
@@ -103,7 +103,7 @@ public class BlightOverlayTests
     [TestMethod]
     public void GetPendingPlanStepNumbers_MatchesStaticSemantics_AndReusesCachedList()
     {
-        var overlay = new BlightOverlay(new BlightService(new ClickItSettings()));
+        var overlay = new BlightOverlay(new BlightService(new ClickItMaxSettings()));
         BlightPlan plan = BuildScenarioPlan();
 
         IReadOnlyList<int> first = overlay.GetPendingPlanStepNumbers(plan, cursor: 1, SeismicPos);
@@ -122,7 +122,7 @@ public class BlightOverlayTests
     [TestMethod]
     public void GetPendingPlanStepNumbers_ToleranceFallback_IsCachedToo()
     {
-        var overlay = new BlightOverlay(new BlightService(new ClickItSettings()));
+        var overlay = new BlightOverlay(new BlightService(new ClickItMaxSettings()));
         BlightPlan plan = BuildScenarioPlan();
         NumVector2 fuzzyPos = new(SeismicPos.X + 0.5f, SeismicPos.Y);
 
@@ -136,7 +136,7 @@ public class BlightOverlayTests
     [TestMethod]
     public void GetPendingPlanStepNumbers_ReturnsSharedEmpty_ForNullPlan()
     {
-        var overlay = new BlightOverlay(new BlightService(new ClickItSettings()));
+        var overlay = new BlightOverlay(new BlightService(new ClickItMaxSettings()));
 
         IReadOnlyList<int> numbers = overlay.GetPendingPlanStepNumbers(plan: null, cursor: 0, SeismicPos);
         numbers.Should().BeEmpty();
@@ -145,7 +145,7 @@ public class BlightOverlayTests
     [TestMethod]
     public void GetPendingNumberTexts_ReturnsFormattedStrings_CachedAcrossCalls()
     {
-        var overlay = new BlightOverlay(new BlightService(new ClickItSettings()));
+        var overlay = new BlightOverlay(new BlightService(new ClickItMaxSettings()));
         BlightPlan plan = BuildScenarioPlan();
 
         IReadOnlyList<string> first = overlay.GetPendingNumberTexts(plan, cursor: 1, SeismicPos);

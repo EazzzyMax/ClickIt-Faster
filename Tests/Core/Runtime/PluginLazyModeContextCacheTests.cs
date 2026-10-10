@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     public class PluginLazyModeContextCacheTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void GetContext_ReusesRestrictedItemEvaluation_WhileCacheIsFresh()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
 
             IReadOnlyList<LabelOnGround> labels = [];
@@ -35,7 +35,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void GetContext_ReevaluatesRestrictedItems_WhenLabelReferenceChanges()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
 
             IReadOnlyList<LabelOnGround> labels = [];
@@ -63,7 +63,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void GetContext_ReevaluatesRitualState_WhenCacheWindowExpires()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
 
             int ritualCalls = 0;

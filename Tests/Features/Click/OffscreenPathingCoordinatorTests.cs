@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class OffscreenPathingCoordinatorTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryWalkTowardOffscreenTarget_ReturnsFalse_WhenOffscreenTraversalIsDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.WalkTowardOffscreenLabels.Value = false;
             var pathfindingService = new PathfindingService();
             pathfindingService.RuntimeState.SetLatestPathState(
@@ -44,7 +44,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryWalkTowardOffscreenTarget_ReturnsFalse_WhenOnscreenMechanicBlockerWins()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true),
                 PrioritizeOnscreenClickableMechanicsOverPathfinding = new ToggleNode(true),
@@ -114,7 +114,7 @@ namespace ClickIt.Tests.Features.Click
             var runtimeState = new ClickRuntimeState();
             var coordinator = CreateCoordinator(
                 runtimeState,
-                settings: new ClickItSettings { WalkTowardOffscreenLabels = new ToggleNode(false) },
+                settings: new ClickItMaxSettings { WalkTowardOffscreenLabels = new ToggleNode(false) },
                 gameController: ExileCoreVisibleObjectBuilder.CreateGameControllerWithWindow(new RectangleF(100f, 200f, 1280f, 720f)));
 
             bool handled = coordinator.TryHandleStickyOffscreenTarget(new Vector2(100f, 200f), allLabels: null);
@@ -132,7 +132,7 @@ namespace ClickIt.Tests.Features.Click
             Entity stickyTarget = CreateEntityWithAddress(77);
             var coordinator = CreateCoordinator(
                 runtimeState,
-                settings: new ClickItSettings { WalkTowardOffscreenLabels = new ToggleNode(true) },
+                settings: new ClickItMaxSettings { WalkTowardOffscreenLabels = new ToggleNode(true) },
                 gameController: ExileCoreVisibleObjectBuilder.CreateGameControllerWithEntities(stickyTarget));
 
             bool handled = coordinator.TryHandleStickyOffscreenTarget(new Vector2(100f, 200f), allLabels: null);
@@ -151,7 +151,7 @@ namespace ClickIt.Tests.Features.Click
             Entity stickyTarget = OffscreenStickyTargetGraphShaper.CreateActiveStickyEntity(address: 42);
             var coordinator = CreateCoordinator(
                 runtimeState,
-                settings: new ClickItSettings { WalkTowardOffscreenLabels = new ToggleNode(false) },
+                settings: new ClickItMaxSettings { WalkTowardOffscreenLabels = new ToggleNode(false) },
                 gameController: ExileCoreVisibleObjectBuilder.CreateGameControllerWithEntities(stickyTarget));
 
             bool handled = coordinator.TryHandleStickyOffscreenTarget(new Vector2(100f, 200f), allLabels: null);
@@ -163,7 +163,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryWalkTowardOffscreenTarget_ReturnsFalse_WhenRitualBlockerIsActive()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -201,7 +201,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryWalkTowardOffscreenTarget_ReturnsFalse_WhenResolverFindsNoOffscreenTarget()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -229,7 +229,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void CancelTraversalState_ClearsStickyTargetAndLatestPath()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -256,7 +256,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryWalkTowardOffscreenTarget_ReturnsFalse_WhenPreferredTargetStateCannotBeRead()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -285,7 +285,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryWalkTowardOffscreenTarget_ReturnsFalse_WhenPreferredTargetIsHidden()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -304,7 +304,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryStartTraversal_ReturnsTrue_AndSetsStickyTarget_WhenPreferredTargetIsValid()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -324,7 +324,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryBuildTraversalPath_ReturnsTrue_WhenPathfindingFailsWithoutNoRouteBlock()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -399,7 +399,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryResolveTraversalClick_ReturnsFalse_WhenDirectionalWalkClickCannotBeResolved_WithRuntimeSeam()
         {
-            ClickItSettings settings = new()
+            ClickItMaxSettings settings = new()
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -439,7 +439,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryResolveTraversalClick_ReturnsTrue_WhenProjectedPointResolves_WithRuntimeSeam()
         {
-            ClickItSettings settings = new()
+            ClickItMaxSettings settings = new()
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -782,7 +782,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void HandleSuccessfulTraversalMovementSkill_ReturnsTrue_AndPublishesSuccessTelemetry()
         {
-            ClickItSettings settings = new()
+            ClickItMaxSettings settings = new()
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true),
                 DebugMode = new ToggleNode(true)
@@ -830,7 +830,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void HandleTraversalClickResult_ReturnsFalse_WhenClickIsRejected()
         {
-            ClickItSettings settings = new()
+            ClickItMaxSettings settings = new()
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true),
                 DebugMode = new ToggleNode(true)
@@ -879,7 +879,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void HandleTraversalClickResult_ReturnsTrue_WhenClickSucceeds()
         {
-            ClickItSettings settings = new()
+            ClickItMaxSettings settings = new()
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true),
                 DebugMode = new ToggleNode(true)
@@ -944,7 +944,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryWalkTowardOffscreenTarget_ReturnsTrue_WhenMovementSkillIsSkippedAndClickSucceeds()
         {
-            ClickItSettings settings = new()
+            ClickItMaxSettings settings = new()
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true),
                 UseMovementSkillsForOffscreenPathfinding = new ToggleNode(true),
@@ -1089,7 +1089,7 @@ namespace ClickIt.Tests.Features.Click
 
         private static OffscreenPathingCoordinator CreateCoordinator(
             ClickRuntimeState runtimeState,
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             GameController? gameController = null,
             PathfindingService? pathfindingService = null,
             ClickDebugPublicationService? clickDebugPublisher = null,
@@ -1102,7 +1102,7 @@ namespace ClickIt.Tests.Features.Click
             Action<string>? debugLog = null,
             Action<string>? holdDebugTelemetryAfterSuccess = null)
         {
-            settings ??= new ClickItSettings();
+            settings ??= new ClickItMaxSettings();
             gameController ??= ExileCoreVisibleObjectBuilder.CreateGameControllerWithWindow(new RectangleF(100f, 200f, 1280f, 720f));
             pathfindingService ??= new PathfindingService();
             clickDebugPublisher ??= ClickTestDebugPublisherFactory.Create(() => true, _ => { });
@@ -1176,7 +1176,7 @@ namespace ClickIt.Tests.Features.Click
         public void TryWalkTowardOffscreenTarget_OffsetsWalkClickAwayFromBlightIcon()
         {
             // Spec 12: walk clicks must never land on a blight build/upgrade icon box. The raw directional walk click lands in the icon region here; the coordinator must offset it so the executed click is outside every icon box, and publish the avoidance stage.
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 WalkTowardOffscreenLabels = new ToggleNode(true)
             };
@@ -1258,7 +1258,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static ChestLootSettlementTracker CreateChestLootSettlementTracker(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             ClickDebugPublicationService clickDebugPublisher,
             ClickLabelInteractionService labelInteraction)
         {

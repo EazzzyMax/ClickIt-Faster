@@ -1,10 +1,10 @@
-namespace ClickIt.Features.Click.Ranking
+namespace ClickItMax.Features.Click.Ranking
 {
     internal sealed class MechanicPriorityContextProvider(
-        ClickItSettings settings,
+        ClickItMaxSettings settings,
         IMechanicPrioritySnapshotProvider snapshotProvider)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly IMechanicPrioritySnapshotProvider _snapshotProvider = snapshotProvider;
 
         public MechanicPriorityContext CreateContext()

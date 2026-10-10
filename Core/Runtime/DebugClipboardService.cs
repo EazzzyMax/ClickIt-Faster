@@ -1,8 +1,8 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     internal readonly record struct DebugClipboardServiceDependencies(
         PluginContext State,
-        ClickIt Owner,
+        ClickItMax Owner,
         Func<GameController?> GetGameController);
 
     internal sealed class DebugClipboardService(DebugClipboardServiceDependencies dependencies)

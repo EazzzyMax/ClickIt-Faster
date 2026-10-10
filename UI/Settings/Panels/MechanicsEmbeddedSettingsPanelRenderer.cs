@@ -1,7 +1,7 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
     internal sealed class MechanicsEmbeddedSettingsPanelRenderer(
-        ClickItSettings settings,
+        ClickItMaxSettings settings,
         ItemTypeFiltersPanelRenderer itemTypeFiltersPanelRenderer,
         EssenceCorruptionPanelRenderer essenceCorruptionPanelRenderer,
         StrongboxFilterPanelRenderer strongboxFilterPanelRenderer,
@@ -10,7 +10,7 @@ namespace ClickIt.UI.Settings.Panels
         HarvestSettingsPanelRenderer harvestSettingsPanelRenderer,
         BlightSettingsPanelRenderer blightSettingsPanelRenderer)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly ItemTypeFiltersPanelRenderer _itemTypeFiltersPanelRenderer = itemTypeFiltersPanelRenderer;
         private readonly EssenceCorruptionPanelRenderer _essenceCorruptionPanelRenderer = essenceCorruptionPanelRenderer;
         private readonly StrongboxFilterPanelRenderer _strongboxFilterPanelRenderer = strongboxFilterPanelRenderer;
@@ -108,7 +108,7 @@ namespace ClickIt.UI.Settings.Panels
         private void DrawChestDropSettleSettings(ChestDropSettleSettingsDescriptor descriptor)
         {
             ImGui.Spacing();
-            SettingsUiRenderHelpers.DrawToggleNodeControl($"Wait for Drops to Settle##{descriptor.IdPrefix}PauseEnabled", descriptor.PauseNode, $"When enabled, ClickIt waits for new loot labels after opening a {descriptor.LabelPrefix} before resuming clicks.");
+            SettingsUiRenderHelpers.DrawToggleNodeControl($"Wait for Drops to Settle##{descriptor.IdPrefix}PauseEnabled", descriptor.PauseNode, $"When enabled, ClickItMax waits for new loot labels after opening a {descriptor.LabelPrefix} before resuming clicks.");
             SettingsUiRenderHelpers.DrawToggleAndRangeNodeControls(
                 $"Allow Nearby Mechanics while Waiting##{descriptor.IdPrefix}AllowNearbyMechanics",
                 _settings.AllowNearbyMechanicsWhileWaitingForChestDropsToSettle,
@@ -119,7 +119,7 @@ namespace ClickIt.UI.Settings.Panels
                 100,
                 "Maximum distance from the opened chest where mechanics are still allowed during settle wait.");
             SettingsUiRenderHelpers.DrawRangeNodeControl($"Initial delay (ms)##{descriptor.IdPrefix}InitialDelayMs", descriptor.InitialDelayNode, 100, 1500, "How long to wait after click confirmation before checking for new labels.");
-            SettingsUiRenderHelpers.DrawRangeNodeControl($"Poll interval (ms)##{descriptor.IdPrefix}PollIntervalMs", descriptor.PollIntervalNode, 50, 500, "How frequently ClickIt checks ItemsOnGroundLabels for newly added drops.");
+            SettingsUiRenderHelpers.DrawRangeNodeControl($"Poll interval (ms)##{descriptor.IdPrefix}PollIntervalMs", descriptor.PollIntervalNode, 50, 500, "How frequently ClickItMax checks ItemsOnGroundLabels for newly added drops.");
             SettingsUiRenderHelpers.DrawRangeNodeControl($"Quiet window (ms)##{descriptor.IdPrefix}QuietWindowMs", descriptor.QuietWindowNode, 100, 2000, "Loot is considered settled after this many milliseconds pass without new labels.");
         }
 
@@ -151,13 +151,13 @@ namespace ClickIt.UI.Settings.Panels
                 _settings.DelveFlareHealthThreshold,
                 2,
                 100,
-                "Health threshold below which ClickIt can use a flare.");
+                "Health threshold below which ClickItMax can use a flare.");
             SettingsUiRenderHelpers.DrawRangeNodeControl(
                 "Flare Energy Shield %##MechanicsDelveEnergyShield",
                 _settings.DelveFlareEnergyShieldThreshold,
                 2,
                 100,
-                "Energy shield threshold below which ClickIt can use a flare.");
+                "Energy shield threshold below which ClickItMax can use a flare.");
             SettingsUiRenderHelpers.DrawHotkeyNodeControl(
                 _settings.DelveFlareHotkey,
                 "Flare Hotkey##MechanicsDelveFlareHotkey",
@@ -186,7 +186,7 @@ namespace ClickIt.UI.Settings.Panels
             SettingsUiRenderHelpers.DrawToggleNodeControl(
                 "Click Take Reward Button##MechanicsUltimatumTakeRewardButton",
                 _settings.ClickUltimatumTakeRewardButton,
-                "When enabled, ClickIt can press the Take Reward button for Grueling Gauntlet based on your table decisions.");
+                "When enabled, ClickItMax can press the Take Reward button for Grueling Gauntlet based on your table decisions.");
             _ultimatumSettingsPanelRenderer.DrawTakeRewardModifierTablePanel(embedded: true);
             ImGui.TreePop();
         }

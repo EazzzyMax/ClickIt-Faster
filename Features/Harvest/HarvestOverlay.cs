@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Harvest
+namespace ClickItMax.Features.Harvest
 {
     /// <summary>
     /// Owns the harvest lifeforce-estimation overlay: refresh recomputes the plot estimates every
@@ -29,7 +29,7 @@ namespace ClickIt.Features.Harvest
 
         public ProcessingSection ProcessingSection => ProcessingSection.Harvest;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => settings.ClickHarvest.Value;
 
         public void Refresh(OverlayRefreshContext ctx)

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.Performance
+namespace ClickItMax.Features.Observability.Performance
 {
     // Rolling per-section allocation pressure: bytes allocated per run (GC.GetAllocatedBytesForCurrentThread delta across a processing boundary) plus the wall-clock period between runs, so the debug table can show a steady-state alloc/s rate alongside the per-run bytes. Locked because the label-scan boundary can run on any coroutine that touches CachedLabels.Value.
     internal sealed class GcAllocationMetricsStore

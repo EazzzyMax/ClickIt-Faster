@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Strongboxes
+namespace ClickItMax.Features.Strongboxes
 {
     /// <summary>
     /// Owns the strongbox frame overlay end-to-end: every-frame refresh cadence (host coroutine)
@@ -50,7 +50,7 @@ namespace ClickIt.Features.Strongboxes
 
         public ProcessingSection ProcessingSection => ProcessingSection.Strongbox;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => settings.ShowStrongboxFrames.Value || (settings.StrongboxClickIds?.Count ?? 0) > 0;
 
         // Coroutine thread — the only place this overlay reads labels / game memory.
@@ -210,7 +210,7 @@ namespace ClickIt.Features.Strongboxes
             return strongboxes;
         }
 
-        private StrongboxRenderState ResolveRenderState(ClickItSettings settings)
+        private StrongboxRenderState ResolveRenderState(ClickItMaxSettings settings)
             => new(
                 settings.ShowStrongboxFrames.Value,
                 _cachedClickMetadata,
@@ -295,7 +295,7 @@ namespace ClickIt.Features.Strongboxes
             return snapshot.SetEquals(currentIds);
         }
 
-        private void EnsureStrongboxMetadataCache(ClickItSettings settings)
+        private void EnsureStrongboxMetadataCache(ClickItMaxSettings settings)
         {
             if (HasMatchingSnapshot(settings.StrongboxClickIds, _clickIdsSnapshot)
                 && HasMatchingSnapshot(settings.StrongboxDontClickIds, _dontClickIdsSnapshot))

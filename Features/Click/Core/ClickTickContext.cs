@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Core
+namespace ClickItMax.Features.Click.Core
 {
     internal readonly record struct ClickTickContext(
         Vector2 WindowTopLeft,

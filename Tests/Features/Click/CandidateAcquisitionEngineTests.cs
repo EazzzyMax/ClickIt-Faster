@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class CandidateAcquisitionEngineTests
@@ -73,13 +73,13 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static CandidateAcquisitionEngine CreateEngine(
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             ILabelInteractionPort? labelInteractionPort = null,
             IVisibleMechanicRuntimePort? visibleMechanics = null,
             LabelSelectionScanEngine? labelSelectionScan = null,
             ClickDebugPublicationService? clickDebugPublisher = null)
         {
-            ClickItSettings resolvedSettings = settings ?? new ClickItSettings();
+            ClickItMaxSettings resolvedSettings = settings ?? new ClickItMaxSettings();
             ILabelInteractionPort resolvedPort = labelInteractionPort ?? new FakeLabelInteractionPort();
 
             return new CandidateAcquisitionEngine(new ClickRuntimeEngineDependencies(
@@ -115,7 +115,7 @@ namespace ClickIt.Tests.Features.Click
                     IsBlightEncounterActive: null)));
         }
 
-        private static LabelSelectionScanEngine CreateLabelSelectionScanEngine(ClickItSettings settings, ILabelInteractionPort labelInteractionPort)
+        private static LabelSelectionScanEngine CreateLabelSelectionScanEngine(ClickItMaxSettings settings, ILabelInteractionPort labelInteractionPort)
         {
             GameController gameController = ExileCoreOpaqueFactory.CreateOpaqueGameController();
             return new LabelSelectionScanEngine(new LabelSelectionScanEngineDependencies(

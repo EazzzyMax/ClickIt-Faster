@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.TestUtils
+namespace ClickItMax.Tests.Shared.TestUtils
 {
     public static class TestBuilders
     {
@@ -40,8 +40,8 @@ namespace ClickIt.Tests.Shared.TestUtils
             int lastScanEaterLabels,
             string lastProcessedAltarType)
         {
-            var settings = new ClickItSettings();
-            var owner = (ClickIt)RuntimeHelpers.GetUninitializedObject(typeof(ClickIt));
+            var settings = new ClickItMaxSettings();
+            var owner = (ClickItMax)RuntimeHelpers.GetUninitializedObject(typeof(ClickItMax));
             var altarService = new AltarService(owner, settings, cachedLabels: null);
             altarService.AddAltarComponent(new PrimaryAltarComponent(
                 AltarType.EaterOfWorlds,

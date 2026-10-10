@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.Performance
+namespace ClickItMax.Features.Observability.Performance
 {
     // Time-window sample buffer: samples expire individually after a fixed window so a section that stops recording drains to zero. The average covers only the most recent samples (so the table reacts quickly); max keeps the full live window.
     internal sealed class ExpiringSampleBuffer

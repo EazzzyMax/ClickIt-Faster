@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Rendering
+namespace ClickItMax.Shared.Rendering
 {
     /// <summary>
     /// The single overlay-rendering API. Register every overlay, StartAll on plugin enable,
@@ -15,7 +15,7 @@ namespace ClickIt.Shared.Rendering
             => _overlays.Add(overlay);
 
         public void StartAll(
-            BaseSettingsPlugin<ClickItSettings> plugin,
+            BaseSettingsPlugin<ClickItMaxSettings> plugin,
             Func<OverlayRefreshContext> refreshContextFactory,
             Func<bool> shouldContinue,
             PerformanceMonitor? performanceMonitor,

@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     public sealed class PluginServices
     {

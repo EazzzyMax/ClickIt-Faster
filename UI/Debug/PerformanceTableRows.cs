@@ -1,4 +1,4 @@
-namespace ClickIt.UI.Debug;
+namespace ClickItMax.UI.Debug;
 
 // Per-section breakdown shown after a process/GC row: Generic reads the section's Breakdowns store (time in the process table, allocation in the GC table), Click and LabelScan read their dedicated stores, None renders alone.
 internal enum PerfBreakdownKind
@@ -28,7 +28,7 @@ internal static class PerformanceTableRows
         ("Pathfinding", p => p.GetRenderSection(RenderSection.PathfindingOverlay)),
         ("Perf.Overlay", p => p.GetRenderSection(RenderSection.PerformanceOverlay)),
         ("Strongbox", p => p.GetRenderSection(RenderSection.StrongboxOverlay)),
-        ("ClickIt.ClickIt.UI.Rect", p => p.GetRenderSection(RenderSection.UiRegionRectangle)),
+        ("ClickItMax.ClickItMax.UI.Rect", p => p.GetRenderSection(RenderSection.UiRegionRectangle)),
         ("Ultimatum", p => p.GetRenderSection(RenderSection.UltimatumOverlay)),
     ];
 

@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Click.Application
+namespace ClickItMax.Features.Click.Application
 {
     internal readonly record struct AltarAutomationServiceDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         GameController GameController,
         Func<IReadOnlyList<PrimaryAltarComponent>> GetAltarSnapshot,
         Action<Element> RemoveTrackedAltarByElement,

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Labels.Inventory
+namespace ClickItMax.Tests.Features.Labels.Inventory
 {
     [TestClass]
     public class InventoryDynamicAdapterTests

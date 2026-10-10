@@ -1,5 +1,5 @@
 
-namespace ClickIt.Features.Altars
+namespace ClickItMax.Features.Altars
 {
     internal enum AltarChoiceOutcome
     {
@@ -34,12 +34,12 @@ namespace ClickIt.Features.Altars
         string? UnrecognizedWeightType = null,
         string[]? UnrecognizedMods = null);
 
-    public sealed class AltarChoiceEvaluator(ClickItSettings settings, Action<string, int>? logMessage = null)
+    public sealed class AltarChoiceEvaluator(ClickItMaxSettings settings, Action<string, int>? logMessage = null)
     {
         private const string TopButtonName = "TopButton";
         private const string BottomButtonName = "BottomButton";
 
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly Action<string, int> _logMessage = logMessage ?? ((_, _) => { });
 
         internal Element? DetermineChoiceElement(PrimaryAltarComponent altar, AltarWeights weights, RectangleF topModsRect, RectangleF bottomModsRect, Action<string>? recordStage = null)

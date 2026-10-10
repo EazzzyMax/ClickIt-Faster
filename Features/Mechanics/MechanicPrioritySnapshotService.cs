@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Mechanics
+namespace ClickItMax.Features.Mechanics
 {
     internal readonly record struct MechanicPrioritySnapshot(
         IReadOnlyDictionary<string, int> PriorityIndexMap,

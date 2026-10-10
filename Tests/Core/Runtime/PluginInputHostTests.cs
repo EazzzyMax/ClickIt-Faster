@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Runtime
+namespace ClickItMax.Tests.Core.Runtime
 {
     [TestClass]
     [DoNotParallelize]
@@ -7,7 +7,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void IsClickHotkeyPressed_ReturnsFalse_WhenInputHandlerMissing()
         {
-            var plugin = new ClickIt();
+            var plugin = new ClickItMax();
             plugin.State.Services.InputHandler = null;
 
             PluginInputHost.IsClickHotkeyPressed(plugin.State).Should().BeFalse();
@@ -16,7 +16,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void HandleHotkeyPressed_SetsWorkFinishedFalse()
         {
-            var plugin = new ClickIt();
+            var plugin = new ClickItMax();
             var state = plugin.State;
 
             state.Runtime.WorkFinished = true;
@@ -29,7 +29,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void HandleHotkeyPressed_ReplacesCompletedClickCoroutine_FromRegistryWhenNoActiveMatchExists()
         {
-            var plugin = new ClickIt();
+            var plugin = new ClickItMax();
             var state = plugin.State;
 
             state.Runtime.ClickLabelCoroutine = CoroutineTestHarness.CreateCoroutine("Click", isDone: true);
@@ -48,8 +48,8 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void HandleHotkeyReleased_ReplacesCompletedManualHoverCoroutine_FromRegistryWhenEnabled()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var state = plugin.State;
             var performanceMonitor = new PerformanceMonitor(settings);
 
@@ -74,8 +74,8 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void HandleHotkeyReleased_DoesNotReplaceCompletedManualHoverCoroutine_WhenManualHoverModeDisabled()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var state = plugin.State;
             var performanceMonitor = new PerformanceMonitor(settings);
 
@@ -101,8 +101,8 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void Tick_WhenInputHandlerMissing_ResetsClickCount()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var state = plugin.State;
 
             var performanceMonitor = new PerformanceMonitor(settings);
@@ -121,7 +121,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ResumeAltarScanningIfDue_RestartsSecondTimer_WhenDue()
         {
-            var plugin = new ClickIt();
+            var plugin = new ClickItMax();
             var state = plugin.State;
 
             state.Runtime.SecondTimer.Restart();
@@ -136,7 +136,7 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void ResumeAltarScanningIfDue_DoesNothing_WhenNotDue()
         {
-            var plugin = new ClickIt();
+            var plugin = new ClickItMax();
             var state = plugin.State;
 
             state.Runtime.SecondTimer.Restart();
@@ -151,8 +151,8 @@ namespace ClickIt.Tests.Core.Runtime
         [TestMethod]
         public void Tick_WhenShuttingDown_DoesNotMutateClickActivityOrRestartAltarTimer()
         {
-            var plugin = new ClickIt();
-            var settings = new ClickItSettings();
+            var plugin = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             var state = plugin.State;
             var performanceMonitor = new PerformanceMonitor(settings);
 

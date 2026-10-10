@@ -1,16 +1,16 @@
-namespace ClickIt.Core.Lifecycle
+namespace ClickItMax.Core.Lifecycle
 {
     internal sealed class PluginLifecycleButtonBindings(DebugClipboardService debugClipboardService)
     {
         private readonly DebugClipboardService _debugClipboardService = debugClipboardService;
 
-        public void Subscribe(ClickItSettings settings)
+        public void Subscribe(ClickItMaxSettings settings)
         {
             settings.ReportBugButton.OnPressed += ReportBugButtonPressed;
             settings.CopyAdditionalDebugInfoButton.OnPressed += CopyAdditionalDebugInfoButtonPressed;
         }
 
-        public void Unsubscribe(ClickItSettings runtimeSettings, ClickItSettings effectiveSettings)
+        public void Unsubscribe(ClickItMaxSettings runtimeSettings, ClickItMaxSettings effectiveSettings)
         {
             runtimeSettings.ReportBugButton.OnPressed -= ReportBugButtonPressed;
             runtimeSettings.CopyAdditionalDebugInfoButton.OnPressed -= CopyAdditionalDebugInfoButtonPressed;
@@ -23,7 +23,7 @@ namespace ClickIt.Core.Lifecycle
 
         private void ReportBugButtonPressed()
         {
-            _ = Process.Start("explorer", "http://github.com/Barragek0/ClickIt/issues");
+            _ = Process.Start("explorer", "https://github.com/Barragek0/ClickIt/issues");
         }
 
         private void CopyAdditionalDebugInfoButtonPressed()

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Label
+namespace ClickItMax.Features.Click.Label
 {
     internal readonly record struct ClickDebugPublicationServiceDependencies(
         GameController GameController,

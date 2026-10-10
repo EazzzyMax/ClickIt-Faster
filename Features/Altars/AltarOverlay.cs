@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Altars
+namespace ClickItMax.Features.Altars
 {
     /// <summary>
     /// Owns the altar choice overlay. Pure per-frame draw of the cached altar snapshot — the heavy
@@ -42,7 +42,7 @@ namespace ClickIt.Features.Altars
 
         public ProcessingSection ProcessingSection => ProcessingSection.Altar;
 
-        public bool IsEnabled(ClickItSettings settings)
+        public bool IsEnabled(ClickItMaxSettings settings)
             => (_altarService?.GetAltarComponentCount() ?? 0) > 0;
 
         public void Refresh(OverlayRefreshContext ctx)

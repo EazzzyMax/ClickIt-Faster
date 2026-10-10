@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Pathfinding.Projection
+namespace ClickItMax.Features.Pathfinding.Projection
 {
     internal static class ScreenPathProjector
     {

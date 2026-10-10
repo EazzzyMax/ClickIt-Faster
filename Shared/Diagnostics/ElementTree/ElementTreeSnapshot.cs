@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Diagnostics.ElementTree;
+namespace ClickItMax.Shared.Diagnostics.ElementTree;
 
 // A single value read from the captured object graph. PreviousValue is set when the value differs from the previous capture of the same target.
 internal readonly record struct PropertySnapshot(

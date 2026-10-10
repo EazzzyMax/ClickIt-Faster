@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Rendering
+namespace ClickItMax.Shared.Rendering
 {
     /// <summary>
     /// Coroutine-thread refresh context handed to refreshable overlays. Labels is the
@@ -8,5 +8,5 @@ namespace ClickIt.Shared.Rendering
         GameController? GameController,
         IReadOnlyList<LabelOnGround>? Labels,
         RectangleF WindowArea,
-        ClickItSettings Settings);
+        ClickItMaxSettings Settings);
 }

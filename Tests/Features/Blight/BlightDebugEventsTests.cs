@@ -1,6 +1,6 @@
-using ClickIt.Features.Blight.Debug;
+using ClickItMax.Features.Blight.Debug;
 
-namespace ClickIt.Tests.Features.Blight;
+namespace ClickItMax.Tests.Features.Blight;
 
 [TestClass]
 public class BlightDebugEventsTests

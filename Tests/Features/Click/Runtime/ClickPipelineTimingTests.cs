@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click.Runtime;
+namespace ClickItMax.Tests.Features.Click.Runtime;
 
 [TestClass]
 public class ClickPipelineTimingTests

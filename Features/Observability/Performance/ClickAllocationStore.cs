@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.Performance;
+namespace ClickItMax.Features.Observability.Performance;
 
 // Rolling per-stage allocation inside the click pipeline, windowed for last/avg/max bytes-per-run per stage.
 internal sealed class ClickAllocationStore

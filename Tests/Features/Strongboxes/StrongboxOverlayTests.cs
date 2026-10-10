@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Strongboxes
+namespace ClickItMax.Tests.Features.Strongboxes
 {
     [TestClass]
     public class StrongboxOverlayTests
@@ -98,7 +98,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         [TestMethod]
         public void EnsureStrongboxMetadataCache_RefreshesCachedMetadata_WhenSettingsChange()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 StrongboxClickIds = ["arcanist"],
                 StrongboxDontClickIds = ["artisan"]
@@ -130,7 +130,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         [TestMethod]
         public void RenderFromLabels_EnqueuesFrame_ForOnScreenClickableStrongbox()
         {
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -144,7 +144,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         [TestMethod]
         public void RenderFromLabels_SkipsStrongboxFullyOffScreen()
         {
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -158,7 +158,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         [TestMethod]
         public void RenderFromLabels_SkipsOnScreenNonStrongboxLabel()
         {
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -173,7 +173,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         public void Refresh_RescansLabels_WhenLabelSetChanges()
         {
             // Refresh runs every frame; the expensive scan re-runs only when the label snapshot or render state changes (the label-ref guard short-circuits unchanged calls).
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -192,7 +192,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         [TestMethod]
         public void Refresh_DoesNotRescan_WhenLabelSnapshotUnchanged()
         {
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
 
@@ -209,7 +209,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         [TestMethod]
         public void Refresh_Rescans_WhenRenderStateChanges()
         {
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
 
@@ -228,7 +228,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         public void Draw_GreenUnopenedBox_HugsChild0Frame()
         {
             // Unopened (green) boxes hug the label's Child[0] text frame — the base label element is bigger before the strongbox opens, so the box must be drawn around the child.
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -253,7 +253,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         public void Draw_GreenUnopenedBox_FallsBackToLabelRect_WhenNoChild()
         {
             // Unopened (green) with no readable child frame falls back to the label element rect.
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -274,7 +274,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         public void Draw_RedOpenedBox_UsesLabelElementRect()
         {
             // Regression: opened (red) boxes must use the label element rect — the same geometry the click pipeline uses — not the Child[0] frame, which is rebuilt and sits at a wrong offset once the strongbox opens (caused red boxes in incorrect places).
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -301,7 +301,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         public void Draw_RendersStrongbox_ThatWasOffScreenAtScanTime()
         {
             // Regression: the scan must cache strongboxes by label identity, not on-screen state. A strongbox that was off-screen when the snapshot was built renders the moment any part of its label is on screen at draw time — no rescan required.
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -326,7 +326,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         public void Draw_GreenBox_FallsBackToLabelRect_WhenChildIsNearOrigin()
         {
             // Regression: a label entering/leaving the screen edge reports its Child[0] local rect near the window's top-left corner while the parent label is elsewhere. The box must not flash at the corner; it falls back to the positioned parent label rect.
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -350,7 +350,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         public void Draw_GreenBox_FallsBackToLabelRect_WhenChildIsOutsideLabel()
         {
             // Regression: a mid-layout child can report a rect far from its parent label (not near the origin). The box must not render at the wrong position; it falls back to the label.
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -374,7 +374,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         public void Draw_SkipsStrongbox_WhenLabelRectIsAtOrigin()
         {
             // A rebuilt label element (strongbox opening) briefly reports an origin rect; no frame is drawn rather than flashing at the window's top-left.
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -391,7 +391,7 @@ namespace ClickIt.Tests.Features.Strongboxes
         public void Draw_BeforeFirstRefresh_DoesNotThrow()
         {
             // Regression: the snapshot must start empty (not null) so the first frame after plugin load — before the refresh coroutine's first iteration — cannot NRE while iterating.
-            var settings = new ClickItSettings { StrongboxClickIds = ["arcanist"] };
+            var settings = new ClickItMaxSettings { StrongboxClickIds = ["arcanist"] };
             var queue = new DeferredDrawQueue();
             var overlay = new StrongboxOverlay();
             RectangleF window = new(100f, 100f, 1280f, 720f);
@@ -401,10 +401,10 @@ namespace ClickIt.Tests.Features.Strongboxes
             queue.GetPendingFrameSnapshot().Should().BeEmpty();
         }
 
-        private static OverlayRefreshContext CreateRefreshContext(ClickItSettings settings, IReadOnlyList<LabelOnGround>? labels, RectangleF window)
+        private static OverlayRefreshContext CreateRefreshContext(ClickItMaxSettings settings, IReadOnlyList<LabelOnGround>? labels, RectangleF window)
             => new(GameController: null, Labels: labels, WindowArea: window, Settings: settings);
 
-        private static OverlayRenderContext CreateDrawContext(ClickItSettings settings, RectangleF window, DeferredDrawQueue queue)
+        private static OverlayRenderContext CreateDrawContext(ClickItMaxSettings settings, RectangleF window, DeferredDrawQueue queue)
             => new(settings, GameController: null, Graphics: null, WindowArea: window, Labels: null, queue);
 
         private static LabelOnGround CreateStrongboxLabel(string path, RectangleF rect, string renderName = "Strongbox", StrongboxProbeElement? labelElement = null, Chest? chest = null)
@@ -449,7 +449,7 @@ namespace ClickIt.Tests.Features.Strongboxes
             return (bool)method.Invoke(null, [currentIds, snapshot])!;
         }
 
-        private static void InvokeEnsureStrongboxMetadataCache(StrongboxOverlay overlay, ClickItSettings settings)
+        private static void InvokeEnsureStrongboxMetadataCache(StrongboxOverlay overlay, ClickItMaxSettings settings)
         {
             MethodInfo method = typeof(StrongboxOverlay).GetMethod("EnsureStrongboxMetadataCache", BindingFlags.Instance | BindingFlags.NonPublic)!;
             method.Should().NotBeNull();

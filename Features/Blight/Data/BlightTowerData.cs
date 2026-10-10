@@ -1,6 +1,6 @@
 using System.Collections.Frozen;
 
-namespace ClickIt.Features.Blight.Data;
+namespace ClickItMax.Features.Blight.Data;
 
 internal enum BlightTowerId
 {

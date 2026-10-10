@@ -1,8 +1,8 @@
-namespace ClickIt.Core.Lifecycle
+namespace ClickItMax.Core.Lifecycle
 {
     internal static class PluginLifecycleCoordinator
     {
-        public static bool Initialise(ClickIt owner, ClickItSettings settings)
+        public static bool Initialise(ClickItMax owner, ClickItMaxSettings settings)
         {
             ArgumentNullException.ThrowIfNull(owner);
             ArgumentNullException.ThrowIfNull(settings);
@@ -29,7 +29,7 @@ namespace ClickIt.Core.Lifecycle
             return true;
         }
 
-        public static void Shutdown(ClickIt owner, ClickItSettings runtimeSettings)
+        public static void Shutdown(ClickItMax owner, ClickItMaxSettings runtimeSettings)
         {
             ArgumentNullException.ThrowIfNull(owner);
             ArgumentNullException.ThrowIfNull(runtimeSettings);
@@ -38,9 +38,9 @@ namespace ClickIt.Core.Lifecycle
             owner.LifecycleButtonBindings.Unsubscribe(runtimeSettings, owner.GetEffectiveSettingsForLifecycle());
 
             StopTrackedCoroutines(owner.State);
-            StopNamedClickItCoroutines();
+            StopNamedClickItMaxCoroutines();
             WaitForTrackedCoroutines(owner.State);
-            WaitForNamedClickItCoroutinesShutdown();
+            WaitForNamedClickItMaxCoroutinesShutdown();
             ClearTrackedCoroutineReferences(owner.State);
 
             LockManager.Instance = null;
@@ -97,7 +97,7 @@ namespace ClickIt.Core.Lifecycle
 
         }
 
-        private static void StopNamedClickItCoroutines()
+        private static void StopNamedClickItMaxCoroutines()
         {
             try
             {
@@ -113,7 +113,7 @@ namespace ClickIt.Core.Lifecycle
             }
         }
 
-        private static void WaitForNamedClickItCoroutinesShutdown(int timeoutMs = 2000)
+        private static void WaitForNamedClickItMaxCoroutinesShutdown(int timeoutMs = 2000)
         {
             try
             {

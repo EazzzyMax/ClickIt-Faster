@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.Performance
+namespace ClickItMax.Features.Observability.Performance
 {
     // Generic per-enum-value processing store: one PeriodTrackedBuffer per enum value, indexed by the enum's integer value.
     internal sealed class PeriodSectionMetricsStore<TEnum> where TEnum : struct, Enum

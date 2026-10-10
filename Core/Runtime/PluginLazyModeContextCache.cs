@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     internal readonly record struct PluginLazyModeContextSnapshot(
         bool IsRitualActive,
@@ -6,7 +6,7 @@ namespace ClickIt.Core.Runtime
         IReadOnlyList<LabelOnGround>? Labels);
 
     internal readonly record struct PluginLazyModeContextCacheDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         Func<IReadOnlyList<LabelOnGround>?> GetLabels,
         Func<bool> IsRitualActive,
         Func<IReadOnlyList<LabelOnGround>?, bool> HasLazyModeRestrictedItems,

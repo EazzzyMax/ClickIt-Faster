@@ -1,8 +1,28 @@
-namespace ClickIt.Tests.Features.Labels.Application
+namespace ClickItMax.Tests.Features.Labels.Application
 {
     [TestClass]
     public class LabelSelectionServiceTests
     {
+        [TestMethod]
+        public void GatedNearMiss_DoesNotPinFarPassToCachedNull()
+        {
+            var label = CreateOpaqueLabel(0x7100);
+            var service = new LabelSelectionService(new LabelSelectionServiceDependencies(
+                GameController: null,
+                CreateClickSettings: static _ => TestClickSettings(),
+                ShouldCaptureLabelDebug: static () => false,
+                PublishLabelDebugStage: static _ => { },
+                TryBuildLabelCandidate: static (LabelOnGround _, ClickSettings _, out Entity? item, out string? mechanicId, out LabelCandidateRejectReason rejectReason) =>
+                {
+                    item = EntityProbeFactory.Create(); mechanicId = MechanicIds.Items;
+                    rejectReason = LabelCandidateRejectReason.None; return true;
+                },
+                GetMechanicIdForLabelCore: static _ => MechanicIds.Items));
+            IReadOnlyList<LabelOnGround> labels = [label];
+            service.GetNextLabelToClick(labels, 0, 1, static (_, _) => false).Should().BeNull();
+            service.GetNextLabelToClick(labels, 0, 1, static (_, _) => true).Should().BeSameAs(label);
+        }
+
         [TestMethod]
         public void GetNextLabelToClick_PublishesNoLabelsDebugEvent_WhenInputIsNull()
         {

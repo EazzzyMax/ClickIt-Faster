@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Rendering
+namespace ClickItMax.Tests.Shared.Rendering
 {
     [TestClass]
     public class OverlayRenderHostTests
@@ -19,7 +19,7 @@ namespace ClickIt.Tests.Shared.Rendering
             public bool Enabled { get; }
             public int DrawCount { get; private set; }
 
-            public bool IsEnabled(ClickItSettings settings) => Enabled;
+            public bool IsEnabled(ClickItMaxSettings settings) => Enabled;
 
             public void Refresh(OverlayRefreshContext ctx)
             {
@@ -30,7 +30,7 @@ namespace ClickIt.Tests.Shared.Rendering
 
         private static OverlayRenderContext CreateContext()
             => new(
-                new ClickItSettings(),
+                new ClickItMaxSettings(),
                 GameController: null,
                 Graphics: null,
                 WindowArea: default,
@@ -43,7 +43,7 @@ namespace ClickIt.Tests.Shared.Rendering
             var host = new OverlayRenderHost();
             var overlay = new FakeOverlay(RenderSection.AltarOverlay, enabled: false);
             host.Register(overlay);
-            var perf = new PerformanceMonitor(new ClickItSettings());
+            var perf = new PerformanceMonitor(new ClickItMaxSettings());
 
             host.Render(CreateContext(), perf);
             perf.CompleteRenderSectionFrame();
@@ -60,7 +60,7 @@ namespace ClickIt.Tests.Shared.Rendering
             var host = new OverlayRenderHost();
             var overlay = new FakeOverlay(RenderSection.AltarOverlay);
             host.Register(overlay);
-            var perf = new PerformanceMonitor(new ClickItSettings());
+            var perf = new PerformanceMonitor(new ClickItMaxSettings());
 
             host.Render(CreateContext(), perf);
             perf.CompleteRenderSectionFrame();
@@ -75,7 +75,7 @@ namespace ClickIt.Tests.Shared.Rendering
             var host = new OverlayRenderHost();
             host.Register(new EnqueueingOverlay(RenderSection.BlightOverlay, DeferredDrawKind.Line, blight: true));
             host.Register(new EnqueueingOverlay(RenderSection.AltarOverlay, DeferredDrawKind.Line, blight: false));
-            var perf = new PerformanceMonitor(new ClickItSettings());
+            var perf = new PerformanceMonitor(new ClickItMaxSettings());
             OverlayRenderContext ctx = CreateContext();
 
             host.Render(ctx, perf);
@@ -104,7 +104,7 @@ namespace ClickIt.Tests.Shared.Rendering
             public TimingChannel? RefreshTimingChannel => null;
             public ProcessingSection ProcessingSection => ProcessingSection.Unknown;
 
-            public bool IsEnabled(ClickItSettings settings) => true;
+            public bool IsEnabled(ClickItMaxSettings settings) => true;
 
             public void Refresh(OverlayRefreshContext ctx)
             {
@@ -127,7 +127,7 @@ namespace ClickIt.Tests.Shared.Rendering
             var blight = new FakeOverlay(RenderSection.BlightOverlay);
             host.Register(altar);
             host.Register(blight);
-            var perf = new PerformanceMonitor(new ClickItSettings());
+            var perf = new PerformanceMonitor(new ClickItMaxSettings());
 
             host.Render(CreateContext(), perf);
             perf.CompleteRenderSectionFrame();
@@ -144,7 +144,7 @@ namespace ClickIt.Tests.Shared.Rendering
             var host = new OverlayRenderHost();
             var overlay = new FakeOverlay(RenderSection.StrongboxOverlay);
             host.Register(overlay);
-            var perf = new PerformanceMonitor(new ClickItSettings());
+            var perf = new PerformanceMonitor(new ClickItMaxSettings());
 
             host.Render(CreateContext(), perf);
             perf.CompleteRenderSectionFrame();

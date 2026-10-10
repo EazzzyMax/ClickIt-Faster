@@ -1,8 +1,8 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     internal static class PluginAlertServiceHost
     {
-        public static AlertService GetOrCreateAlertService(ClickIt owner)
+        public static AlertService GetOrCreateAlertService(ClickItMax owner)
         {
             ArgumentNullException.ThrowIfNull(owner);
 
@@ -17,7 +17,7 @@ namespace ClickIt.Core.Runtime
             return owner.State.Services.AlertService;
         }
 
-        private static string SafeGetConfigDirectory(ClickIt owner)
+        private static string SafeGetConfigDirectory(ClickItMax owner)
         {
             try
             {

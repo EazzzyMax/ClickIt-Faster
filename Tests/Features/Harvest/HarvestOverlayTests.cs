@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Harvest
+namespace ClickItMax.Tests.Features.Harvest
 {
     [TestClass]
     public class HarvestOverlayTests
@@ -37,7 +37,7 @@ namespace ClickIt.Tests.Features.Harvest
 
         private static HarvestService SetEstimates(IReadOnlyList<HarvestPlotEstimate> estimates)
         {
-            var service = new HarvestService(new ClickItSettings());
+            var service = new HarvestService(new ClickItMaxSettings());
             typeof(HarvestService)
                 .GetProperty(nameof(HarvestService.CurrentEstimates), BindingFlags.Instance | BindingFlags.NonPublic)!
                 .SetValue(service, estimates);
@@ -45,6 +45,6 @@ namespace ClickIt.Tests.Features.Harvest
         }
 
         private static OverlayRenderContext CreateDrawContext(DeferredDrawQueue queue)
-            => new(new ClickItSettings(), GameController: null, Graphics: null, WindowArea: Window, Labels: null, queue);
+            => new(new ClickItMaxSettings(), GameController: null, Graphics: null, WindowArea: Window, Labels: null, queue);
     }
 }

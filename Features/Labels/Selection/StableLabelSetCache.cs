@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Selection;
+namespace ClickItMax.Features.Labels.Selection;
 
 // Returns the same label-list reference while the visible label address set is unchanged, so ReferenceEquals-gated caches only re-run on real label-set changes.
 internal sealed class StableLabelSetCache

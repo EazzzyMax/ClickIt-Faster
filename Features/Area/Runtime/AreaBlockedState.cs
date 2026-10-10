@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Area.Runtime
+namespace ClickItMax.Features.Area.Runtime
 {
     internal sealed class AreaBlockedState
     {

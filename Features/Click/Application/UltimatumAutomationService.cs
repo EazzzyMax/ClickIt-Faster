@@ -1,8 +1,8 @@
 
-namespace ClickIt.Features.Click.Application
+namespace ClickItMax.Features.Click.Application
 {
     internal sealed record UltimatumAutomationServiceDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         GameController GameController,
         TimeCache<List<LabelOnGround>> CachedLabels,
         Func<string, bool> EnsureCursorInsideGameWindowForClick,

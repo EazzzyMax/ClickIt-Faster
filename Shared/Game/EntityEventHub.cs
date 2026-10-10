@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Game;
+namespace ClickItMax.Shared.Game;
 
 // ONE subscription to EntityAdded/EntityRemoved/OnAreaChange that classifies every entity ONCE (a single path read per event) into every tracked category, so N entity-tracking consumers cost ONE read per event instead of N. Shared static singleton: every consumer (blight, offscreen structures, settlers ore, shrines, ritual blockers) goes through the same handler, keeping the walking-triggered entity-event burst to one dynamic read on the main thread regardless of how many categories are registered. The shared reseed (a full retained-cache walk) refills every category in one pass. Consumers read their category's Snapshot()/Count/Any and call Reseed() when it is empty; per-controller rebinding keeps tests and plugin reloads isolated.
 internal sealed class EntityEventHub

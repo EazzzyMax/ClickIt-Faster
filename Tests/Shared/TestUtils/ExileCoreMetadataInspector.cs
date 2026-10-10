@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.TestUtils
+namespace ClickItMax.Tests.Shared.TestUtils
 {
     internal sealed record ExileCoreMemberMetadata(
         string Name,
@@ -124,7 +124,7 @@ namespace ClickIt.Tests.Shared.TestUtils
             string current = AppContext.BaseDirectory;
             while (!string.IsNullOrWhiteSpace(current))
             {
-                if (System.IO.File.Exists(System.IO.Path.Combine(current, "ClickIt.sln")))
+                if (System.IO.File.Exists(System.IO.Path.Combine(current, "ClickItMax.sln")))
                     return current;
 
                 DirectoryInfo? parent = System.IO.Directory.GetParent(current);

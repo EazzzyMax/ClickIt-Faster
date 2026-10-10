@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     internal readonly record struct PluginClickRuntimeStateSnapshot(
         bool LazyModeEnabled,
@@ -83,7 +83,7 @@ namespace ClickIt.Core.Runtime
         }
 
         internal static PluginClickRuntimeStateSnapshot ResolveSnapshot(
-            ClickItSettings? settings,
+            ClickItMaxSettings? settings,
             InputHandler? inputHandler,
             LazyModeBlockerService? lazyModeBlockerService,
             GameController? gameController,
@@ -107,7 +107,7 @@ namespace ClickIt.Core.Runtime
         }
 
         internal static PluginClickRuntimeStateSnapshot ResolveSnapshot(
-            ClickItSettings? settings,
+            ClickItMaxSettings? settings,
             InputHandler? inputHandler,
             GameController? gameController,
             PluginLazyModeContextSnapshot lazyModeContext)
@@ -127,7 +127,7 @@ namespace ClickIt.Core.Runtime
                 ResolvePoeForeground(gameController));
         }
 
-        internal static bool ResolveLazyModeDisableActive(ClickItSettings settings, InputHandler? inputHandler)
+        internal static bool ResolveLazyModeDisableActive(ClickItMaxSettings settings, InputHandler? inputHandler)
         {
             if (inputHandler != null)
                 return inputHandler.IsLazyModeDisableActiveForCurrentInputState();
@@ -153,7 +153,7 @@ namespace ClickIt.Core.Runtime
         internal static bool ShouldRunManualUiHoverCoroutine(bool manualUiHoverEnabled, bool lazyModeEnabled)
             => manualUiHoverEnabled && !lazyModeEnabled;
 
-        internal static bool ResolveManualUiHoverMode(ClickItSettings? settings, bool clickHotkeyActive)
+        internal static bool ResolveManualUiHoverMode(ClickItMaxSettings? settings, bool clickHotkeyActive)
             => ResolveManualUiHoverMode(
                 settings?.ClickOnManualUiHoverOnly?.Value == true,
                 settings?.LazyMode?.Value == true,
@@ -171,7 +171,7 @@ namespace ClickIt.Core.Runtime
             bool poeForeground)
             => useLazyModeTiming && !lazyModeDisableActive && poeForeground;
 
-        internal static PluginClickFrequencyTargetDecision ResolveFrequencyTargetDecision(ClickItSettings settings, PluginClickRuntimeStateSnapshot runtimeState)
+        internal static PluginClickFrequencyTargetDecision ResolveFrequencyTargetDecision(ClickItMaxSettings settings, PluginClickRuntimeStateSnapshot runtimeState)
             => new(
                 ClickTargetMs: settings.ClickFrequencyTarget.Value,
                 LazyModeTargetMs: settings.LazyModeClickLimiting.Value,

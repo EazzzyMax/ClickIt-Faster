@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Pathfinding.Terrain
+namespace ClickItMax.Features.Pathfinding.Terrain
 {
     internal sealed class PathfindingTerrainCache
     {

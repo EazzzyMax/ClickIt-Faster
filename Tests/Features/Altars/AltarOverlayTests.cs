@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Altars
+namespace ClickItMax.Tests.Features.Altars
 {
     [TestClass]
     public class AltarOverlayTests
@@ -48,8 +48,8 @@ namespace ClickIt.Tests.Features.Altars
 
         private static AltarService BuildService(PrimaryAltarComponent component)
         {
-            var owner = (ClickIt)RuntimeHelpers.GetUninitializedObject(typeof(ClickIt));
-            var service = new AltarService(owner, new ClickItSettings(), cachedLabels: null);
+            var owner = (ClickItMax)RuntimeHelpers.GetUninitializedObject(typeof(ClickItMax));
+            var service = new AltarService(owner, new ClickItMaxSettings(), cachedLabels: null);
             service.AddAltarComponent(component);
             return service;
         }
@@ -63,10 +63,10 @@ namespace ClickIt.Tests.Features.Altars
                 new AltarButton(null));
 
         private static AltarOverlay CreateOverlay(AltarService service)
-            => new(new WeightCalculator(new ClickItSettings()), new AltarChoiceEvaluator(new ClickItSettings()), service, logMessage: null);
+            => new(new WeightCalculator(new ClickItMaxSettings()), new AltarChoiceEvaluator(new ClickItMaxSettings()), service, logMessage: null);
 
         private static OverlayRenderContext CreateDrawContext(DeferredDrawQueue queue)
-            => new(new ClickItSettings(), GameController: null, Graphics: null, WindowArea: Window, Labels: null, queue);
+            => new(new ClickItMaxSettings(), GameController: null, Graphics: null, WindowArea: Window, Labels: null, queue);
 
         public sealed class AltarProbeElement(RectangleF clientRect) : Element
         {

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Labels.Inventory
+namespace ClickItMax.Features.Labels.Inventory
 {
     internal readonly record struct InventorySnapshotProviderDependencies(
         Func<GameController?, (bool Success, object? PrimaryInventory)> TryGetPrimaryServerInventory,

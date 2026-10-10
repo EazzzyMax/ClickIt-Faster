@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace ClickIt.Shared.Game
+namespace ClickItMax.Shared.Game
 {
     internal readonly record struct DynamicAccessStats(
         long TryGetCalls,

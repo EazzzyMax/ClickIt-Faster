@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight;
+namespace ClickItMax.Features.Blight;
 
 // Single source of truth for the Blight tower palette so every consumer renders the same hue; stores opaque RGB.
 internal static class BlightTowerColors

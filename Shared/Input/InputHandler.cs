@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Input
+namespace ClickItMax.Shared.Input
 {
     internal readonly record struct UiBlockingState(
         bool ChatOpen,
@@ -15,14 +15,20 @@ namespace ClickIt.Shared.Input
         bool ResurrectPanelOpen,
         bool NpcDialogOpen);
 
-    public class InputHandler(ClickItSettings settings)
+    public class InputHandler(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        internal const string ToggleItemsPostClickBlockReason = "Waiting after Toggle Item View.";
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly ToggleItemsController _toggleItemsController = new(settings, Keyboard.KeyPress);
         private readonly InputHotkeyStateService _hotkeyStateService = new(settings);
 
         public bool TriggerToggleItems()
             => _toggleItemsController.TriggerToggleItems();
+
+        internal void BeginPeriodicToggleItemsSession() => _toggleItemsController.BeginPeriodicSession();
+        internal void EndPeriodicToggleItemsSession() => _toggleItemsController.EndPeriodicSession();
+        internal bool IsPeriodicToggleItemsDue() => _toggleItemsController.IsPeriodicToggleDue();
+        internal bool TriggerPeriodicToggleItems() => _toggleItemsController.TriggerPeriodicToggleItems();
 
         public int GetToggleItemsPostClickBlockMs()
             => _toggleItemsController.GetToggleItemsPostClickBlockMs();
@@ -258,7 +264,7 @@ namespace ClickIt.Shared.Input
             if (isInTownOrHideout)
                 return "In town/hideout.";
             if (isInToggleItemsPostClickBlockWindow)
-                return "Waiting after Toggle Item View.";
+                return ToggleItemsPostClickBlockReason;
             if (!string.IsNullOrEmpty(uiBlockingReason))
                 return uiBlockingReason;
             if (isEscapeState)
@@ -300,7 +306,7 @@ namespace ClickIt.Shared.Input
             => GetMouseButtonBlockingState(_settings, Keyboard.IsKeyDown).mouseButtonBlocks;
 
         public static (bool leftClickBlocks, bool rightClickBlocks, bool mouseButtonBlocks)
-            GetMouseButtonBlockingState(ClickItSettings settings, Func<Keys, bool> keyStateProvider)
+            GetMouseButtonBlockingState(ClickItMaxSettings settings, Func<Keys, bool> keyStateProvider)
             => InputHotkeyStateService.GetMouseButtonBlockingState(settings, keyStateProvider);
 
         private static bool IsPOEActive(GameController? gameController)

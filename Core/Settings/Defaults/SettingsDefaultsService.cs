@@ -1,8 +1,8 @@
-namespace ClickIt.Core.Settings.Defaults
+namespace ClickItMax.Core.Settings.Defaults
 {
     internal sealed class SettingsDefaultsService
     {
-        public void Apply(ClickItSettings settings)
+        public void Apply(ClickItMaxSettings settings)
         {
             ArgumentNullException.ThrowIfNull(settings);
             EnsureItemTypeFiltersInitialized(settings);
@@ -13,7 +13,7 @@ namespace ClickIt.Core.Settings.Defaults
             settings.EnsureUltimatumTakeRewardModifiersInitialized();
         }
 
-        internal static void EnsureItemTypeFiltersInitialized(ClickItSettings settings)
+        internal static void EnsureItemTypeFiltersInitialized(ClickItMaxSettings settings)
         {
             settings.ItemTypeWhitelistIds ??= new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             settings.ItemTypeBlacklistIds ??= new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -40,7 +40,7 @@ namespace ClickIt.Core.Settings.Defaults
             SanitizeSubtypeDictionary(settings.ItemTypeBlacklistSubtypeIds, settings.ItemTypeBlacklistIds);
         }
 
-        internal static void ResetItemTypeFilterDefaults(ClickItSettings settings)
+        internal static void ResetItemTypeFilterDefaults(ClickItMaxSettings settings)
         {
             settings.ItemTypeWhitelistIds = new HashSet<string>(ItemCategoryCatalog.DefaultWhitelistIds, StringComparer.OrdinalIgnoreCase);
             settings.ItemTypeBlacklistIds = new HashSet<string>(ItemCategoryCatalog.DefaultBlacklistIds, StringComparer.OrdinalIgnoreCase);
@@ -49,7 +49,7 @@ namespace ClickIt.Core.Settings.Defaults
             settings.UiState.ExpandedItemTypeRowKey = string.Empty;
         }
 
-        internal static void EnsureEssenceCorruptionFiltersInitialized(ClickItSettings settings)
+        internal static void EnsureEssenceCorruptionFiltersInitialized(ClickItMaxSettings settings)
         {
             settings.EssenceCorruptNames ??= new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             settings.EssenceDontCorruptNames ??= new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -60,25 +60,25 @@ namespace ClickIt.Core.Settings.Defaults
                 return;
             }
 
-            HashSet<string> allowed = new(ClickItSettings.EssenceAllTableNames, StringComparer.OrdinalIgnoreCase);
-            SanitizeMutuallyExclusiveSets(settings.EssenceCorruptNames, settings.EssenceDontCorruptNames, allowed, ClickItSettings.EssenceAllTableNames);
+            HashSet<string> allowed = new(ClickItMaxSettings.EssenceAllTableNames, StringComparer.OrdinalIgnoreCase);
+            SanitizeMutuallyExclusiveSets(settings.EssenceCorruptNames, settings.EssenceDontCorruptNames, allowed, ClickItMaxSettings.EssenceAllTableNames);
         }
 
-        internal static void ResetEssenceCorruptionDefaults(ClickItSettings settings)
+        internal static void ResetEssenceCorruptionDefaults(ClickItMaxSettings settings)
         {
             settings.EssenceCorruptNames = BuildDefaultCorruptEssenceNames();
             settings.EssenceDontCorruptNames = BuildDefaultDontCorruptEssenceNames();
         }
 
-        internal static void EnsureMechanicPrioritiesInitialized(ClickItSettings settings)
+        internal static void EnsureMechanicPrioritiesInitialized(ClickItMaxSettings settings)
         {
             settings.MechanicPriorityOrder ??= [];
-            settings.MechanicPriorityIgnoreDistanceIds ??= new HashSet<string>(ClickItSettings.PriorityComparer);
-            settings.MechanicPriorityIgnoreDistanceWithinById ??= new Dictionary<string, int>(ClickItSettings.PriorityComparer);
+            settings.MechanicPriorityIgnoreDistanceIds ??= new HashSet<string>(ClickItMaxSettings.PriorityComparer);
+            settings.MechanicPriorityIgnoreDistanceWithinById ??= new Dictionary<string, int>(ClickItMaxSettings.PriorityComparer);
 
             MechanicPriorityLegacyNormalizer.Normalize(settings);
 
-            HashSet<string> valid = new(MechanicPriorityCatalog.Ids, ClickItSettings.PriorityComparer);
+            HashSet<string> valid = new(MechanicPriorityCatalog.Ids, ClickItMaxSettings.PriorityComparer);
 
             bool applyDefaultIgnoreDistance = settings.MechanicPriorityIgnoreDistanceIds.Count == 0;
             settings.MechanicPriorityOrder = BuildSanitizedMechanicPriorityOrder(settings, valid);
@@ -86,18 +86,18 @@ namespace ClickIt.Core.Settings.Defaults
             SanitizeMechanicIgnoreDistanceWithin(settings, valid);
         }
 
-        internal static void ResetMechanicPriorityDefaults(ClickItSettings settings)
+        internal static void ResetMechanicPriorityDefaults(ClickItMaxSettings settings)
         {
             settings.MechanicPriorityOrder = [.. MechanicPriorityCatalog.DefaultOrderIds];
-            settings.MechanicPriorityIgnoreDistanceIds = new HashSet<string>(ClickItSettings.PriorityComparer)
+            settings.MechanicPriorityIgnoreDistanceIds = new HashSet<string>(ClickItMaxSettings.PriorityComparer)
             {
                 MechanicIds.Shrines
             };
             settings.MechanicPriorityIgnoreDistanceWithinById = MechanicPriorityCatalog.Ids
-                .ToDictionary(static x => x, static _ => ClickItSettings.MechanicIgnoreDistanceWithinDefault, ClickItSettings.PriorityComparer);
+                .ToDictionary(static x => x, static _ => ClickItMaxSettings.MechanicIgnoreDistanceWithinDefault, ClickItMaxSettings.PriorityComparer);
         }
 
-        internal static void EnsureStrongboxFiltersInitialized(ClickItSettings settings)
+        internal static void EnsureStrongboxFiltersInitialized(ClickItMaxSettings settings)
         {
             settings.StrongboxClickIds ??= new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             settings.StrongboxDontClickIds ??= new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -108,26 +108,26 @@ namespace ClickIt.Core.Settings.Defaults
                 return;
             }
 
-            HashSet<string> allowed = new(ClickItSettings.StrongboxTableEntries.Select(x => x.Id), StringComparer.OrdinalIgnoreCase);
+            HashSet<string> allowed = new(ClickItMaxSettings.StrongboxTableEntries.Select(x => x.Id), StringComparer.OrdinalIgnoreCase);
             SanitizeMutuallyExclusiveSets(
                 settings.StrongboxClickIds,
                 settings.StrongboxDontClickIds,
                 allowed,
-                ClickItSettings.StrongboxTableEntries.Select(static x => x.Id));
+                ClickItMaxSettings.StrongboxTableEntries.Select(static x => x.Id));
         }
 
-        internal static void ResetStrongboxFilterDefaults(ClickItSettings settings)
+        internal static void ResetStrongboxFilterDefaults(ClickItMaxSettings settings)
         {
             settings.StrongboxClickIds = BuildDefaultClickStrongboxIds();
             settings.StrongboxDontClickIds = BuildDefaultDontClickStrongboxIds();
         }
 
-        internal static ClickItSettings.StrongboxFilterEntry? TryGetStrongboxFilterById(string id)
-            => ClickItSettings.StrongboxTableEntriesById.TryGetValue(id, out ClickItSettings.StrongboxFilterEntry? entry)
+        internal static ClickItMaxSettings.StrongboxFilterEntry? TryGetStrongboxFilterById(string id)
+            => ClickItMaxSettings.StrongboxTableEntriesById.TryGetValue(id, out ClickItMaxSettings.StrongboxFilterEntry? entry)
                 ? entry
                 : null;
 
-        private static void EnsureMissingItemTypeCategoriesAreAssignedToDefaultList(ClickItSettings settings)
+        private static void EnsureMissingItemTypeCategoriesAreAssignedToDefaultList(ClickItMaxSettings settings)
         {
             for (int i = 0; i < ItemCategoryCatalog.All.Length; i++)
             {
@@ -146,7 +146,7 @@ namespace ClickIt.Core.Settings.Defaults
 
         private static void SanitizeSubtypeDictionary(Dictionary<string, HashSet<string>> subtypeSelections, HashSet<string> parentCategoryIds)
         {
-            string[] invalidParentIds = [.. subtypeSelections.Keys.Where(id => !parentCategoryIds.Contains(id) || !ClickItSettings.ItemSubtypeCatalog.ContainsKey(id))];
+            string[] invalidParentIds = [.. subtypeSelections.Keys.Where(id => !parentCategoryIds.Contains(id) || !ClickItMaxSettings.ItemSubtypeCatalog.ContainsKey(id))];
 
             foreach (string invalidParentId in invalidParentIds)
                 subtypeSelections.Remove(invalidParentId);
@@ -154,7 +154,7 @@ namespace ClickIt.Core.Settings.Defaults
 
             foreach ((string parentId, HashSet<string> selectedSubtypes) in subtypeSelections.ToArray())
             {
-                if (!ClickItSettings.ItemSubtypeCatalog.TryGetValue(parentId, out ClickItSettings.ItemSubtypeDefinition[]? subtypeDefinitions))
+                if (!ClickItMaxSettings.ItemSubtypeCatalog.TryGetValue(parentId, out ClickItMaxSettings.ItemSubtypeDefinition[]? subtypeDefinitions))
                 {
                     subtypeSelections.Remove(parentId);
                     continue;
@@ -168,24 +168,24 @@ namespace ClickIt.Core.Settings.Defaults
         private static HashSet<string> BuildDefaultCorruptEssenceNames()
         {
             return new HashSet<string>(
-                ClickItSettings.EssenceAllTableNames.Where(name => ClickItSettings.EssenceMedsSuffixes.Any(meds => name.EndsWith($"of {meds}", StringComparison.OrdinalIgnoreCase))),
+                ClickItMaxSettings.EssenceAllTableNames.Where(name => ClickItMaxSettings.EssenceMedsSuffixes.Any(meds => name.EndsWith($"of {meds}", StringComparison.OrdinalIgnoreCase))),
                 StringComparer.OrdinalIgnoreCase);
         }
 
         private static HashSet<string> BuildDefaultDontCorruptEssenceNames()
         {
-            HashSet<string> defaults = new(ClickItSettings.EssenceAllTableNames, StringComparer.OrdinalIgnoreCase);
-            defaults.RemoveWhere(name => ClickItSettings.EssenceMedsSuffixes.Any(meds => name.EndsWith($"of {meds}", StringComparison.OrdinalIgnoreCase)));
+            HashSet<string> defaults = new(ClickItMaxSettings.EssenceAllTableNames, StringComparer.OrdinalIgnoreCase);
+            defaults.RemoveWhere(name => ClickItMaxSettings.EssenceMedsSuffixes.Any(meds => name.EndsWith($"of {meds}", StringComparison.OrdinalIgnoreCase)));
             return defaults;
         }
 
         private static HashSet<string> BuildDefaultClickStrongboxIds()
-            => new(ClickItSettings.StrongboxDefaultClickIds, StringComparer.OrdinalIgnoreCase);
+            => new(ClickItMaxSettings.StrongboxDefaultClickIds, StringComparer.OrdinalIgnoreCase);
 
         private static HashSet<string> BuildDefaultDontClickStrongboxIds()
         {
-            HashSet<string> defaults = new(ClickItSettings.StrongboxTableEntries.Select(x => x.Id), StringComparer.OrdinalIgnoreCase);
-            defaults.ExceptWith(ClickItSettings.StrongboxDefaultClickIds);
+            HashSet<string> defaults = new(ClickItMaxSettings.StrongboxTableEntries.Select(x => x.Id), StringComparer.OrdinalIgnoreCase);
+            defaults.ExceptWith(ClickItMaxSettings.StrongboxDefaultClickIds);
             return defaults;
         }
 
@@ -209,10 +209,10 @@ namespace ClickIt.Core.Settings.Defaults
 
         }
 
-        private static List<string> BuildSanitizedMechanicPriorityOrder(ClickItSettings settings, HashSet<string> validMechanicIds)
+        private static List<string> BuildSanitizedMechanicPriorityOrder(ClickItMaxSettings settings, HashSet<string> validMechanicIds)
         {
             List<string> sanitizedOrder = new(MechanicPriorityCatalog.Entries.Length);
-            HashSet<string> seen = new(ClickItSettings.PriorityComparer);
+            HashSet<string> seen = new(ClickItMaxSettings.PriorityComparer);
 
             AddValidUniqueMechanicIds(settings.MechanicPriorityOrder, validMechanicIds, seen, sanitizedOrder);
             AddValidUniqueMechanicIds(MechanicPriorityCatalog.DefaultOrderIds, validMechanicIds, seen, sanitizedOrder);
@@ -242,14 +242,14 @@ namespace ClickIt.Core.Settings.Defaults
 
         }
 
-        private static void SanitizeMechanicIgnoreDistance(ClickItSettings settings, HashSet<string> validMechanicIds, bool applyDefaultIgnoreDistance)
+        private static void SanitizeMechanicIgnoreDistance(ClickItMaxSettings settings, HashSet<string> validMechanicIds, bool applyDefaultIgnoreDistance)
         {
             settings.MechanicPriorityIgnoreDistanceIds.RemoveWhere(id => string.IsNullOrWhiteSpace(id) || !validMechanicIds.Contains(id));
             if (applyDefaultIgnoreDistance)
                 settings.MechanicPriorityIgnoreDistanceIds.Add(MechanicIds.Shrines);
         }
 
-        private static void SanitizeMechanicIgnoreDistanceWithin(ClickItSettings settings, HashSet<string> validMechanicIds)
+        private static void SanitizeMechanicIgnoreDistanceWithin(ClickItMaxSettings settings, HashSet<string> validMechanicIds)
         {
             string[] invalidKeys = [.. settings.MechanicPriorityIgnoreDistanceWithinById.Keys.Where(id => string.IsNullOrWhiteSpace(id) || !validMechanicIds.Contains(id))];
 
@@ -261,14 +261,14 @@ namespace ClickIt.Core.Settings.Defaults
             {
                 if (!settings.MechanicPriorityIgnoreDistanceWithinById.TryGetValue(mechanicId, out int value))
                 {
-                    settings.MechanicPriorityIgnoreDistanceWithinById[mechanicId] = ClickItSettings.MechanicIgnoreDistanceWithinDefault;
+                    settings.MechanicPriorityIgnoreDistanceWithinById[mechanicId] = ClickItMaxSettings.MechanicIgnoreDistanceWithinDefault;
                     continue;
                 }
 
                 settings.MechanicPriorityIgnoreDistanceWithinById[mechanicId] = SystemMath.Clamp(
                     value,
-                    ClickItSettings.MechanicIgnoreDistanceWithinMin,
-                    ClickItSettings.MechanicIgnoreDistanceWithinMax);
+                    ClickItMaxSettings.MechanicIgnoreDistanceWithinMin,
+                    ClickItMaxSettings.MechanicIgnoreDistanceWithinMax);
             }
         }
     }

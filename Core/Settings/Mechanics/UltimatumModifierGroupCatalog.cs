@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Settings.Mechanics
+namespace ClickItMax.Core.Settings.Mechanics
 {
     internal sealed record UltimatumModifierGroupEntry(string Id, string DisplayName, string[] Members);
 

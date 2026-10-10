@@ -1,13 +1,13 @@
-namespace ClickIt.UI.Settings
+namespace ClickItMax.UI.Settings
 {
     internal static partial class SettingsUiRenderHelpers
     {
         internal static AltarModSectionStyle GetAltarUpsideSectionStyle(string type)
             => type switch
             {
-                ClickItSettings.AltarTypeMinion => new("Minion Drops", new Vector4(0.2f, 0.6f, 0.2f, 0.3f), null, new Vector4(0.4f, 0.8f, 0.4f, 1.0f)),
-                ClickItSettings.AltarTypeBoss => new("Boss Drops", new Vector4(0.6f, 0.2f, 0.2f, 0.3f), null, new Vector4(0.8f, 0.4f, 0.4f, 1.0f)),
-                ClickItSettings.AltarTypePlayer => new("Player Bonuses", new Vector4(0.2f, 0.2f, 0.6f, 0.3f), null, new Vector4(0.4f, 0.7f, 0.9f, 1.0f)),
+                ClickItMaxSettings.AltarTypeMinion => new("Minion Drops", new Vector4(0.2f, 0.6f, 0.2f, 0.3f), null, new Vector4(0.4f, 0.8f, 0.4f, 1.0f)),
+                ClickItMaxSettings.AltarTypeBoss => new("Boss Drops", new Vector4(0.6f, 0.2f, 0.2f, 0.3f), null, new Vector4(0.8f, 0.4f, 0.4f, 1.0f)),
+                ClickItMaxSettings.AltarTypePlayer => new("Player Bonuses", new Vector4(0.2f, 0.2f, 0.6f, 0.3f), null, new Vector4(0.4f, 0.7f, 0.9f, 1.0f)),
                 _ => new(string.Empty, new Vector4(0.4f, 0.4f, 0.4f, 0.3f), null, new Vector4(1f, 1f, 1f, 1f))
             };
 
@@ -44,7 +44,7 @@ namespace ClickIt.UI.Settings
                 ShowAlertColumn: false);
 
         internal static bool DrawAltarModSection(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             AltarModSectionDescriptor descriptor,
             ref string searchFilter,
             IReadOnlyList<(string id, string name, string type, int defaultWeight)> mods,
@@ -112,7 +112,7 @@ namespace ClickIt.UI.Settings
         }
 
         internal static void DrawAltarModTable(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             AltarModSectionDescriptor descriptor,
             string searchFilter,
             IReadOnlyList<(string id, string name, string type, int defaultWeight)> mods,
@@ -168,7 +168,7 @@ namespace ClickIt.UI.Settings
             DrawTableSectionHeaderRow(style.HeaderText, style.HeaderColor, style.HeaderTextColor);
         }
 
-        private static void DrawAltarModRow(ClickItSettings settings, string id, string name, string type, Vector4 textColor, bool showAlertColumn)
+        private static void DrawAltarModRow(ClickItMaxSettings settings, string id, string name, string type, Vector4 textColor, bool showAlertColumn)
         {
             ImGui.PushID($"mod_{type}_{id}");
             ImGui.TableNextRow(ImGuiTableRowFlags.None);
@@ -182,7 +182,7 @@ namespace ClickIt.UI.Settings
             ImGui.PopID();
         }
 
-        private static void DrawAltarModAlertCell(ClickItSettings settings, string id, string type)
+        private static void DrawAltarModAlertCell(ClickItMaxSettings settings, string id, string type)
         {
             if (settings.ModAlerts == null)
                 return;
@@ -190,16 +190,16 @@ namespace ClickIt.UI.Settings
             bool currentAlert = settings.GetModAlert(id, type);
             if (DrawCenteredCheckboxTableCell("##alert", currentAlert, out bool updatedAlert))
             {
-                settings.ModAlerts[ClickItSettings.BuildCompositeKey(type, id)] = updatedAlert;
+                settings.ModAlerts[ClickItMaxSettings.BuildCompositeKey(type, id)] = updatedAlert;
             }
         }
 
-        private static void DrawAltarModWeightSliderCell(ClickItSettings settings, string id, string type)
+        private static void DrawAltarModWeightSliderCell(ClickItMaxSettings settings, string id, string type)
         {
             int currentValue = settings.GetModTier(id, type);
             if (DrawSliderIntTableCell("##weight", currentValue, 1, 100, 125, out int updatedValue))
             {
-                settings.ModTiers[ClickItSettings.BuildCompositeKey(type, id)] = updatedValue;
+                settings.ModTiers[ClickItMaxSettings.BuildCompositeKey(type, id)] = updatedValue;
             }
         }
     }

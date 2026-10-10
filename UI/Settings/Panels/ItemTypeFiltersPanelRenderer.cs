@@ -1,8 +1,8 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
-    internal sealed class ItemTypeFiltersPanelRenderer(ClickItSettings settings)
+    internal sealed class ItemTypeFiltersPanelRenderer(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
 
         public void DrawPanel()
         {
@@ -82,7 +82,7 @@ namespace ClickIt.UI.Settings.Panels
 
         private static string BuildItemTypeRowLabel(string id, ItemCategoryDefinition category)
         {
-            bool hasSubtypeMenu = ClickItSettings.TryGetSubtypeDefinitions(category.Id, out _);
+            bool hasSubtypeMenu = ClickItMaxSettings.TryGetSubtypeDefinitions(category.Id, out _);
             string submenuIndicator = hasSubtypeMenu ? " [v]" : string.Empty;
             return $"{category.DisplayName}{submenuIndicator}##{id}_{category.Id}";
         }
@@ -99,7 +99,7 @@ namespace ClickIt.UI.Settings.Panels
 
         private void DrawItemTypeSubtypePanel(string listId, ItemCategoryDefinition category, bool isSourceWhitelist)
         {
-            if (!ClickItSettings.TryGetSubtypeDefinitions(category.Id, out ClickItSettings.ItemSubtypeDefinition[] subtypeDefinitions))
+            if (!ClickItMaxSettings.TryGetSubtypeDefinitions(category.Id, out ClickItMaxSettings.ItemSubtypeDefinition[] subtypeDefinitions))
                 return;
 
 
@@ -111,7 +111,7 @@ namespace ClickIt.UI.Settings.Panels
                 new Vector4(0.75f, 0.75f, 0.75f, 1f));
 
             bool hasActiveSelection = selectedSubtypeIds.Count > 0;
-            foreach (ClickItSettings.ItemSubtypeDefinition subtype in subtypeDefinitions)
+            foreach (ClickItMaxSettings.ItemSubtypeDefinition subtype in subtypeDefinitions)
                 DrawSubtypeCheckboxRow(listId, category.Id, isSourceWhitelist, hasActiveSelection, selectedSubtypeIds, subtype);
 
 
@@ -124,7 +124,7 @@ namespace ClickIt.UI.Settings.Panels
             bool isSourceWhitelist,
             bool hasActiveSelection,
             HashSet<string> selectedSubtypeIds,
-            ClickItSettings.ItemSubtypeDefinition subtype)
+            ClickItMaxSettings.ItemSubtypeDefinition subtype)
         {
             bool isSelected = selectedSubtypeIds.Contains(subtype.Id);
             bool subtypeIsWhitelistSide = hasActiveSelection

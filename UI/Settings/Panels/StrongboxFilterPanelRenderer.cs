@@ -1,8 +1,8 @@
-namespace ClickIt.UI.Settings.Panels
+namespace ClickItMax.UI.Settings.Panels
 {
-    internal sealed class StrongboxFilterPanelRenderer(ClickItSettings settings)
+    internal sealed class StrongboxFilterPanelRenderer(ClickItMaxSettings settings)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
 
         public void DrawPanel()
         {
@@ -30,7 +30,7 @@ namespace ClickIt.UI.Settings.Panels
             ImGui.PushID(id);
 
             bool hasEntries = false;
-            foreach (ClickItSettings.StrongboxFilterEntry entry in ClickItSettings.StrongboxTableEntries)
+            foreach (ClickItMaxSettings.StrongboxFilterEntry entry in ClickItMaxSettings.StrongboxTableEntries)
             {
                 if (!sourceSet.Contains(entry.Id))
                     continue;
@@ -61,7 +61,7 @@ namespace ClickIt.UI.Settings.Panels
             target.Add(strongboxId);
         }
 
-        private static bool MatchesStrongboxSearch(ClickItSettings.StrongboxFilterEntry entry, string filter)
+        private static bool MatchesStrongboxSearch(ClickItMaxSettings.StrongboxFilterEntry entry, string filter)
         {
             return SettingsUiRenderHelpers.MatchesSearch(
                 filter,

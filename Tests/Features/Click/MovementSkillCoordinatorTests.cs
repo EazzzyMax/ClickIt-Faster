@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class MovementSkillCoordinatorTests
@@ -145,7 +145,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveMovementSkillPostCastClickBlockMsForCast_UsesShieldChargeOverride_WhenConfigured()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.OffscreenShieldChargePostCastClickDelayMs.Value = 345;
             var coordinator = CreateCoordinator(new ClickRuntimeState(), settings);
 
@@ -157,7 +157,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveMovementSkillPostCastClickBlockMsForCast_UsesResolvedDefault_ForNonShieldChargeSkills()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.OffscreenShieldChargePostCastClickDelayMs.Value = 345;
             var coordinator = CreateCoordinator(new ClickRuntimeState(), settings);
 
@@ -169,7 +169,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryUseMovementSkillForOffscreenPathing_ReturnsFalse_WhenSettingDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.UseMovementSkillsForOffscreenPathfinding.Value = false;
             var coordinator = CreateCoordinator(new ClickRuntimeState(), settings, remainingNodes: 12);
 
@@ -183,7 +183,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryUseMovementSkillForOffscreenPathing_ReturnsFalse_WhenPathWasNotBuilt()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.UseMovementSkillsForOffscreenPathfinding.Value = true;
             var coordinator = CreateCoordinator(new ClickRuntimeState(), settings, remainingNodes: 12);
 
@@ -197,7 +197,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryUseMovementSkillForOffscreenPathing_ReturnsFalse_WhenRemainingNodesBelowConfiguredMinimum()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.UseMovementSkillsForOffscreenPathfinding.Value = true;
             settings.OffscreenMovementSkillMinPathSubsectionLength.Value = 6;
             var coordinator = CreateCoordinator(new ClickRuntimeState(), settings, remainingNodes: 5);
@@ -211,7 +211,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryUseMovementSkillForOffscreenPathing_ReturnsFalse_WhenLocalRecastDelayIsActive()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.UseMovementSkillsForOffscreenPathfinding.Value = true;
             settings.OffscreenMovementSkillMinPathSubsectionLength.Value = 2;
             long now = Environment.TickCount64;
@@ -231,7 +231,7 @@ namespace ClickIt.Tests.Features.Click
         public void TryUseMovementSkillForOffscreenPathing_ReturnsFalse_WhenCastDelayIsActive()
         {
             // Spec 13/20: the skill may not be cast until ~200ms have elapsed since pathfinding to the current target started. Within the window the cast is refused (walk-clicks flow).
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.UseMovementSkillsForOffscreenPathfinding.Value = true;
             settings.OffscreenMovementSkillMinPathSubsectionLength.Value = 2;
             long now = 10_000;
@@ -252,7 +252,7 @@ namespace ClickIt.Tests.Features.Click
         public void TryUseMovementSkillForOffscreenPathing_ProceedsPastCastDelay_WhenDelayElapsed()
         {
             // Once the 200ms cast delay has elapsed the cast is allowed to proceed - it advances to the binding gate (which fails here only because no skill bar is available).
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.UseMovementSkillsForOffscreenPathfinding.Value = true;
             settings.OffscreenMovementSkillMinPathSubsectionLength.Value = 2;
             long now = 10_000;
@@ -276,7 +276,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryUseMovementSkillForOffscreenPathing_RestartsCastDelay_WhenTargetChanges()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.UseMovementSkillsForOffscreenPathfinding.Value = true;
             settings.OffscreenMovementSkillMinPathSubsectionLength.Value = 2;
             long now = 10_000;
@@ -312,7 +312,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveMovementSkillPostCastClickBlockMsForCast_ClampsNegativeShieldChargeOverrideToZero()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.OffscreenShieldChargePostCastClickDelayMs.Value = -50;
             var coordinator = CreateCoordinator(new ClickRuntimeState(), settings);
 
@@ -323,14 +323,14 @@ namespace ClickIt.Tests.Features.Click
 
         private static MovementSkillCoordinator CreateCoordinator(
             ClickRuntimeState runtimeState,
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             int remainingNodes = 0,
             GameController? gameController = null,
             Func<Vector2, string, bool>? pointIsInClickableArea = null,
             Func<string, bool>? ensureCursorInsideGameWindowForClick = null,
             Func<long>? getTimestampMs = null)
         {
-            settings ??= new ClickItSettings();
+            settings ??= new ClickItMaxSettings();
 
             return new MovementSkillCoordinator(new MovementSkillCoordinatorDependencies(
                 Settings: settings,

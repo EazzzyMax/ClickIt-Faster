@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.TelemetryProjection
+namespace ClickItMax.Features.Observability.TelemetryProjection
 {
     internal static partial class DebugTelemetryProjection
     {

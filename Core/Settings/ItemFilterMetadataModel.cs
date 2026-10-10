@@ -1,6 +1,6 @@
-namespace ClickIt
+namespace ClickItMax
 {
-    public partial class ClickItSettings
+    public partial class ClickItMaxSettings
     {
         public IReadOnlyList<string> GetCorruptEssenceNames()
         {
@@ -53,7 +53,7 @@ namespace ClickIt
 
         private void RefreshStrongboxMetadataSnapshotsIfNeeded()
         {
-            ClickItSettingsRuntimeCacheState runtimeCache = TransientState.RuntimeCache;
+            ClickItMaxSettingsRuntimeCacheState runtimeCache = TransientState.RuntimeCache;
             int signature = ComputeStrongboxMetadataSignature();
             int currentSignature = runtimeCache.StrongboxMetadataSnapshotSignature;
             bool snapshotChanged = MetadataSnapshotCache.RefreshPair(
@@ -114,7 +114,7 @@ namespace ClickIt
 
         private void RefreshItemTypeMetadataSnapshotsIfNeeded()
         {
-            ClickItSettingsRuntimeCacheState runtimeCache = TransientState.RuntimeCache;
+            ClickItMaxSettingsRuntimeCacheState runtimeCache = TransientState.RuntimeCache;
             int signature = ComputeItemTypeMetadataSignature();
             int currentSignature = runtimeCache.ItemTypeMetadataSnapshotSignature;
             bool snapshotChanged = MetadataSnapshotCache.RefreshPair(

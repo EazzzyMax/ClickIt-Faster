@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.Performance;
+namespace ClickItMax.Features.Observability.Performance;
 
 // Rolling deltas between consecutive marks of the same periodic event (click run, blight refresh, label scan, blocked-UI refresh, ultimatum poll, flare poll), so the perf tables show the ACTUAL observed cadence of background work instead of the configured target. Deltas expire on the same 10s window as the other perf buffers and average over the recent samples. Uses a high-resolution clock so TickCount64's ~15ms resolution cannot inflate short cadences. A gap above the stale floor (or 5x the kind's recent average, whichever is larger) means the event STOPPED (hotkey released, feature disabled), so the next mark starts a fresh session and is not counted as a cadence sample.
 internal sealed class IntervalTimingStore

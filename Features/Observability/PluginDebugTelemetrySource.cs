@@ -1,12 +1,12 @@
-namespace ClickIt.Features.Observability
+namespace ClickItMax.Features.Observability
 {
-    internal sealed class PluginDebugTelemetrySource(BaseSettingsPlugin<ClickItSettings> plugin) : IDebugTelemetrySource
+    internal sealed class PluginDebugTelemetrySource(BaseSettingsPlugin<ClickItMaxSettings> plugin) : IDebugTelemetrySource
     {
-        private readonly BaseSettingsPlugin<ClickItSettings> _plugin = plugin;
+        private readonly BaseSettingsPlugin<ClickItMaxSettings> _plugin = plugin;
 
         public DebugTelemetrySnapshot GetSnapshot()
         {
-            if (_plugin is ClickIt clickIt)
+            if (_plugin is ClickItMax clickIt)
                 return clickIt.State.GetDebugTelemetrySnapshot();
 
             return DebugTelemetrySnapshot.Empty;
@@ -14,7 +14,7 @@ namespace ClickIt.Features.Observability
 
         public bool TryGetFreezeState(out long remainingMs, out string reason)
         {
-            if (_plugin is ClickIt clickIt)
+            if (_plugin is ClickItMax clickIt)
                 return clickIt.State.TryGetDebugTelemetryFreezeState(out remainingMs, out reason);
 
             remainingMs = 0;

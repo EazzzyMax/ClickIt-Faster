@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     internal sealed class PluginRenderHost
     {
@@ -7,7 +7,7 @@ namespace ClickIt.Core.Runtime
 
         internal static void Render(
             PluginContext state,
-            ClickItSettings effectiveSettings,
+            ClickItMaxSettings effectiveSettings,
             GameController? gameController,
             Graphics? graphics,
             DebugClipboardService debugClipboardService,

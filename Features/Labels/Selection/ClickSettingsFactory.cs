@@ -1,12 +1,12 @@
-namespace ClickIt.Features.Labels.Selection
+namespace ClickItMax.Features.Labels.Selection
 {
     internal sealed class ClickSettingsFactory(
-        ClickItSettings settings,
+        ClickItMaxSettings settings,
         IMechanicPrioritySnapshotProvider mechanicPrioritySnapshotProvider,
         Func<IReadOnlyList<LabelOnGround>?, bool> hasLazyModeRestrictedItems,
         Func<Keys, bool> isClickHotkeyHeld)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly IMechanicPrioritySnapshotProvider _mechanicPrioritySnapshotProvider = mechanicPrioritySnapshotProvider;
         private readonly Func<IReadOnlyList<LabelOnGround>?, bool> _hasLazyModeRestrictedItems = hasLazyModeRestrictedItems;
         private readonly Func<Keys, bool> _isClickHotkeyHeld = isClickHotkeyHeld;
@@ -87,7 +87,7 @@ namespace ClickIt.Features.Labels.Selection
         private static HashSet<string>? s_cachedLeagueChestIds;
         private static long s_cachedLeagueChestFlags;
 
-        internal static IReadOnlySet<string> BuildEnabledLeagueChestSpecificIds(ClickItSettings settings, bool leagueChestsEnabled)
+        internal static IReadOnlySet<string> BuildEnabledLeagueChestSpecificIds(ClickItMaxSettings settings, bool leagueChestsEnabled)
         {
             if (!leagueChestsEnabled)
                 return s_emptyEnabledLeagueChestIds;
@@ -117,7 +117,7 @@ namespace ClickIt.Features.Labels.Selection
         }
 
         // 13 booleans packed into a long: 1 bit per flag, occupying the low 13 bits with deterministic ordering so the bit positions are stable. The cache treats the long as a content hash of the input set.
-        private static long PackLeagueChestFlags(ClickItSettings settings)
+        private static long PackLeagueChestFlags(ClickItMaxSettings settings)
         {
             long flags = 0;
             if (settings.ClickMirageGoldenDjinnCache.Value) flags |= 1L << 0;

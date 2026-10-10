@@ -1,12 +1,12 @@
-namespace ClickIt.UI.Debug
+namespace ClickItMax.UI.Debug
 {
     /// <summary>
     /// Debug-only overlay: draws the AreaService UI-region rectangles (blocked screen regions)
     /// every frame via the ImGui foreground draw list, gated only by its debug setting.
     /// </summary>
-    internal sealed class UiRegionRectangleOverlay(ClickItSettings settings, AreaService areaService)
+    internal sealed class UiRegionRectangleOverlay(ClickItMaxSettings settings, AreaService areaService)
     {
-        private readonly ClickItSettings _settings = settings;
+        private readonly ClickItMaxSettings _settings = settings;
         private readonly AreaService _areaService = areaService;
 
         private static readonly Vector4 FullScreenColor = ToVec4(Color.LightSkyBlue);

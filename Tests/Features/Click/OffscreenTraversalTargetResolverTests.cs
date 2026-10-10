@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class OffscreenTraversalTargetResolverTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveNearestOffscreenWalkTarget_ReturnsNull_AndDoesNotRefreshPriorities_WhenNoCandidateSourcesExist()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var snapshotProvider = new CountingMechanicPrioritySnapshotProvider();
             var resolver = CreateResolver(settings, snapshotProvider);
 
@@ -19,7 +19,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveNearestOffscreenWalkTarget_ReturnsNull_WhenShrinesEnabledButEntityGraphIsUnavailable()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickShrines.Value = true;
             var snapshotProvider = new CountingMechanicPrioritySnapshotProvider();
             var resolver = CreateResolver(settings, snapshotProvider);
@@ -33,7 +33,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveNearestOffscreenWalkTarget_ReturnsNull_WhenAreaTransitionsEnabledButEntityGraphIsUnavailable()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickAreaTransitions.Value = true;
             var snapshotProvider = new CountingMechanicPrioritySnapshotProvider();
             var resolver = CreateResolver(settings, snapshotProvider);
@@ -47,7 +47,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveNearestOffscreenWalkTarget_ReturnsNull_WhenEldritchAltarsEnabledButEntityGraphIsUnavailable()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickExarchAltars.Value = true;
             var snapshotProvider = new CountingMechanicPrioritySnapshotProvider();
             var resolver = CreateResolver(settings, snapshotProvider);
@@ -58,7 +58,7 @@ namespace ClickIt.Tests.Features.Click
             snapshotProvider.RefreshCalls.Should().Be(0);
         }
 
-        private static OffscreenTraversalTargetResolver CreateResolver(ClickItSettings settings, CountingMechanicPrioritySnapshotProvider snapshotProvider)
+        private static OffscreenTraversalTargetResolver CreateResolver(ClickItMaxSettings settings, CountingMechanicPrioritySnapshotProvider snapshotProvider)
         {
             GameController gameController = ExileCoreVisibleObjectBuilder.CreateGameControllerWithWindow(new RectangleF(100f, 200f, 1280f, 720f));
             var runtimeState = new ClickRuntimeState();

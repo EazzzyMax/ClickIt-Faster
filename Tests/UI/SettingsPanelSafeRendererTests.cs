@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.UI
+namespace ClickItMax.Tests.UI
 {
     [TestClass]
     public class SettingsPanelSafeRendererTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.UI
         [TestMethod]
         public void DrawPanel_WhenActionSucceeds_DoesNotRenderFallbackOrSetError()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             int separators = 0;
             int coloredTexts = 0;
             int wrappedTexts = 0;
@@ -37,7 +37,7 @@ namespace ClickIt.Tests.UI
         [TestMethod]
         public void DrawPanel_WhenActionThrows_RecordsErrorAndRendersFallback()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             int separators = 0;
             List<string> wrappedTexts = [];
             List<string> buttonLabels = [];
@@ -64,7 +64,7 @@ namespace ClickIt.Tests.UI
         [TestMethod]
         public void DrawPanel_WhenFallbackButtonPressed_RethrowsWrappedError()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var renderer = new SettingsPanelSafeRenderer(
                 settings,
                 new SettingsPanelSafeRenderHooks(

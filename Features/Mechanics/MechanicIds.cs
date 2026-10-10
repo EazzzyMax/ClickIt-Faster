@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Mechanics
+namespace ClickItMax.Features.Mechanics
 {
     public static class MechanicIds
     {

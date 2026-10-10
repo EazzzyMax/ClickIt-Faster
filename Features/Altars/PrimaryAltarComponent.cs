@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Altars
+namespace ClickItMax.Features.Altars
 {
     public class PrimaryAltarComponent
     {

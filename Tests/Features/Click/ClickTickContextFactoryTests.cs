@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class ClickTickContextFactoryTests
@@ -61,7 +61,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryCreateRegularClickContext_ReturnsFalse_WhenPendingChestConfirmationConsumesTick()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.PauseAfterOpeningBasicChests.Value = true;
 
             var chestState = new ChestLootSettlementState
@@ -83,7 +83,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryCreateRegularClickContext_CreatesContext_WithRefreshedMechanicPriorityAndChestBlockState()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickShrines.Value = false;
             settings.MechanicPriorityDistancePenalty.Value = 37;
 
@@ -124,7 +124,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static ClickTickContextFactory CreateFactory(
-            ClickItSettings? settings = null,
+            ClickItMaxSettings? settings = null,
             Func<RectangleF>? getWindowRectangle = null,
             Func<Vector2>? getCursorAbsolutePosition = null,
             Func<Vector2, bool>? tryHandleUltimatumPanelUi = null,
@@ -137,7 +137,7 @@ namespace ClickIt.Tests.Features.Click
             Func<bool>? groundItemsVisible = null,
             ClickDebugPublicationService? clickDebugPublisher = null)
         {
-            ClickItSettings resolvedSettings = settings ?? new ClickItSettings();
+            ClickItMaxSettings resolvedSettings = settings ?? new ClickItMaxSettings();
             resolvedSettings.ClickShrines.Value = false;
 
             return new ClickTickContextFactory(new ClickTickContextFactoryDependencies(
@@ -157,7 +157,7 @@ namespace ClickIt.Tests.Features.Click
         private static MovementSkillCoordinator CreateMovementSkillCoordinator(ClickRuntimeState? runtimeState = null)
         {
             return new MovementSkillCoordinator(new MovementSkillCoordinatorDependencies(
-                Settings: new ClickItSettings(),
+                Settings: new ClickItMaxSettings(),
                 GameController: null!,
                 RuntimeState: runtimeState ?? new ClickRuntimeState(),
                 PerformanceMonitor: null!,
@@ -167,7 +167,7 @@ namespace ClickIt.Tests.Features.Click
                 DebugLog: static _ => { }));
         }
 
-        private static ChestLootSettlementTracker CreateChestLootSettlementTracker(ClickItSettings settings, ChestLootSettlementState state)
+        private static ChestLootSettlementTracker CreateChestLootSettlementTracker(ClickItMaxSettings settings, ChestLootSettlementState state)
         {
             return new ChestLootSettlementTracker(new ChestLootSettlementTrackerDependencies(
                 Settings: settings,
@@ -177,7 +177,7 @@ namespace ClickIt.Tests.Features.Click
                 LabelInteraction: ClickTestServiceFactory.CreateLabelInteractionService()));
         }
 
-        private static VisibleMechanicCoordinator CreateVisibleMechanicCoordinator(ClickItSettings settings)
+        private static VisibleMechanicCoordinator CreateVisibleMechanicCoordinator(ClickItMaxSettings settings)
         {
             return new VisibleMechanicCoordinator(new VisibleMechanicCoordinatorDependencies(
                 Settings: settings,

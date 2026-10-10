@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Behavior.Click
+namespace ClickItMax.Tests.Behavior.Click
 {
     // NOTE: the altar-owns-tick E2E scenario (clickable altar on screen) cannot be driven through the REAL clickability gate: the gate requires Element.IsVisible, and the obfuscated base getter reads game memory that returns false on probe elements (verified: false via both the typed read and DynamicAccess, with or without an address set). The altar clickability gate is therefore covered by AltarAutomationServiceTests unit tests (all rejection paths), and the branch itself is a direct if(HasClickableAltars()) in ClickRuntimeEngine.Run(). If a full altar-on-screen scenario is required, a narrowly-scoped, user-approved visibility seam on the AltarAutomationService would be needed.
     [TestClass]

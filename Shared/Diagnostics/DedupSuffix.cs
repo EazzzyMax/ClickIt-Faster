@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Diagnostics;
+namespace ClickItMax.Shared.Diagnostics;
 
 // Parses the trailing " (xN)" dedup-count suffix shared by the debug trail and the event buffer. A suffix-less entry means count 1; callers default accordingly (DebugSnapshotStore -> 0, DedupEventBuffer -> 1).
 internal static class DedupSuffix

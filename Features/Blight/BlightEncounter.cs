@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight;
+namespace ClickItMax.Features.Blight;
 
 // Encounter is ACTIVE while the pump is present, valid, and not completed (StateMachine not in "success"/"fail"), and pathway entities have spawned. When the pump streams out (absent or invalid) its StateMachine is unreadable, so liveness falls back to the lanes' own StateMachines — the same data the game uses to render the encounter: flowing lanes (pending > 0) prove the encounter is still running, while a ran-then-stopped web means it has ended. A never-started (build-phase) encounter stays alive until the pump is readable again. A pump last seen completed (success/fail/pending==0) ends the encounter even after it streams out.
 internal sealed class BlightEncounter

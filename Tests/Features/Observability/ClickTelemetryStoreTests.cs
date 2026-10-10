@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Observability
+namespace ClickItMax.Tests.Features.Observability
 {
     [TestClass]
     public class ClickTelemetryStoreTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Observability
         [TestMethod]
         public void PublishUltimatumEvent_ProjectsSettingsAndEventFields_IntoLatestSnapshot()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickInitialUltimatum.Value = false;
             settings.ClickUltimatumChoices.Value = true;
 
@@ -58,7 +58,7 @@ namespace ClickIt.Tests.Features.Observability
         [TestMethod]
         public void PublishUltimatumSnapshot_StoresProvidedSnapshot_AndAddsTrailEntry()
         {
-            var store = new ClickTelemetryStore(new ClickItSettings());
+            var store = new ClickTelemetryStore(new ClickItMaxSettings());
             var snapshot = new UltimatumDebugSnapshot(
                 HasData: true,
                 Stage: "PanelHandled",

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Settings
+namespace ClickItMax.Tests.Core.Settings
 {
     [TestClass]
     public class UltimatumSettingsRuntimeServiceTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Core.Settings
         [TestMethod]
         public void ShouldTakeRewardForGruelingGauntletModifier_MatchesGroupedBaseModifierNames()
         {
-            var settings = new ClickItSettings
+            var settings = new ClickItMaxSettings
             {
                 UltimatumTakeRewardModifierNames = new HashSet<string>(new[] { "Ruin I" }, System.StringComparer.OrdinalIgnoreCase),
                 UltimatumContinueModifierNames = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase)

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Label
+namespace ClickItMax.Features.Click.Label
 {
     internal sealed class VisibleLabelSnapshotProvider(TimeCache<List<LabelOnGround>> cachedLabels)
     {

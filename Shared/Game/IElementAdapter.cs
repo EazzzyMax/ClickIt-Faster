@@ -1,4 +1,4 @@
-﻿namespace ClickIt.Shared.Game
+﻿namespace ClickItMax.Shared.Game
 {
     /// <summary>
     /// A safe, fail-closed view over a game UI element. Wraps the obfuscated ExileCore Element so

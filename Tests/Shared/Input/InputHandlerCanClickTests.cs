@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Input
+namespace ClickItMax.Tests.Shared.Input
 {
     [TestClass]
     public class InputHandlerCanClickTests
@@ -170,7 +170,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickHotkeyPressed_ReturnsFalse_WhenLazyModeDisabled_AndHotkeyInactive()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var handler = new InputHandler(settings);
 
             bool pressed = handler.IsClickHotkeyPressed(cachedLabels: null, hasLazyModeRestrictedItemsOnScreen: null);
@@ -181,7 +181,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickHotkeyPressed_ReturnsTrue_WhenLazyModeEnabled_AndNoRestrictionsOrDisableState()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.DisableLazyModeLeftClickHeld.Value = false;
             settings.DisableLazyModeRightClickHeld.Value = false;
@@ -206,7 +206,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickHotkeyPressed_ReturnsFalse_WhenLazyModeEnabled_AndRestrictedItemsPresent()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
 
             var handler = new InputHandler(settings);
@@ -220,7 +220,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickHotkeyPressed_ReturnsFalse_WhenLazyModeDisableHotkeyIsLatched()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.LazyModeDisableKeyToggleMode.Value = true;
             settings.DisableLazyModeLeftClickHeld.Value = false;
@@ -239,7 +239,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickHotkeyPressed_ReturnsTrue_WhenClickHotkeyIsLatched_EvenIfLazyModeWouldOtherwiseBlock()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.ClickHotkeyToggleMode.Value = true;
             settings.LazyModeDisableKeyToggleMode.Value = true;
@@ -259,7 +259,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickKeyStateActive_ReturnsFalse_WhenLazyModeDisabled_AndHotkeyInactive()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DisableLazyModeLeftClickHeld.Value = false;
             settings.DisableLazyModeRightClickHeld.Value = false;
             var handler = new InputHandler(settings);
@@ -272,7 +272,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickKeyStateActive_ReturnsTrue_WhenLazyModeEnabled_AndNoRestrictionsOrDisableState()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.DisableLazyModeLeftClickHeld.Value = false;
             settings.DisableLazyModeRightClickHeld.Value = false;
@@ -286,7 +286,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickKeyStateActive_ReturnsFalse_WhenLazyModeDisableHotkeyIsLatched_AndHotkeyInactive()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.LazyModeDisableKeyToggleMode.Value = true;
             settings.DisableLazyModeLeftClickHeld.Value = false;
@@ -302,7 +302,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void IsClickKeyStateActive_ReturnsTrue_WhenHotkeyIsLatched_EvenIfLazyModeIsRestricted()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = true;
             settings.ClickHotkeyToggleMode.Value = true;
             settings.DisableLazyModeLeftClickHeld.Value = false;
@@ -346,7 +346,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void CanClick_ReturnsFalse_WhenHotkeyInactive_AndGameControllerGraphIsPartial()
         {
-            var handler = new InputHandler(new ClickItSettings());
+            var handler = new InputHandler(new ClickItMaxSettings());
             GameController gameController = ExileCoreVisibleObjectBuilder.CreateGameControllerWithWindowAndGame(new RectangleF(100f, 200f, 1280f, 720f));
 
             bool canClick = handler.CanClick(gameController);
@@ -357,7 +357,7 @@ namespace ClickIt.Tests.Shared.Input
         [TestMethod]
         public void GetCanClickFailureReason_ReturnsNotInFocus_WhenWindowForegroundLookupThrows_OnPartialGraph()
         {
-            var handler = new InputHandler(new ClickItSettings());
+            var handler = new InputHandler(new ClickItMaxSettings());
             GameController gameController = ExileCoreVisibleObjectBuilder.CreateGameControllerWithWindowAndGame(new RectangleF(100f, 200f, 1280f, 720f));
 
             string reason = handler.GetCanClickFailureReason(gameController);

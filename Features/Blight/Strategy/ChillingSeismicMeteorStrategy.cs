@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight.Strategy;
+namespace ClickItMax.Features.Blight.Strategy;
 
 internal sealed class ChillingSeismicMeteorStrategy : IBlightTowerStrategy
 {

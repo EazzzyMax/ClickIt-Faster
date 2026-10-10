@@ -1,11 +1,11 @@
-namespace ClickIt
+namespace ClickItMax
 {
     public class PluginContext
     {
         private static readonly Func<GameController?> EmptyGameControllerProvider = static () => null;
-        private static readonly Func<ClickItSettings?> EmptySettingsProvider = static () => null;
+        private static readonly Func<ClickItMaxSettings?> EmptySettingsProvider = static () => null;
         private Func<GameController?> _getGameController = EmptyGameControllerProvider;
-        private Func<ClickItSettings?> _getSettings = EmptySettingsProvider;
+        private Func<ClickItMaxSettings?> _getSettings = EmptySettingsProvider;
 
         public PluginContext()
         {
@@ -33,10 +33,10 @@ namespace ClickIt
         internal void SetGameControllerProvider(Func<GameController?>? provider)
             => _getGameController = provider ?? EmptyGameControllerProvider;
 
-        internal void SetSettingsProvider(Func<ClickItSettings?>? provider)
+        internal void SetSettingsProvider(Func<ClickItMaxSettings?>? provider)
             => _getSettings = provider ?? EmptySettingsProvider;
 
-        internal void PrepareForComposition(Func<GameController?> gameControllerProvider, Func<ClickItSettings?> settingsProvider)
+        internal void PrepareForComposition(Func<GameController?> gameControllerProvider, Func<ClickItMaxSettings?> settingsProvider)
         {
             ResetWarmCompositionState();
             SetGameControllerProvider(gameControllerProvider);
@@ -89,10 +89,10 @@ namespace ClickIt
                 () => Services.CachedLabels,
                 () => Services.ErrorHandler));
 
-        internal void InitializeCompositionRoot(ClickIt owner, ClickItSettings settings)
+        internal void InitializeCompositionRoot(ClickItMax owner, ClickItMaxSettings settings)
             => PluginCompositionBootstrapper.InitializeCompositionRoot(this, owner, settings);
 
-        internal void FinalizeCompositionRootForStartup(ClickIt owner, ClickItSettings settings)
+        internal void FinalizeCompositionRootForStartup(ClickItMax owner, ClickItMaxSettings settings)
             => PluginCompositionBootstrapper.FinalizeCompositionRootForStartup(this, owner, settings);
 
         internal void DisposeCompositionRoot()

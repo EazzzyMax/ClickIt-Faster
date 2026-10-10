@@ -1,18 +1,18 @@
 using System.Globalization;
 using NumVec2 = System.Numerics.Vector2;
 using NumVec4 = System.Numerics.Vector4;
-using static ClickIt.Shared.Diagnostics.DebugUiPalette;
+using static ClickItMax.Shared.Diagnostics.DebugUiPalette;
 
-namespace ClickIt.UI.Debug;
+namespace ClickItMax.UI.Debug;
 
 internal sealed class ImGuiDebugOverlay(
-    ClickItSettings settings,
+    ClickItMaxSettings settings,
     PerformanceMonitor? performanceMonitor = null,
     BlightService? blight = null,
     IDebugTelemetrySource? telemetrySource = null,
     HarvestService? harvest = null)
 {
-    private const string WindowTitle = "ClickIt Debug Info";
+    private const string WindowTitle = "ClickItMax Debug Info";
     private const float WindowMinWidth = 1240f;
     private const float WindowMinHeight = 400f;
 
@@ -23,7 +23,7 @@ internal sealed class ImGuiDebugOverlay(
     private static readonly NumVec4 CUpgradeAction = Vec4(new Color(255, 80, 80)); // red — plan UPGRADE
     private static readonly NumVec4 CSpecialAction = Vec4(new Color(0, 200, 200)); // cyan — plan 3->4 SPECIALIZATION
 
-    private readonly ClickItSettings _settings = settings;
+    private readonly ClickItMaxSettings _settings = settings;
     private readonly PerformanceMonitor? _performanceMonitor = performanceMonitor;
     private readonly BlightService? _blight = blight;
     private readonly IDebugTelemetrySource? _telemetrySource = telemetrySource;
@@ -908,7 +908,7 @@ internal sealed class ImGuiDebugOverlay(
 
     private void RenderClickSettingsFull()
     {
-        ClickItSettings s = _settings;
+        ClickItMaxSettings s = _settings;
 
         static string Fmt(bool v) => BoolStr(v);
 
@@ -1641,7 +1641,7 @@ internal sealed class ImGuiDebugOverlay(
             var sb = new System.Text.StringBuilder();
             try
             {
-                sb.AppendLine($"ClickIt Debug Information");
+                sb.AppendLine($"ClickItMax Debug Information");
                 sb.AppendLine($"Generated: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
                 sb.AppendLine();
 

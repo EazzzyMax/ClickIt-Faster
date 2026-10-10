@@ -1,8 +1,8 @@
-namespace ClickIt.Features.Labels.Application
+namespace ClickItMax.Features.Labels.Application
 {
     internal sealed class LabelDebugService
     {
-        private readonly ClickItSettings _settings;
+        private readonly ClickItMaxSettings _settings;
         private readonly ErrorHandler _errorHandler;
         private readonly GameController? _gameController;
         private readonly Func<IReadOnlyList<LabelOnGround>?, ClickSettings> _createClickSettings;
@@ -14,7 +14,7 @@ namespace ClickIt.Features.Labels.Application
         private readonly TimeCache<(bool LabelsAvailable, int TotalVisibleLabels, int ValidVisibleLabels)> _visibleLabelCounts;
 
         public LabelDebugService(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             ErrorHandler errorHandler,
             GameController? gameController,
             Func<IReadOnlyList<LabelOnGround>?, ClickSettings> createClickSettings,

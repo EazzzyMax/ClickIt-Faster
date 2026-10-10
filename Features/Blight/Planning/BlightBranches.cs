@@ -1,6 +1,6 @@
-using static ClickIt.Features.Blight.Planning.BlightGeometry;
+using static ClickItMax.Features.Blight.Planning.BlightGeometry;
 
-namespace ClickIt.Features.Blight.Planning;
+namespace ClickItMax.Features.Blight.Planning;
 
 internal readonly record struct PumpBranch(int CoverageSegment, NumVector2 Anchor);
 

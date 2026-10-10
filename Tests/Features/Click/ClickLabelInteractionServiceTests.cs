@@ -1,8 +1,36 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class ClickLabelInteractionServiceTests
     {
+        [TestMethod]
+        public void PerformResolvedLabelInteraction_ExplicitSkipOverridesForcedHoverVerification()
+        {
+            InteractionExecutionRequest? captured = null;
+            var service = CreateService(request => { captured = request; return true; });
+
+            service.PerformResolvedLabelInteraction(new Vector2(12, 34), CreateOpaqueLabel(), MechanicIds.Items,
+                forceUiHoverVerification: true, skipUiHoverVerification: true).Should().BeTrue();
+
+            captured.Should().NotBeNull();
+            captured!.Value.ExpectedElement.Should().BeNull("no expected label means the executor must bypass hover checking even with its generic option enabled");
+            captured.Value.ForceUiHoverVerification.Should().BeFalse("an explicit opt-out wins over forced/default label policies");
+            captured.Value.ClickPosition.Should().Be(new Vector2(12, 34));
+            captured.Value.AvoidCursorMove.Should().BeFalse("calculated-position clicking still moves the cursor");
+        }
+
+        [TestMethod]
+        public void PerformResolvedLabelInteraction_DefaultRetainsRequestedForcedVerification()
+        {
+            InteractionExecutionRequest? captured = null;
+            var service = CreateService(request => { captured = request; return true; });
+
+            service.PerformResolvedLabelInteraction(new Vector2(12, 34), CreateOpaqueLabel(), MechanicIds.Items,
+                forceUiHoverVerification: true).Should().BeTrue();
+
+            captured!.Value.ForceUiHoverVerification.Should().BeTrue("existing callers keep the default verification behavior");
+        }
+
         [TestMethod]
         public void PerformManualCursorInteraction_AllowsHotkeyInactiveAndAvoidsCursorMove()
         {
@@ -213,7 +241,7 @@ namespace ClickIt.Tests.Features.Click
             Func<bool>? groundItemsVisible = null)
         {
             return new ClickLabelInteractionService(new ClickLabelInteractionServiceDependencies(
-                Settings: (ClickItSettings)RuntimeHelpers.GetUninitializedObject(typeof(ClickItSettings)),
+                Settings: (ClickItMaxSettings)RuntimeHelpers.GetUninitializedObject(typeof(ClickItMaxSettings)),
                 GameController: (GameController)RuntimeHelpers.GetUninitializedObject(typeof(GameController)),
                 LabelInteractionPort: labelInteractionPort ?? (ILabelInteractionPort)RuntimeHelpers.GetUninitializedObject(typeof(LabelFilterPort)),
                 TryResolveClickPosition: tryResolveClickPosition ?? (static (_, _, _, _) => (false, default)),

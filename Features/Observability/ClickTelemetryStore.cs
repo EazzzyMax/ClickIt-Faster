@@ -1,16 +1,16 @@
-namespace ClickIt.Features.Observability
+namespace ClickItMax.Features.Observability
 {
     internal sealed class ClickTelemetryStore
     {
         private const int ClickDebugTrailCapacity = 100;
         private const int RuntimeDebugLogTrailCapacity = 80;
         private const int UltimatumDebugTrailCapacity = 80;
-        private readonly ClickItSettings _settings;
+        private readonly ClickItMaxSettings _settings;
         private readonly DebugSnapshotChannel<ClickDebugSnapshot, ClickDebugSnapshot> _clickDebugChannel;
         private readonly DebugSnapshotChannel<RuntimeDebugLogSnapshot, string> _runtimeDebugLogChannel;
         private readonly DebugSnapshotChannel<UltimatumDebugSnapshot, UltimatumDebugEvent> _ultimatumDebugChannel;
 
-        public ClickTelemetryStore(ClickItSettings settings)
+        public ClickTelemetryStore(ClickItMaxSettings settings)
         {
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 

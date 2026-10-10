@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Runtime
+namespace ClickItMax.Core.Runtime
 {
     internal readonly record struct PluginDebugTelemetryProjectionSources(
         Func<ClickAutomationPort?> GetClickAutomationPort,
@@ -12,7 +12,7 @@ namespace ClickIt.Core.Runtime
         Func<PluginRenderingState?> GetRenderingState,
         Func<GameController?> GetGameController,
         Func<InputHandler?> GetInputHandler,
-        Func<ClickItSettings?> GetSettings,
+        Func<ClickItMaxSettings?> GetSettings,
         Func<TimeCache<List<LabelOnGround>>?> GetCachedLabels,
         Func<ErrorHandler?> GetErrorHandler);
 

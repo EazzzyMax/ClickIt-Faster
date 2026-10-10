@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Behavior.Click
+namespace ClickItMax.Tests.Behavior.Click
 {
     // Scenario tests for the REAL LabelClickPointResolver geometry: simulate labels (strongboxes and world items) at real element rects, partially or fully obscured by unclickable rectangles, and verify the resolved click point is always inside the label, clickable, and outside every blocked rectangle - or that resolution correctly fails when nothing is clickable (walk path).
     [TestClass]
@@ -214,7 +214,7 @@ namespace ClickIt.Tests.Behavior.Click
         [TestMethod]
         public void Strongbox_ClickPoint_RespectsChestHeightOffset()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ChestHeightOffset.Value = 12;
             var resolver = new LabelClickPointResolver(settings);
             RectangleF rect = new(500f, 300f, 160f, 40f);

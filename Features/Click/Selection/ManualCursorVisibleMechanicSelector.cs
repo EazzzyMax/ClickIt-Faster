@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Selection
+namespace ClickItMax.Features.Click.Selection
 {
     internal readonly record struct ManualCursorVisibleMechanicSelection(
         Vector2 ClickPosition,

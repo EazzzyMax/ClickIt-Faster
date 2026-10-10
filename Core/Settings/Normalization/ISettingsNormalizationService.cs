@@ -1,7 +1,7 @@
-namespace ClickIt.Core.Settings.Normalization
+namespace ClickItMax.Core.Settings.Normalization
 {
     internal interface ISettingsNormalizationService
     {
-        void Apply(ClickItSettings settings);
+        void Apply(ClickItMaxSettings settings);
     }
 }

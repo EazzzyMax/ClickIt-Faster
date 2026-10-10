@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Blight;
+namespace ClickItMax.Tests.Features.Blight;
 
 [TestClass]
 public class BlightPlannerTests
@@ -1315,7 +1315,7 @@ public class BlightPlannerTests
         BlightStrategyResolver.StrategyNames.Should().Contain("Empowered Lockdown + Arc");
         BlightStrategyResolver.StrategyNames.Should().Contain("Empowered Scouts");
 
-        var settings = new ClickItSettings { BlightTowerStrategy = new RangeNode<int>(2, 0, 3) };
+        var settings = new ClickItMaxSettings { BlightTowerStrategy = new RangeNode<int>(2, 0, 3) };
         BlightStrategyResolver.Resolve(settings).Should().BeOfType<LockdownArcStrategy>();
 
         settings.BlightTowerStrategy = new RangeNode<int>(3, 0, 3);

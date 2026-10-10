@@ -1,7 +1,7 @@
-namespace ClickIt.Features.Click
+namespace ClickItMax.Features.Click
 {
     internal readonly record struct ClickAutomationSupportDependencies(
-        ClickItSettings Settings,
+        ClickItMaxSettings Settings,
         ClickTelemetryStore TelemetryStore,
         Func<RectangleF> GetWindowRectangle,
         Func<Vector2> GetCursorPosition,

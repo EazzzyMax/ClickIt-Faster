@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Area
+namespace ClickItMax.Features.Area
 {
     internal enum AreaBlockedRectangleKind
     {

@@ -1,5 +1,5 @@
 
-namespace ClickIt.Features.Labels.Classification
+namespace ClickItMax.Features.Labels.Classification
 {
     internal static class MechanicClassifier
     {

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight.Strategy;
+namespace ClickItMax.Features.Blight.Strategy;
 
 internal static class BlightStrategyResolver
 {
@@ -20,7 +20,7 @@ internal static class BlightStrategyResolver
         EmpoweredScouts.Name,
     ];
 
-    internal static IBlightTowerStrategy Resolve(ClickItSettings settings)
+    internal static IBlightTowerStrategy Resolve(ClickItMaxSettings settings)
         => Resolve((BlightTowerStrategy)settings.BlightTowerStrategy.Value);
 
     internal static IBlightTowerStrategy Resolve(BlightTowerStrategy strategy) => strategy switch

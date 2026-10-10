@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Shared.Game
+namespace ClickItMax.Tests.Shared.Game
 {
     [TestClass]
     public class TextHelpersTests

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Behavior.Click
+namespace ClickItMax.Tests.Behavior.Click
 {
     // Scenario tests for the REAL InteractionExecutionEngine with visible mechanics on screen: a shrine partially on screen just clickable, settlers ore / lost shipment present, and how the execution chain prefers them over (or falls through to) the ranked label.
     [TestClass]

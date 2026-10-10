@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Blight;
+namespace ClickItMax.Tests.Features.Blight;
 
 [TestClass]
 public class BlightServiceTests
@@ -10,7 +10,7 @@ public class BlightServiceTests
     public void GetStepTargetName_SpecTierUpgrade_ShowsChosenSpecialization()
     {
         // ChillingSeismicMeteorStrategy sets Fireball -> Meteor, so the plan UI shows "UPGRADE Meteor" instead of "UPGRADE Fireball lvl4".
-        var service = new BlightService(new ClickItSettings());
+        var service = new BlightService(new ClickItMaxSettings());
         service.GetStepTargetName(Step(BlightPlanAction.Upgrade, BlightTowerType.Fireball, 4))
             .Should().Be("Meteor");
     }
@@ -18,7 +18,7 @@ public class BlightServiceTests
     [TestMethod]
     public void GetStepTargetName_PlainUpgrade_ShowsBaseType()
     {
-        var service = new BlightService(new ClickItSettings());
+        var service = new BlightService(new ClickItMaxSettings());
         service.GetStepTargetName(Step(BlightPlanAction.Upgrade, BlightTowerType.Fireball, 3))
             .Should().Be("Fireball");
     }
@@ -26,7 +26,7 @@ public class BlightServiceTests
     [TestMethod]
     public void GetStepTargetName_BuildStep_ShowsBaseType()
     {
-        var service = new BlightService(new ClickItSettings());
+        var service = new BlightService(new ClickItMaxSettings());
         service.GetStepTargetName(Step(BlightPlanAction.Build, BlightTowerType.Fireball, 1))
             .Should().Be("Fireball");
     }
@@ -35,7 +35,7 @@ public class BlightServiceTests
     public void GetStepTargetName_NoSpecializationChosen_ShowsBaseType()
     {
         // Chilling/Seismic rules carry no specialization, so even a lvl4-style step (if ever planned) shows the base tower type, never a guessed spec.
-        var service = new BlightService(new ClickItSettings());
+        var service = new BlightService(new ClickItMaxSettings());
         service.GetStepTargetName(Step(BlightPlanAction.Upgrade, BlightTowerType.Seismic, 4))
             .Should().Be("Seismic");
     }
@@ -46,7 +46,7 @@ public class BlightServiceTests
         long recordedBytes = 0;
         double recordedMs = 0;
         var service = new BlightService(
-            new ClickItSettings(),
+            new ClickItMaxSettings(),
             recordEventStage: (bytes, ms) =>
             {
                 recordedBytes = bytes;

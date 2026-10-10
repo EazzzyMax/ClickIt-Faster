@@ -1,6 +1,6 @@
 using NumVec4 = System.Numerics.Vector4;
 
-namespace ClickIt.Shared.Diagnostics
+namespace ClickItMax.Shared.Diagnostics
 {
     // Shared debug-overlay chrome colors (Info/Error/Warn/Green/Muted/Dim/White/Orange/Header). File-specific semantic colors (plan actions, region rects, perf labels) stay in their owners.
     internal static class DebugUiPalette

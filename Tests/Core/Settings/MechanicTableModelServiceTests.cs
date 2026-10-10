@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Settings
+namespace ClickItMax.Tests.Core.Settings
 {
     [TestClass]
     public class MechanicTableModelServiceTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Core.Settings
         [TestMethod]
         public void GetTableEntries_BuildsCachedEntryListFromSettingsNodes()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickRitualCompleted.Value = false;
 
             var entries = MechanicTableModelService.GetTableEntries(settings);

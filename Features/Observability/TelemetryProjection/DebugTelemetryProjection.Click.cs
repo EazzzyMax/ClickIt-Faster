@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Observability.TelemetryProjection
+namespace ClickItMax.Features.Observability.TelemetryProjection
 {
     internal static partial class DebugTelemetryProjection
     {
@@ -8,7 +8,7 @@ namespace ClickIt.Features.Observability.TelemetryProjection
             LazyModeBlockerService? lazyModeBlockerService,
             GameController? gameController,
             InputHandler? inputHandler,
-            ClickItSettings? settings,
+            ClickItMaxSettings? settings,
             TimeCache<List<LabelOnGround>>? cachedLabels)
         {
             if (clickAutomationPort == null && settings == null)
@@ -43,7 +43,7 @@ namespace ClickIt.Features.Observability.TelemetryProjection
         }
 
         private static ClickFrequencyTargetTelemetrySnapshot BuildClickFrequencyTargetTelemetry(
-            ClickItSettings? settings,
+            ClickItMaxSettings? settings,
             InputHandler? inputHandler,
             LazyModeBlockerService? lazyModeBlockerService,
             GameController? gameController,

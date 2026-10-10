@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Blight.Planning;
+namespace ClickItMax.Features.Blight.Planning;
 
 // Menu structure: Child[0].Child[3] is the 6-child tower type/upgrade menu; Child[0].Child[2] = build icon, Child[0].Child[3] = upgrade icon; a specialization upgrade (Fireball 3→4) has NO sub-menu.
 internal static class BlightMenuInteractions

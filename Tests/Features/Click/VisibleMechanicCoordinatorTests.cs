@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Click
+namespace ClickItMax.Tests.Features.Click
 {
     [TestClass]
     public class VisibleMechanicCoordinatorTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickLostShipment_PerformsMechanicClickAtCandidatePosition()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var runtimeState = new ClickRuntimeState();
             InteractionExecutionRequest? capturedRequest = null;
             var (_, coordinator) = CreateCoordinator(
@@ -30,7 +30,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickSettlersOre_ReturnsFalse_WhenInteractionFails_AndLeavesLatestDebugAtAttempt()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var runtimeState = new ClickRuntimeState
             {
                 StickyOffscreenTargetAddress = 42
@@ -59,7 +59,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickSettlersOre_UsesHoldClickForVerisium_WhenInteractionSucceeds()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var runtimeState = new ClickRuntimeState();
             ClickDebugSnapshot? latestSnapshot = null;
             InteractionExecutionRequest? capturedRequest = null;
@@ -94,7 +94,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickSettlersOre_AllowsInteraction_WhenCandidateEntityIsNull()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var runtimeState = new ClickRuntimeState();
             InteractionExecutionRequest? capturedRequest = null;
 
@@ -117,7 +117,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void TryClickLostShipmentInteraction_ReturnsFalse_WhenInteractionFails()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var runtimeState = new ClickRuntimeState();
             Entity entity = ExileCoreOpaqueFactory.CreateOpaqueEntity();
 
@@ -134,7 +134,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void HandleSuccessfulMechanicEntityClick_DoesNothing_WhenEntityIsNull()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.WalkTowardOffscreenLabels.Value = true;
 
             var runtimeState = new ClickRuntimeState();
@@ -156,7 +156,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void HandleSuccessfulMechanicEntityClick_ClearsStickyTargetAndPath_ThroughBoundedSeam()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.WalkTowardOffscreenLabels.Value = true;
 
             var runtimeState = new ClickRuntimeState
@@ -183,7 +183,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void HandleSuccessfulMechanicEntityClick_UsesGenericReason_WhenPathMissing()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var telemetryReasons = new List<string>();
 
             var (_, coordinator) = CreateCoordinator(
@@ -200,7 +200,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveHiddenFallbackCandidates_ReusesCachedSnapshot_WhenCacheWindowAndLabelCountMatch()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickLostShipmentCrates.Value = false;
             settings.ClickSettlersOre.Value = false;
 
@@ -220,7 +220,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveHiddenFallbackCandidates_DoesNotReuseCachedSnapshot_WhenLabelCountChanges()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickLostShipmentCrates.Value = false;
             settings.ClickSettlersOre.Value = false;
 
@@ -241,7 +241,7 @@ namespace ClickIt.Tests.Features.Click
         [TestMethod]
         public void ResolveVisibleMechanicCandidates_DoesNotReuseUnusableCachedCandidates()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickLostShipmentCrates.Value = false;
             settings.ClickSettlersOre.Value = false;
 
@@ -365,7 +365,7 @@ namespace ClickIt.Tests.Features.Click
         }
 
         private static (PathfindingService PathfindingService, VisibleMechanicCoordinator Coordinator) CreateCoordinator(
-            ClickItSettings settings,
+            ClickItMaxSettings settings,
             ClickRuntimeState runtimeState,
             Func<InteractionExecutionRequest, bool>? executeInteraction = null,
             Action<string>? debugLog = null,

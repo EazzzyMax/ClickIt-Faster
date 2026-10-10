@@ -1,4 +1,4 @@
-namespace ClickIt.Core.Settings.Mechanics
+namespace ClickItMax.Core.Settings.Mechanics
 {
     internal sealed record MechanicToggleGroupEntry(string Id, string DisplayName);
 

@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Shrines
+namespace ClickItMax.Tests.Features.Shrines
 {
     [TestClass]
     public class ShrineServiceTests

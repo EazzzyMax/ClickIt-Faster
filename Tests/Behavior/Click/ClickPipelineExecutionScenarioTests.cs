@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Behavior.Click
+namespace ClickItMax.Tests.Behavior.Click
 {
     // End-to-end execution scenarios: the REAL InteractionExecutionEngine with the REAL LabelClickPointResolver and clickable-area predicate. Verifies the click-vs-walk decision for on-screen strongboxes and items, including partially/fully obscured labels and locked boxes.
     [TestClass]

@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Runtime
+namespace ClickItMax.Features.Click.Runtime
 {
     internal readonly record struct MovementSkillBinding(Keys BoundKey, string InternalName, object? Entry);
 

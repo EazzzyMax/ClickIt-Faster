@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Observability.Performance
+namespace ClickItMax.Tests.Features.Observability.Performance
 {
     [TestClass]
     public class PerformanceMonitorTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void TimerActions_RespectMainAndSecondIntervals_AndResetWhenTriggered()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             var monitor = new PerformanceMonitor(settings);
 
             monitor.Start();
@@ -28,7 +28,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void HotkeyReleaseTimer_TracksTimeoutState_BeforeStartDuringRunAndAfterStop()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.IsHotkeyReleaseTimeoutExceeded().Should().BeTrue();
 
@@ -48,7 +48,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void ClickAndSuccessfulClickTiming_AggregateIntoExpectedAverages()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.Start();
 
@@ -69,7 +69,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void RenderAndFpsRecording_FeedSectionStatsTimingStatsAndDebugSnapshot()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.ClickFrequencyTarget.Value = 123;
 
             var monitor = new PerformanceMonitor(settings);
@@ -118,7 +118,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void RenderSection_AverageCoversWholeWindow_MaxOverWholeWindow()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             for (int i = 0; i < 10; i++)
                 monitor.RecordRenderSectionTiming(RenderSection.BlightOverlay, 10.0);
@@ -136,7 +136,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void RenderSection_MaxRollsOutAfter1000Samples()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             for (int i = 0; i < 10; i++)
                 monitor.RecordRenderSectionTiming(RenderSection.BlightOverlay, 10.0);
@@ -153,7 +153,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void RenderSectionTiming_HarvestAndBlight_FlowThroughStoreAndSnapshot()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordRenderSectionTiming(RenderSection.HarvestOverlay, 3.2);
             monitor.RecordRenderSectionTiming(RenderSection.BlightOverlay, 5.4);
@@ -176,7 +176,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void RenderSectionFrame_CombinesEnqueueAndFlushIntoOneSample()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.AccumulateRenderSectionTiming(RenderSection.BlightOverlay, 10.0);
             monitor.AccumulateRenderSectionFlush(RenderSection.BlightOverlay, 5.0);
@@ -193,7 +193,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void RenderSectionFrame_FlushOnlySection_RecordsItsOwnSample()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.AccumulateRenderSectionFlush(RenderSection.HarvestOverlay, 3.0);
             monitor.CompleteRenderSectionFrame();
@@ -205,7 +205,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void RenderSectionFrame_ClearsAccumulators_ForNextFrame()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.AccumulateRenderSectionTiming(RenderSection.BlightOverlay, 10.0);
             monitor.CompleteRenderSectionFrame();
@@ -217,7 +217,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void ProcessingTiming_FlowsThroughStoreAndSnapshot()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordProcessingTiming(ProcessingSection.Label, 4.0);
             monitor.RecordProcessingTiming(ProcessingSection.Label, 6.0);
@@ -239,7 +239,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void ProcessingTotal_AggregatesLastAndAverageSumsAndMaxOfMaxes()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordProcessingTiming(ProcessingSection.Blight, 10.0);
             monitor.RecordProcessingTiming(ProcessingSection.Click, 5.0);
@@ -262,7 +262,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void ProcessingTotal_IsZero_WhenNoSectionHasSamples()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             PerformanceMetricsSnapshot snapshot = monitor.GetDebugSnapshot();
 
@@ -275,7 +275,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void NewRenderSections_FlowThroughStoreAndSnapshot()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordRenderSectionTiming(RenderSection.ClickHotkeyToggle, 1.1);
             monitor.RecordRenderSectionTiming(RenderSection.InventoryFullWarning, 2.2);
@@ -294,7 +294,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void Allocations_FlowThroughStoreAndSnapshot()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordAllocation(ProcessingSection.Label, 2048);
             monitor.RecordAllocation(ProcessingSection.Pathfinding, 8192);
@@ -312,7 +312,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void LabelScanAllocation_FlowsThroughStoreAndSnapshot()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordLabelScanAllocation(new LabelScanAllocationBreakdown(
                 ListReadBytes: 1024 * 1024, ListAllocBytes: 4096, ValidityBytes: 32768, SortBytes: 2048, TotalBytes: 1024 * 1024 + 4096 + 32768 + 2048));
@@ -335,7 +335,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void ClickAllocation_FlowsThroughStoreAndSnapshot()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordClickAllocation(new ClickAllocationBreakdown(
                 ContextBytes: 2048, AcquireBytes: 1024 * 1024, RankBytes: 32768, ExecuteBytes: 65536, PostBytes: 1024, OtherBytes: 8192, TotalBytes: 2048 + 1024 * 1024 + 32768 + 65536 + 1024 + 8192));
@@ -358,7 +358,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void Breakdown_FlowsThroughStoreAndSnapshot_ForRegisteredSection()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             Span<long> bytes = stackalloc long[3];
             Span<double> ms = stackalloc double[3];
@@ -379,7 +379,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void Breakdown_UnregisteredSection_IsIgnored()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             Span<long> bytes = stackalloc long[2];
             Span<double> ms = stackalloc double[2];
@@ -394,7 +394,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void MemorySnapshot_ReportsHeapAndProcessMetrics()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             PerformanceMetricsSnapshot snapshot = monitor.GetDebugSnapshot();
 
@@ -418,7 +418,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void SampleDlrReadRate_ComputesReadsPerSecondAndFailPercent()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             // First window closes the monitor's delta baseline; its sample is whatever preceded this test.
             monitor.SampleDlrReadRate(nowMs: 1000);
@@ -446,7 +446,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void SampleDlrReadRate_AttributesReadsToActiveSection()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             // First window closes the monitor's delta baseline; its sample is whatever preceded this test.
             monitor.SampleDlrReadRate(nowMs: 1000);
@@ -475,7 +475,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void SampleGcAllocationRates_AttributesBytesToSections()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
             monitor.RecordAllocation(ProcessingSection.Blight, 1024 * 1024);
 
             // Baseline 1000ms window closes the first sample; the second window carries the 2MB burst.
@@ -497,7 +497,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void MarkInterval_ExposesIntervalInSnapshot()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
             monitor.MarkInterval(IntervalKind.Click);
             monitor.MarkInterval(IntervalKind.Click);
 
@@ -510,7 +510,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void ClickClock_TracksTimeToClick_AndElapsedSinceLastClick()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.MarkClickRunStart();
             Thread.Sleep(10);
@@ -523,7 +523,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void RecordClickDispatch_WithoutRunStart_DoesNotRecordTimeToClick()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordClickDispatch();
 
@@ -533,7 +533,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void GameStateDump_SectionFlowsThroughProcessingAndAllocations()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordProcessingTiming(ProcessingSection.GameStateDump, 3.0);
             monitor.RecordProcessingTiming(ProcessingSection.GameStateDump, 5.0);
@@ -549,7 +549,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void BlightBreakdown_MergesRefreshScanAndOffRefreshWork_ThroughMonitor()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             Span<long> bytes = stackalloc long[1];
             Span<double> ms = stackalloc double[1];
@@ -573,7 +573,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void ClickBreakdown_RecordsFineGrainedStages_ThroughMonitor()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordBreakdownStage(ProcessingSection.Click, PerformanceMonitor.ClickContextStageIndex, 128, 0.1);
             monitor.RecordBreakdownStage(ProcessingSection.Click, PerformanceMonitor.ClickMechanicScanStageIndex, 1024, 2.0);
@@ -606,7 +606,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void CoroutinesTotal_AggregatesLastAndAverageSumsAndMaxOfMaxes_AcrossChannels()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.StartCoroutineTiming(TimingChannel.Altar);
             monitor.StopCoroutineTiming(TimingChannel.Altar);
@@ -631,7 +631,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void CoroutinesTotal_IsZero_WhenNoCoroutineHasSamples()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             PerformanceMetricsSnapshot snapshot = monitor.GetDebugSnapshot();
 
@@ -762,7 +762,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void RenderSection_Stats_UseRollingWindow_NotAllTimeCumulative()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             // 1000 samples of 1.0 fill and then roll the 1000-sample window, then one 2.0 sample.
             for (int i = 0; i < 1000; i++)
@@ -780,7 +780,7 @@ namespace ClickIt.Tests.Features.Observability.Performance
         [TestMethod]
         public void ShutdownForHotReload_ClearsRecordedMetrics()
         {
-            var monitor = new PerformanceMonitor(new ClickItSettings());
+            var monitor = new PerformanceMonitor(new ClickItMaxSettings());
 
             monitor.RecordFpsSample(120);
             monitor.RecordRenderSectionTiming(RenderSection.FrameFlush, 9);

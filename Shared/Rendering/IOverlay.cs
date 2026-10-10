@@ -1,4 +1,4 @@
-namespace ClickIt.Shared.Rendering
+namespace ClickItMax.Shared.Rendering
 {
     /// <summary>
     /// Per-feature overlay surface. One implementation per feature overlay (e.g. StrongboxOverlay).
@@ -23,7 +23,7 @@ namespace ClickIt.Shared.Rendering
         ProcessingSection ProcessingSection { get; }
 
         /// <summary>Settings gate. The host skips Draw (and records ~0ms) when false.</summary>
-        bool IsEnabled(ClickItSettings settings);
+        bool IsEnabled(ClickItMaxSettings settings);
 
         /// <summary>Coroutine thread: read game memory, compute derived data, swap the snapshot.</summary>
         void Refresh(OverlayRefreshContext ctx);

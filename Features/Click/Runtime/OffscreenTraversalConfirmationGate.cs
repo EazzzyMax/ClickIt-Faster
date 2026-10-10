@@ -1,4 +1,4 @@
-namespace ClickIt.Features.Click.Runtime
+namespace ClickItMax.Features.Click.Runtime
 {
     internal sealed class OffscreenTraversalConfirmationGate(Func<long>? getTimestampMs = null)
     {

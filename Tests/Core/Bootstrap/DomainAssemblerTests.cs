@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Core.Bootstrap
+namespace ClickItMax.Tests.Core.Bootstrap
 {
     [TestClass]
     public class DomainAssemblerTests
@@ -6,8 +6,8 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void CoreDomainAssembler_AssembleInternal_CreatesServicesAndRefreshesAreaState_WhenStartupDependenciesAreInjected()
         {
-            var owner = new ClickIt();
-            var settings = new ClickItSettings();
+            var owner = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             RectangleF windowRect = new(100f, 200f, 1280f, 720f);
             GameController gameController = ExileCoreVisibleObjectBuilder.CreateGameControllerWithWindow(windowRect);
             Camera camera = (Camera)RuntimeHelpers.GetUninitializedObject(typeof(Camera));
@@ -43,8 +43,8 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void CoreDomainAssembler_Assemble_Throws_WhenStartupGraphHasNoCamera()
         {
-            var owner = new ClickIt();
-            var settings = new ClickItSettings();
+            var owner = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             GameController gameController = ExileCoreVisibleObjectBuilder.CreateGameControllerWithWindow(new RectangleF(100f, 200f, 1280f, 720f));
 
             Action act = () => CoreDomainAssembler.Assemble(owner, settings, gameController);
@@ -56,8 +56,8 @@ namespace ClickIt.Tests.Core.Bootstrap
         [TestMethod]
         public void RenderingAndClickAssemblers_Assemble_DirectBootstrapOwnersUsingCoreServices()
         {
-            var owner = new ClickIt();
-            var settings = new ClickItSettings();
+            var owner = new ClickItMax();
+            var settings = new ClickItMaxSettings();
             GameController gameController = ExileCoreOpaqueFactory.CreateOpaqueGameController();
             CoreDomainServices core = CreateCoreDomainServices(settings);
             var frozenTelemetrySnapshots = new List<(string Reason, int HoldDurationMs)>();
@@ -98,7 +98,7 @@ namespace ClickIt.Tests.Core.Bootstrap
             LockManager.Instance = null;
         }
 
-        private static CoreDomainServices CreateCoreDomainServices(ClickItSettings settings)
+        private static CoreDomainServices CreateCoreDomainServices(ClickItMaxSettings settings)
         {
             var performanceMonitor = new PerformanceMonitor(settings);
             var errorHandler = new ErrorHandler(settings, static (_, _) => { }, static (_, _) => { });

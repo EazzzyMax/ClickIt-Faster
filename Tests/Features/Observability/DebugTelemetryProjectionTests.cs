@@ -1,4 +1,4 @@
-namespace ClickIt.Tests.Features.Observability
+namespace ClickItMax.Tests.Features.Observability
 {
     [TestClass]
     public class DebugTelemetryProjectionTests
@@ -6,7 +6,7 @@ namespace ClickIt.Tests.Features.Observability
         [TestMethod]
         public void Build_ProjectsClickTelemetry_FromSettingsInputs()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.LazyMode.Value = false;
             settings.ClickFrequencyTarget.Value = 123;
             settings.LazyModeClickLimiting.Value = 456;
@@ -45,7 +45,7 @@ namespace ClickIt.Tests.Features.Observability
         public void Build_ProjectsCachedLabelAndErrorTelemetry_WhenSupportingOwnersAreAvailable()
         {
             var cachedLabels = new TimeCache<List<LabelOnGround>>(() => [null!], 50);
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             var errorHandler = new ErrorHandler(settings, static (_, _) => { }, static (_, _) => { });
             errorHandler.LogError("first error");
@@ -79,7 +79,7 @@ namespace ClickIt.Tests.Features.Observability
         [TestMethod]
         public void Build_ProjectsRecentErrors_EvenWhenDebugLoggingIsDisabled()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = false;
             var errorHandler = new ErrorHandler(settings, static (_, _) => { }, static (_, _) => { });
             errorHandler.LogError("background error");
@@ -147,7 +147,7 @@ namespace ClickIt.Tests.Features.Observability
         [TestMethod]
         public void Build_ProjectsClickSupportTelemetry_WhenSupportHasPublishedSnapshots()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.DebugShowClicking.Value = true;
             settings.DebugShowUltimatum.Value = true;
@@ -227,7 +227,7 @@ namespace ClickIt.Tests.Features.Observability
         [TestMethod]
         public void Build_DoesNotProjectClickSupportTelemetry_WhenSettingsAndServiceAreMissing()
         {
-            var settings = new ClickItSettings();
+            var settings = new ClickItMaxSettings();
             settings.DebugMode.Value = true;
             settings.DebugShowClicking.Value = true;
 
@@ -269,7 +269,7 @@ namespace ClickIt.Tests.Features.Observability
             snapshot.Click.Should().BeSameAs(ClickTelemetrySnapshot.Empty);
         }
 
-        private static ClickAutomationSupport CreateSupport(ClickItSettings settings)
+        private static ClickAutomationSupport CreateSupport(ClickItMaxSettings settings)
         {
             return new ClickAutomationSupport(new ClickAutomationSupportDependencies(
                 Settings: settings,

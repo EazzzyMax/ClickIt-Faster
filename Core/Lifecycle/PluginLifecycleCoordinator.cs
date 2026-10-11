@@ -41,6 +41,7 @@ namespace ClickItMax.Core.Lifecycle
             StopNamedClickItMaxCoroutines();
             WaitForTrackedCoroutines(owner.State);
             WaitForNamedClickItMaxCoroutinesShutdown();
+            owner.State.Services.ClickAutomationPort?.StopMaxPickupLogging();
             ClearTrackedCoroutineReferences(owner.State);
 
             LockManager.Instance = null;

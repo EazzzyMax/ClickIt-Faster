@@ -139,9 +139,11 @@ namespace ClickItMax.Features.Click.Interaction
             if ((blockedAreas == null || blockedAreas.Count == 0 || !IsPointBlocked(clampedPreferred, blockedAreas))
                 && (isAllowedPoint == null || isAllowedPoint(clampedPreferred)))
             {
+                ClickPointDiagnosticTrace.Probe(clampedPreferred, "preferred-accepted");
                 resolvedPoint = clampedPreferred;
                 return true;
             }
+            ClickPointDiagnosticTrace.Probe(clampedPreferred, "preferred-rejected; see actual overlap/UI checks");
 
             const int cols = 7;
             const int rows = 5;
@@ -160,10 +162,17 @@ namespace ClickItMax.Features.Click.Interaction
                     Vector2 candidate = new(sampleX, sampleY);
 
                     if (blockedAreas != null && blockedAreas.Count > 0 && IsPointBlocked(candidate, blockedAreas))
+                    {
+                        ClickPointDiagnosticTrace.Probe(candidate, "overlap-rejected");
                         continue;
+                    }
 
                     if (isAllowedPoint != null && !isAllowedPoint(candidate))
+                    {
+                        ClickPointDiagnosticTrace.Probe(candidate, "ui-area-rejected");
                         continue;
+                    }
+                    ClickPointDiagnosticTrace.Probe(candidate, "accepted-candidate");
 
                     float dx = candidate.X - clampedPreferred.X;
                     float dy = candidate.Y - clampedPreferred.Y;
@@ -183,6 +192,7 @@ namespace ClickItMax.Features.Click.Interaction
             }
 
             resolvedPoint = clampedPreferred;
+            ClickPointDiagnosticTrace.Reject("label-search", "no-admissible-probe");
             return false;
         }
 
@@ -194,7 +204,10 @@ namespace ClickItMax.Features.Click.Interaction
             for (int i = 0; i < blockedAreas.Count; i++)
             {
                 if (IsPointInsideRect(point, blockedAreas[i]))
+                {
+                    ClickPointDiagnosticTrace.OverlapHit(point, blockedAreas[i], i);
                     return true;
+                }
             }
 
             return false;

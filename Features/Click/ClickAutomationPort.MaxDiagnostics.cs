@@ -1,3 +1,5 @@
+using ClickItMax.Features.Click.MaxPickup;
+
 namespace ClickItMax.Features.Click
 {
     public sealed partial class ClickAutomationPort
@@ -14,6 +16,7 @@ namespace ClickItMax.Features.Click
             if (!Monitor.TryEnter(_maxPickupLock)) return;
             try
             {
+                ObserveMaxMovementCooldowns();
                 long now = Environment.TickCount64;
                 string key = _settings.ClickLabelKeyBinding.ToString();
                 bool rawDown = (GetAsyncKeyState((int)_settings.ClickLabelKeyBinding) & 0x8000) != 0;
@@ -24,7 +27,8 @@ namespace ClickItMax.Features.Click
                     EndMaxPickupSession(!enabled ? "disabled" : !foreground ? "foreground-lost" : key != _maxSessionKey ? "key-changed" : "hotkey-released", now, rawDown);
                 if (active && !_maxSessionActive)
                 {
-                    _maxSessionActive = true; _maxSessionNumber++; _maxSessionStarted = now; _maxSessionClicks = 0; _maxSessionKey = key;
+                    _maxSessionActive = true; _maxSessionNumber++; _maxSessionStarted = now; _maxSessionClicks = 0; _maxSessionMovementCasts = 0; _maxSessionKey = key;
+                    if (!_maxTravel.Active) _maxMovementAttempts.Clear();
                     _inputHandler.BeginPeriodicToggleItemsSession();
                     _maxLastState = ""; // Each activation must log its initial motion state even if unchanged.
                     _maxSkips.Clear(); _maxLastSkipFlush = now;
@@ -33,6 +37,9 @@ namespace ClickItMax.Features.Click
                         repeatMs = _settings.MaxPickupRepeatDelayMs.Value, nearRadius = _settings.MaxPickupNearRadius.Value, frequencyMs = _settings.ClickFrequencyTarget.Value,
                         startTimeoutMs = _maxPickup.StartTimeoutMs, globalBackoffMs = 0, positionSettleMs = _maxPickup.PositionSettleMs,
                         verifyNearUiHover = _settings.MaxPickupVerifyNearUiHover.Value, verifyFarUiHover = _settings.MaxPickupVerifyFarUiHover.Value,
+                        movementEnabled = _settings.MaxPickupMovementEnabled.Value, movementDistance = _settings.MaxPickupMovementDistance.Value,
+                        flameDashInstantIntervalMs = LootMovementRules.FlameDashInstantIntervalMs,
+                        flameDashWalkWaitMs = _settings.MaxPickupFlameDashWaitMs.Value,
                         toggleItems = _settings.ToggleItems.Value, toggleItemsIntervalMs = _settings.ToggleItemsIntervalMs.Value,
                         toggleItemsKey = _settings.ToggleItemsHotkeyBinding.ToString(), toggleItemsPostBlockMs = _settings.ToggleItemsPostToggleClickBlockMs.Value,
                         initialMovementTakeover = "until first actual dispatch in this hotkey session" });
@@ -53,6 +60,7 @@ namespace ClickItMax.Features.Click
                 long now = at ?? Environment.TickCount64;
                 FlushMaxSkips();
                 MaxLog("session-end", new { session = _maxSessionNumber, key = _maxSessionKey, reason, rawDown, durationMs = now - _maxSessionStarted, clicks = _maxSessionClicks,
+                    movementCasts = _maxSessionMovementCasts,
                     previousSampleGapMs = _maxLastKeySample == 0 ? (long?)null : now - _maxLastKeySample });
                 _maxSessionActive = false;
                 _inputHandler.EndPeriodicToggleItemsSession();

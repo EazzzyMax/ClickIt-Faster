@@ -64,9 +64,14 @@ namespace ClickItMax.Features.Area
         {
             AreaBlockedSnapshot snapshot = _blockedSnapshotProvider.CurrentSnapshot;
             if (!BlockedAreaGeometryEngine.PointInUiRectangle(point, snapshot.FullScreenRectangle))
+            {
+                ClickPointDiagnosticTrace.AreaDecision(snapshot, point, false, -2);
                 return false;
+            }
 
-            return !IsBlockedByAreaEvaluatorPipeline(snapshot, point);
+            bool blocked = _blockedAreaEvaluatorPipeline.IsBlocked(snapshot, point, out int rule);
+            ClickPointDiagnosticTrace.AreaDecision(snapshot, point, !blocked, rule);
+            return !blocked;
         }
 
         private bool IsBlockedByAreaEvaluatorPipeline(AreaBlockedSnapshot snapshot, Vector2 point)

@@ -14,7 +14,10 @@ namespace ClickItMax.Shared.Game
                     ? resolvedIsValid
                     : element.IsValid);
             if (element == null || !isValid)
+            {
+                ClickPointDiagnosticTrace.RectangleReadFailure(element == null ? "label-element-null" : "label-element-invalid", label?.Address, element?.Address);
                 return false;
+            }
 
             return TryGetElementRect(element, out rect);
         }
@@ -24,22 +27,32 @@ namespace ClickItMax.Shared.Game
         {
             rect = default;
             if (element == null)
+            {
+                ClickPointDiagnosticTrace.RectangleReadFailure("element-null", null, null);
                 return false;
+            }
 
             try
             {
                 object? maybeRect = element.GetClientRect();
                 if (maybeRect is not RectangleF resolvedRect)
+                {
+                    ClickPointDiagnosticTrace.RectangleReadFailure("GetClientRect-not-RectangleF", null, element.Address);
                     return false;
+                }
 
                 if (resolvedRect.Width <= 0 || resolvedRect.Height <= 0)
+                {
+                    ClickPointDiagnosticTrace.RectangleReadFailure("non-positive-width-or-height", null, element.Address, resolvedRect);
                     return false;
+                }
 
                 rect = resolvedRect;
                 return true;
             }
             catch
             {
+                ClickPointDiagnosticTrace.RectangleReadFailure("GetClientRect-threw", null, element.Address);
                 return false;
             }
         }

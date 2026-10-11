@@ -14,6 +14,27 @@
                     "Расстояние до предмета в мире. Рабочее значение — 20. Остановка дальнего подхода может происходить чуть дальше.");
                 SettingsUiRenderHelpers.DrawRangeNodeControl("Повторять клик не раньше, мс##MaxPickupRepeat", _settings.MaxPickupRepeatDelayMs, 100, 3000,
                     "Запрет повторного клика отдельно для каждого ID. Остальные предметы собираются без этой паузы.");
+                SettingsUiRenderHelpers.DrawToggleNodeControl("Movement к дальнему луту##MaxPickupMovement", _settings.MaxPickupMovementEnabled,
+                    "Только к видимым предметам. Сначала ближний подбор, затем доступный скилл по приоритету. Если скилл недоступен — идём пешком.");
+                SettingsUiRenderHelpers.DrawRangeNodeControl("Дистанция для movement##MaxPickupMovementDistance", _settings.MaxPickupMovementDistance, 1, 200,
+                    "Расстояние до самого предмета в мире, а не до рамки. Начиная с этой дистанции используем movement. Внутри радиуса без ходьбы скиллы не применяются. По умолчанию 60; общий Search Radius ограничивает выбор целей.");
+                if (_settings.MaxPickupMovementEnabled.Value && ImGui.TreeNode("Movement: скиллы и приоритет##MaxPickupSkills"))
+                {
+                    SettingsUiRenderHelpers.DrawToggleNodeControl("1. Flame Dash##MaxFD", _settings.MaxPickupFlameDash, "Нужен заряд и 850 мс после предыдущего использования. Если скоро готов — идём к той же цели и ждём; иначе выбираем следующий скилл.");
+                    SettingsUiRenderHelpers.DrawRangeNodeControl("Ждать Flame Dash на ходу, мс##MaxFDWait", _settings.MaxPickupFlameDashWaitMs, 0, 850,
+                        "Если заряд и проверки API готовы, а до конца внутреннего интервала 850 мс осталось не больше этого времени, идём пешком вместо другого скилла. Когда Flame Dash готов, используем его только если цель всё ещё за порогом movement. 0 — не ждать. По умолчанию 300 мс.");
+                    SettingsUiRenderHelpers.DrawToggleNodeControl("2. Frostblink##MaxFB", _settings.MaxPickupFrostblink, "Используем при готовности по данным API.");
+                    SettingsUiRenderHelpers.DrawToggleNodeControl("3. Leap Slam##MaxLS", _settings.MaxPickupLeapSlam, "Прыжок к точке, требуется подходящее оружие.");
+                    SettingsUiRenderHelpers.DrawToggleNodeControl("4. Whirling Blades##MaxWB", _settings.MaxPickupWhirlingBlades, "Наземный рывок; требуется подходящее оружие.");
+                    SettingsUiRenderHelpers.DrawToggleNodeControl("5. Dash##MaxDash", _settings.MaxPickupDash, "При удержании Shift направление прицеливания инвертируется, чтобы компенсировать Attack in Place.");
+                    SettingsUiRenderHelpers.DrawToggleNodeControl("Dash: Always Attack Without Moving включён в игре##MaxDashAIP", _settings.MaxPickupDashAlwaysAttackInPlace,
+                        "Повторите здесь состояние этой галочки у Dash в игре: API не сообщает его. Включено — компенсируем разворот даже без Shift.");
+                    SettingsUiRenderHelpers.DrawToggleNodeControl("6. Blink Arrow##MaxBA", _settings.MaxPickupBlinkArrow, "Ждём перемещения после прилёта стрелы. Требуется лук.");
+                    SettingsUiRenderHelpers.DrawToggleNodeControl("7. Lightning Warp##MaxLW", _settings.MaxPickupLightningWarp, "Ждём отложенного телепорта; повторные телепорты в очередь не отправляем.");
+                    SettingsUiRenderHelpers.DrawToggleNodeControl("8. Shield Charge##MaxSC", _settings.MaxPickupShieldCharge, "Последний приоритет. Ждём завершения Charge, даже если флаг ходьбы false. Требуется щит.");
+                    ImGui.TextWrapped("Привязки читаются с панели, включая Ctrl. Поддерживаются клавиатурные клавиши; остальные варианты скиллов не включены.");
+                    ImGui.TreePop();
+                }
                 SettingsUiRenderHelpers.DrawToggleNodeControl("Проверять наведение: ближние клики##MaxPickupVerifyNearUiHover", _settings.MaxPickupVerifyNearUiHover,
                     "Применяется к предметам в пределах выбранного радиуса без ходьбы. Включено: две сверки UIHover с выбранной подписью. Выключено: кликаем в рассчитанную точку без сверок. Пауза 10 мс после перемещения курсора сохраняется.");
                 SettingsUiRenderHelpers.DrawToggleNodeControl("Проверять наведение: дальние клики##MaxPickupVerifyFarUiHover", _settings.MaxPickupVerifyFarUiHover,

@@ -12,7 +12,7 @@ namespace ClickItMax.Features.Click
         private long? _maxPreviousSentAt;
         private string? _maxLogPath;
         private bool _maxToggleRefreshPending;
-        private bool MaxCanTakeOverInitialMovement => _maxSessionActive && _maxSessionClicks == 0;
+        private bool MaxCanTakeOverInitialMovement => _maxSessionActive && _maxSessionClicks == 0 && _maxSessionMovementCasts == 0;
         [DllImport("user32.dll")] private static extern short GetAsyncKeyState(int key);
 
         internal void CancelMaxPickup()
@@ -21,6 +21,7 @@ namespace ClickItMax.Features.Click
             {
                 ObserveMaxPickupSession();
                 _maxPickup.Reset();
+                MaxCancelFlameDashWalk("session-or-context-ended");
                 _settings.MaxPickupStatus = "Пауза";
             }
         }
@@ -30,12 +31,24 @@ namespace ClickItMax.Features.Click
             player = _gameController.Player;
             position = default; moving = null;
             if (player == null || !player.IsValid || player.IsDead) return false;
-            position = player.GridPosNum;
-            try { moving = player.GetComponent<ExileCore.PoEMemory.Components.Actor>()?.isMoving; } catch { }
+            // Fresh private wrappers avoid dependence on the HUD frame-cache cadence.
+            var positioned = player.GetComponent<ExileCore.PoEMemory.Components.Positioned>();
+            if (positioned == null) return false;
+            var freshPosition = player.GetObject<ExileCore.PoEMemory.Components.Positioned>(positioned.Address);
+            position = new(freshPosition.GridX, freshPosition.GridY);
+            try { moving = MaxFreshActor(player)?.isMoving; } catch { }
             return float.IsFinite(position.X) && float.IsFinite(position.Y);
         }
 
         private static PickupItemKey MaxKey(Entity item) => new(item.Id, item.Address);
+
+        private static float MaxGridDistance(Entity item, System.Numerics.Vector2 playerPosition)
+        {
+            var component = item.GetComponent<ExileCore.PoEMemory.Components.Positioned>();
+            if (component == null || component.Address == 0) return float.NaN;
+            var fresh = item.GetObject<ExileCore.PoEMemory.Components.Positioned>(component.Address);
+            return System.Numerics.Vector2.Distance(new(fresh.GridX, fresh.GridY), playerPosition);
+        }
 
         private bool MaxFreshItem(LabelOnGround label, out Entity? item)
         {
@@ -65,8 +78,17 @@ namespace ClickItMax.Features.Click
             try
             {
                 _maxLogPath ??= Path.Combine(AppContext.BaseDirectory, "Logs", "ClickItMax", "pickup-" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".jsonl");
-                Directory.CreateDirectory(Path.GetDirectoryName(_maxLogPath)!);
-                File.AppendAllText(_maxLogPath, JsonConvert.SerializeObject(new { kind, utc = DateTime.UtcNow, ms = Environment.TickCount64, session = _maxSessionActive ? (int?)_maxSessionNumber : null, data }) + Environment.NewLine);
+                if (_maxLogWriter == null)
+                {
+                    _maxLogWriter = new BoundedPickupLogWriter(_maxLogPath);
+                    _maxLogWriter.TryWrite(new { kind = "logging-config", utc = DateTime.UtcNow, ms = Environment.TickCount64,
+                        data = new { version = 1, backgroundSerializationAndDisk = true, queueCapacity = 256,
+                            failureDetailIntervalMs = 1000, maxDetailedFailuresPerSecond = 8, maxTraceEvents = 256,
+                            rotateAfterChars = 16 * 1024 * 1024, retainedPartsPerRun = 4 } });
+                }
+                _maxLogWriter.TryWrite(new { kind, utc = DateTime.UtcNow, ms = Environment.TickCount64,
+                    session = _maxSessionActive ? (int?)_maxSessionNumber : null,
+                    logging = new { dropped = _maxLogWriter.Dropped, errors = _maxLogWriter.Errors }, data });
             }
             catch { }
         }
@@ -78,7 +100,9 @@ namespace ClickItMax.Features.Click
                 try { RunMaxPickupTickCore(); }
                 catch (Exception ex)
                 {
+                    ClickPointDiagnosticTrace.Reject("movement", ex.GetType().Name + ": " + ex.Message);
                     _maxPickup.Reset();
+                    MaxCancelFlameDashWalk("read-error");
                     _settings.MaxPickupStatus = "Ошибка чтения — пауза";
                     long now = Environment.TickCount64;
                     if (now - _maxLastStateLog > 1000)
@@ -109,12 +133,18 @@ namespace ClickItMax.Features.Click
             if (_maxArea != area || _maxPlayer != player!.Id)
             {
                 _maxPickup.ResetForArea();
+                _maxTravel.ResetForArea();
+                _maxMovementAttempts.Clear();
+                MaxCancelFlameDashWalk("area-player-changed");
                 _maxArea = area; _maxPlayer = player!.Id;
                 _labelSelectionService.ResetCaches();
                 _labelClickPointResolver.InvalidateLayout();
                 _cachedLabels.ForceUpdate();
                 MaxLog("area-reset", new { area, player = player.Id });
             }
+            // Owned casts are observed before label refresh or normal walk/selection policy.
+            // Keeping them across hotkey release also prevents a delayed Warp being queued twice.
+            bool movementInProgress = MaxObserveTravel(player!, position);
             // Periodic view refresh runs even while approaching a far item or when
             // no candidate is available, but only inside the existing input/UI gates.
             if (_inputHandler.IsPeriodicToggleItemsDue() && _inputHandler.CanClick(_gameController, false, false)
@@ -127,6 +157,7 @@ namespace ClickItMax.Features.Click
                     postBlockMs = _settings.ToggleItemsPostToggleClickBlockMs.Value });
                 return; // Don't click a label in the same tick that moved its UI.
             }
+            if (movementInProgress) return;
             if (_maxToggleRefreshPending)
             {
                 _labelSelectionService.ResetCaches();
@@ -145,6 +176,7 @@ namespace ClickItMax.Features.Click
                 _maxLastState = _settings.MaxPickupStatus;
                 MaxLog("motion", new { state = _maxLastState, moving, x = position.X, y = position.Y, target = _maxPickup.ActiveItem });
             }
+            if (MaxTryResumeFlameDashWalk(labels, player!, position)) return;
             if (!observation.AllowDispatch) { MaxSkip("motion:" + observation.State); return; }
 
             // Selection stays live. No queue of screen coordinates or inventory acknowledgements.
@@ -167,7 +199,7 @@ namespace ClickItMax.Features.Click
                         var key = MaxKey(item!);
                         if (!_maxPickup.CanDispatch(key, Environment.TickCount64, _settings.MaxPickupRepeatDelayMs.Value)) return RejectCandidate(2);
                         if (unattemptedOnly && !_maxPickup.IsUnattempted(key)) return RejectCandidate(3);
-                        float distance = item!.DistancePlayer;
+                        float distance = MaxGridDistance(item!, position);
                         if (!float.IsFinite(distance) || distance > _settings.ClickDistance.Value) return RejectCandidate(4);
                         if ((distance > _settings.MaxPickupNearRadius.Value) != far) return RejectCandidate(5);
                         if (_labelClickPointResolver.IsLabelFullyOverlapped(label, labels)) return RejectCandidate(6);
@@ -185,16 +217,28 @@ namespace ClickItMax.Features.Click
             double selectionMs = Stopwatch.GetElapsedTime(selectionStarted).TotalMilliseconds;
             if (!MaxFreshItem(selected, out var target)) { MaxSkip("target-disappeared-before-click"); return; }
             var targetKey = MaxKey(target!);
+            using var pointDiagnostics = MaxBeginPointDiagnostics(selected, target!, position);
+            int flameWaitMs = 0;
+            if (selectedFar)
+            {
+                try { if (MaxTryCastMovement(selected, target!, player!, out flameWaitMs)) return; }
+                catch (Exception ex)
+                {
+                    MaxLog("movement-error", new { ex.Message, type = ex.GetType().Name, inputAlreadySent = _maxTravel.Active });
+                    if (_maxTravel.Active) return; // A diagnostic read after keydown cannot authorize a second input.
+                }
+            }
             var window = _gameController.Window.GetWindowRectangleTimeCache;
             var topLeft = new Vector2(window.X, window.Y);
             long resolveStarted = Stopwatch.GetTimestamp();
-            if (!LabelInteraction.TryResolveLabelClickPosition(selected, MechanicIds.Items, topLeft, labels, out var clickPosition)) { MaxSkip("click-point-unresolved", new { target = targetKey }); return; }
+            if (!LabelInteraction.TryResolveLabelClickPosition(selected, MechanicIds.Items, topLeft, labels, out var clickPosition))
+            { ClickPointDiagnosticTrace.Reject("label-resolution", "click-point-unresolved"); MaxSkip("click-point-unresolved", new { target = targetKey }); return; }
             double resolveMs = Stopwatch.GetElapsedTime(resolveStarted).TotalMilliseconds;
 
             // Recheck after hover preparation, immediately before sending actual mouse input.
             bool verifyUiHover = selectedFar ? _settings.MaxPickupVerifyFarUiHover.Value : _settings.MaxPickupVerifyNearUiHover.Value;
             string? finalReject = null;
-            bool RejectFinal(string reason) { finalReject = reason; return false; }
+            bool RejectFinal(string reason) { finalReject = reason; ClickPointDiagnosticTrace.Reject("before-dispatch", reason); return false; }
             _interactionExecutor.BeforeDispatch = () =>
             {
                 if (!_settings.Enable.Value || !_settings.MaxPickupEnabled.Value) return RejectFinal("disabled");
@@ -208,7 +252,7 @@ namespace ClickItMax.Features.Click
                 position = fresh;
                 var check = _maxPickup.Observe(Environment.TickCount64, freshMoving, fresh.X, fresh.Y, MaxActiveTargetVisible(labels),
                     allowInitialMovementTakeover: MaxCanTakeOverInitialMovement);
-                float distance = freshTarget!.DistancePlayer;
+                float distance = MaxGridDistance(freshTarget!, fresh);
                 if (verifyUiHover)
                 {
                     long expected = selected.Label.Address;
@@ -228,6 +272,7 @@ namespace ClickItMax.Features.Click
             finally { _interactionExecutor.BeforeDispatch = null; }
             if (!sent)
             {
+                ClickPointDiagnosticTrace.Outcome("pickup-input", "not-sent");
                 try
                 {
                     MaxSkip("click-rejected:" + (finalReject ?? "executor-preparation"), new { target = targetKey, far = selectedFar, verifyUiHover,
@@ -237,12 +282,15 @@ namespace ClickItMax.Features.Click
                 return;
             }
             long sentAt = Environment.TickCount64 - _performanceMonitor.GetElapsedSinceLastClickMs();
+            ClickPointDiagnosticTrace.Outcome("pickup-input", "sent");
             bool tookOverMovement = _maxPickup.State == PickupMotionState.TakingOverMovement;
             _maxPickup.RecordDispatch(targetKey, sentAt, position.X, position.Y, selectedFar);
+            if (selectedFar) MaxBeginFlameDashWalk(targetKey, flameWaitMs);
             _maxSessionClicks++;
             _labelClickPointResolver.InvalidateLayout();
             long? previousSentAt = _maxPreviousSentAt; _maxPreviousSentAt = sentAt;
-            MaxLog("click-sent", new { target = targetKey, far = selectedFar, tookOverMovement, verifyUiHover, distance = target!.DistancePlayer, sentAt, repeatMs = _settings.MaxPickupRepeatDelayMs.Value,
+            MaxLog("click-sent", new { target = targetKey, far = selectedFar, tookOverMovement, verifyUiHover, distance = MaxGridDistance(target!, position),
+                clickX = clickPosition.X, clickY = clickPosition.Y, sentAt, repeatMs = _settings.MaxPickupRepeatDelayMs.Value,
                 previousClickGapMs = previousSentAt is long prev ? sentAt - prev : (long?)null, selectionMs, resolveMs,
                 executorMs = Stopwatch.GetElapsedTime(executorStarted).TotalMilliseconds, tickMs = Stopwatch.GetElapsedTime(tickStarted).TotalMilliseconds });
         }

@@ -179,6 +179,21 @@ public sealed class PickupMotionPolicy
         Finish(PickupMotionState.AwaitingMovement);
     }
 
+    /// <summary>
+    /// A successfully sent travel skill replaces our current far-item walk command.
+    /// That command is not a completed pickup attempt: allow a landing pickup click
+    /// without waiting out its retry timer. Other items' actual click history survives.
+    /// Call only after input was sent, while this exact walk is still owned.
+    /// </summary>
+    public bool TransferWalkToMovement(PickupItemKey key)
+    {
+        if (_activeItem != key) return false;
+        if (_lastDispatch.TryGetValue(key, out var sentAt) && sentAt == _approachStarted)
+            _lastDispatch.Remove(key);
+        Reset();
+        return true;
+    }
+
     /// <summary>Hotkey/UI cancellation releases the approach but preserves actual-input cooldowns.</summary>
     public void Reset(bool preserveCooldown = true)
     {

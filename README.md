@@ -15,12 +15,14 @@ The repository is **ClickIt-Faster**. The installed plugin, assembly and profile
 - Movement-start observation is limited to 150 ms, without the extra global 300 ms retry pause. Movement and progress guards still apply.
 - Periodic label refresh presses the configured Toggle Items Hotkey twice at the configured interval. The first pair happens after a full interval, never immediately at activation.
 - Structured diagnostics record sessions, dispatches, movement, rejection reasons and refresh events independently of on-screen debug messages.
+- Optional movement skills approach visible distant loot, using the priority Flame Dash, Frostblink, Leap Slam, Whirling Blades, Dash, Blink Arrow, Lightning Warp, Shield Charge. Each skill can be disabled; the world-distance threshold defaults to 60.
+- Flame Dash uses a shared 850 ms interval after manual or automatic use. If a charged, otherwise ready Flame Dash will be available within the configurable wait window (default 300 ms), walk toward the same item instead of using a lower-priority skill. Blink when ready only if the item is still far enough away.
 
 Fast mode handles items using ClickIt's existing eligibility/filtering rules. Turning off **«Быстрый подбор предметов»** selects the original regular pipeline inside this fork, including its broader mechanics. Total pickup time depends on walking, label overlap, latency and settings; the name is not a universal speedup guarantee.
 
 ## Requirements and installation
 
-Windows x64, .NET 10 SDK for building, and a compatible PoE 1 ExileAPI/ExileCore host providing `ExileCore.dll`, `GameOffsets.dll` and `ProcessMemoryUtilities.dll`. Compatibility was checked against the locally installed host on 2026-10-10, not every host fork or future game patch.
+Windows x64, .NET 10 SDK for building, and a compatible PoE 1 ExileAPI/ExileCore host providing `ExileCore.dll`, `GameOffsets.dll` and `ProcessMemoryUtilities.dll`. Compatibility was checked against the locally installed host on 2026-10-11, not every host fork or future game patch.
 
 Build with your host directory:
 
@@ -41,6 +43,9 @@ Settings: `config/global/ClickItMax_settings.json`. Existing ClickIt profiles ar
 | «Быстрый подбор предметов» | Enables the alternate near/far item algorithm. |
 | Nearby radius | World/grid distance classifying near and far targets; default 20. |
 | Per-item repeat delay | Minimum interval before another actual click on the same ground entity; default 800 ms. |
+| Movement to distant loot | Enables approved ground-target travel skills for visible loot. |
+| Movement distance | World/grid threshold for using a travel skill; default 60. |
+| «Ждать Flame Dash на ходу, мс» | Prefer walking until Flame Dash is ready within this window; default 300 ms, 0 disables waiting. |
 | «Проверять наведение: ближние клики» | Verifies the hovered label before nearby clicks. |
 | «Проверять наведение: дальние клики» | Independently verifies the hovered label before distant clicks. |
 | Click Frequency Target | Target cadence; frame scheduling and other work may make it slower. |
@@ -51,9 +56,15 @@ Settings: `config/global/ClickItMax_settings.json`. Existing ClickIt profiles ar
 
 Both hover checks default to enabled. Disabling them skips label-identity verification, retaining focus, hotkey, UI, movement and target-validity guards. Cursor-settle delays remain. Releasing pickup stops new commands but does not cancel walking already accepted by the game.
 
+Movement settings are under **Controls → Movement: скиллы и приоритет**. Skill-bar bindings retain Ctrl/Shift/Alt modifiers. Manual and automatic Flame Dash share the interval; it is a tested working setting, not a claim about every character's exact instant-cast threshold. Waiting requires a charge and the other API readiness gates; it does not predict recharge of a missing charge. While waiting, the same visible item owns the walk. If it becomes closer than the movement threshold, continue ordinary pickup. Only after a deferred Flame Dash is actually sent does the replaced walk command release its own retry timer, allowing pickup on landing; other item timers remain intact.
+
+Only one travel attempt is made toward an item per hotkey session. Teleports complete from observed displacement; ground movement uses its own action completion. Pending casts remain tracked across hotkey release. An uncertain Lightning Warp disables further Warp use until the area changes, avoiding queued teleports. For Dash, mirror its in-game Always Attack Without Moving setting in the plugin to compensate for reversed direction. This mode does not use offscreen pathfinding.
+
 ## Diagnostics and tests
 
 Host logs: `Logs/ClickItMax/pickup-*.jsonl`. Look for session-start/end, click-sent, motion/rejection records and toggle-items. Dispatch is not proof of collection. Hotkey edges are sampled observations, not native input timestamps.
+
+Movement emits `movement-cast`, `movement-end` and `movement-walk-wait-start/end`. Sampled `point-diagnostic` records preserve the decision-time label rectangle, attempted click/ground points, overlap and named UI blockers, window bounds, hover and the exact rejection stage. Supplementary reads are identified separately. Diagnostic detail is rate-limited; serialization and disk writes use a bounded background queue, dropping diagnostics rather than blocking input when full. Each process run retains up to four rotating parts; old runs are not deleted automatically. Logs are diagnostic data and should be reviewed before sharing.
 
 Independent movement traces need no game or host:
 
@@ -67,7 +78,7 @@ Focused regressions require compatible host libraries:
 dotnet test Tests/ClickItMax.Tests.csproj -c Release -p:exapiPackage="D:\ExileAPI" --filter "FullyQualifiedName~InputHandler|FullyQualifiedName~InteractionExecutor|FullyQualifiedName~ClickLabelInteractionServiceTests|FullyQualifiedName~InteractionExecutionRuntimeTests|FullyQualifiedName~LabelSelectionServiceTests|FullyQualifiedName~LabelSelectionEngineTests|FullyQualifiedName~PluginLoopHostTests"
 ```
 
-The test assembly disables native mouse input; periodic refresh tests use fake clocks and keyboard delegates. The publication snapshot passed 179 focused tests and 23 movement traces locally. The complete inherited suite is not claimed to pass. CI runs only independent motion traces without game or proprietary host binaries.
+The test assembly disables native mouse input; periodic refresh tests use fake clocks and keyboard delegates. This update passed 261 focused regressions and 23 independent movement traces locally. The complete inherited suite is not claimed to pass. CI runs only independent motion traces without game or proprietary host binaries. Movement and diagnostic regressions can also be selected with `FullyQualifiedName~LootMovementTests|FullyQualifiedName~FlameDashWalkWaitTests|FullyQualifiedName~PointDiagnosticsTests`. The maintainer reports successful live pickup with this update; that does not establish behavior on every build or scene.
 
 ## Credits and terms
 

@@ -172,6 +172,7 @@ namespace ClickItMax.Features.Click.Interaction
 
             if (!TryConsumeLazyModeLimiter())
             {
+                ClickPointDiagnosticTrace.Reject("click-preparation", "lazy-mode-limiter");
                 swTotal.Stop();
                 return false;
             }
@@ -181,6 +182,7 @@ namespace ClickItMax.Features.Click.Interaction
                 _isClickHotkeyActive(),
                 allowWhenHotkeyInactive))
             {
+                ClickPointDiagnosticTrace.Reject("click-preparation", "hotkey-inactive");
                 swTotal.Stop();
                 return false;
             }
@@ -188,6 +190,7 @@ namespace ClickItMax.Features.Click.Interaction
             Vector2 executionPosition = ResolveClickExecutionPosition(position, avoidCursorMove);
             if (!LabelClickPointSearch.TryValidateAutomationScreenPoint(executionPosition, gameController, out string invalidPointReason))
             {
+                ClickPointDiagnosticTrace.Reject("click-preparation", invalidPointReason);
                 _errorHandler?.LogMessage(true, true, $"InteractionExecutor: Skipping {clickKind} at {executionPosition} ({invalidPointReason}).", 10);
                 swTotal.Stop();
                 return false;
@@ -207,8 +210,10 @@ namespace ClickItMax.Features.Click.Interaction
             if (expectedAddress != 0 && (forceUiHoverVerification || lazyModeEnabled || verifyUiHoverWhenNotLazy))
             {
                 ulong hoverAddress = unchecked((ulong)(gameController?.IngameState?.UIHoverElement?.Address ?? 0));
+                ClickPointDiagnosticTrace.Hover(executionPosition, expectedAddress, hoverAddress);
                 if (ShouldSkipClickDueToHoverMismatch(lazyModeEnabled, verifyUiHoverWhenNotLazy, expectedAddress, hoverAddress, forceUiHoverVerification))
                 {
+                    ClickPointDiagnosticTrace.Reject("click-preparation", "hover-mismatch");
                     _errorHandler?.LogMessage(true, true, hoverMismatchMessage, 5);
                     RestoreCursorIfLazyMode(before, gameController);
                     swTotal.Stop();

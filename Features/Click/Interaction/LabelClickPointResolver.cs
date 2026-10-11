@@ -80,7 +80,10 @@ namespace ClickItMax.Features.Click.Interaction
             clickPosition = default;
 
             if (!TryResolveLabelRect(label, out RectangleF rect))
+            {
+                ClickPointDiagnosticTrace.Reject("label-layout", "rectangle-unreadable-or-invalid");
                 return false;
+            }
 
             ResolveLabelMetadataCached(label, out EntityType itemType, out string? itemPath, out string? renderName);
 
@@ -114,6 +117,7 @@ namespace ClickItMax.Features.Click.Interaction
 
             Vector2 preferredPoint = ResolvePreferredPoint(rect, itemType, itemPath, renderName);
             IReadOnlyList<RectangleF> effectiveBlockedAreas = avoidOverlapsEnabled ? blockedAreas : [];
+            ClickPointDiagnosticTrace.Layout(rect, windowTopLeft, preferredPoint, effectiveBlockedAreas, renderName, itemPath);
             if (!LabelClickPointSearch.TryResolveVisibleClickablePoint(rect, preferredPoint, effectiveBlockedAreas, isClickableArea, out Vector2 resolvedPoint))
                 return false;
 
@@ -124,6 +128,7 @@ namespace ClickItMax.Features.Click.Interaction
                 jitteredPoint = resolvedPoint;
 
             clickPosition = jitteredPoint + windowTopLeft;
+            ClickPointDiagnosticTrace.Resolved(resolvedPoint, jitteredPoint, clickPosition);
             return true;
         }
 

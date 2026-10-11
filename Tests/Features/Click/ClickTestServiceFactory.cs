@@ -83,6 +83,9 @@ namespace ClickItMax.Tests.Features.Click
 
         private sealed class NoOpLabelSelectionService : ILabelSelectionService
         {
+            public LabelOnGround? GetNearestLabelToClick(IReadOnlyList<LabelOnGround> labels,
+                Func<LabelOnGround, LabelCandidateBuildResult, float?> eligibleDistance, out float distance)
+            { distance = float.PositiveInfinity; return null; }
             public LabelOnGround? GetNextLabelToClick(
                 IReadOnlyList<LabelOnGround>? allLabels,
                 int startIndex,

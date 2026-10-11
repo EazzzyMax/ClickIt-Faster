@@ -190,6 +190,16 @@ namespace ClickItMax.Tests.Features.Click
             Func<IReadOnlyList<LabelOnGround>?, int, int, LabelOnGround?>? getNextLabelToClick = null,
             Func<LabelOnGround?, string?>? getMechanicIdForLabel = null) : ILabelSelectionService
         {
+            public LabelOnGround? GetNearestLabelToClick(IReadOnlyList<LabelOnGround> allLabels,
+                Func<LabelOnGround, LabelCandidateBuildResult, float?> eligibleDistance, out float distance)
+            {
+                distance = float.PositiveInfinity; LabelOnGround? selected = null;
+                foreach (var label in allLabels)
+                    if (eligibleDistance(label, default) is float value && float.IsFinite(value) && value >= 0 && value < distance)
+                    { selected = label; distance = value; }
+                return selected;
+            }
+
             public LabelOnGround? GetNextLabelToClick(IReadOnlyList<LabelOnGround>? allLabels, int startIndex, int maxCount)
                 => getNextLabelToClick?.Invoke(allLabels, startIndex, maxCount);
 

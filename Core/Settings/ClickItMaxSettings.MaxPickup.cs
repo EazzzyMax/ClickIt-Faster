@@ -6,7 +6,7 @@ namespace ClickItMax
         [IgnoreMenu] public ToggleNode MaxPickupVerifyNearUiHover { get; set; } = new(true);
         [IgnoreMenu] public ToggleNode MaxPickupVerifyFarUiHover { get; set; } = new(true);
         [IgnoreMenu] public RangeNode<int> MaxPickupNearRadius { get; set; } = new(20, 1, 40);
-        [IgnoreMenu] public RangeNode<int> MaxPickupRepeatDelayMs { get; set; } = new(800, 100, 3000);
+        [IgnoreMenu] public RangeNode<int> MaxPickupRepeatDelayMs { get; set; } = new(100, 10, 500);
         [IgnoreMenu] public ToggleNode MaxPickupMovementEnabled { get; set; } = new(true);
         [IgnoreMenu] public RangeNode<int> MaxPickupMovementDistance { get; set; } = new(60, 1, 200);
         [IgnoreMenu] public RangeNode<int> MaxPickupFlameDashWaitMs { get; set; } = new(300, 0, 850);

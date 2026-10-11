@@ -7,17 +7,17 @@
         public void Draw()
         {
             SettingsUiRenderHelpers.DrawToggleNodeControl("Быстрый подбор предметов##MaxPickupEnabled", _settings.MaxPickupEnabled,
-                "Подбор по ID без ожидания инвентаря. В этом режиме работают предметы; остальные механики доступны при выключенном режиме.");
+                "Подбор по ID без ожидания инвентаря. Перед дальним уходом ждём исчезновения ближнего лута с пола. В этом режиме работают предметы; остальные механики доступны при выключенном режиме.");
             if (_settings.MaxPickupEnabled.Value)
             {
                 SettingsUiRenderHelpers.DrawRangeNodeControl("Радиус без ходьбы##MaxPickupNear", _settings.MaxPickupNearRadius, 1, 40,
-                    "Расстояние до предмета в мире. Рабочее значение — 20. Остановка дальнего подхода может происходить чуть дальше.");
-                SettingsUiRenderHelpers.DrawRangeNodeControl("Повторять клик не раньше, мс##MaxPickupRepeat", _settings.MaxPickupRepeatDelayMs, 100, 3000,
+                    "Расстояние до предмета в мире. Пока здесь остаётся подходящий предмет на полу, уход за порог movement запрещён, независимо от кликов и таймера повтора. Рабочее значение — 20.");
+                SettingsUiRenderHelpers.DrawRangeNodeControl("Повторять клик не раньше, мс##MaxPickupRepeat", _settings.MaxPickupRepeatDelayMs, 10, 500,
                     "Запрет повторного клика отдельно для каждого ID. Остальные предметы собираются без этой паузы.");
                 SettingsUiRenderHelpers.DrawToggleNodeControl("Movement к дальнему луту##MaxPickupMovement", _settings.MaxPickupMovementEnabled,
                     "Только к видимым предметам. Сначала ближний подбор, затем доступный скилл по приоритету. Если скилл недоступен — идём пешком.");
                 SettingsUiRenderHelpers.DrawRangeNodeControl("Дистанция для movement##MaxPickupMovementDistance", _settings.MaxPickupMovementDistance, 1, 200,
-                    "Расстояние до самого предмета в мире, а не до рамки. Начиная с этой дистанции используем movement. Внутри радиуса без ходьбы скиллы не применяются. По умолчанию 60; общий Search Radius ограничивает выбор целей.");
+                    "Расстояние до самого предмета в мире, а не до рамки. Начиная с этой дистанции используем movement. К целям дальше этого порога не идём и не применяем скилл, пока остаётся ближний лут. По умолчанию 60; общий Search Radius ограничивает выбор целей.");
                 if (_settings.MaxPickupMovementEnabled.Value && ImGui.TreeNode("Movement: скиллы и приоритет##MaxPickupSkills"))
                 {
                     SettingsUiRenderHelpers.DrawToggleNodeControl("1. Flame Dash##MaxFD", _settings.MaxPickupFlameDash, "Нужен заряд и 850 мс после предыдущего использования. Если скоро готов — идём к той же цели и ждём; иначе выбираем следующий скилл.");

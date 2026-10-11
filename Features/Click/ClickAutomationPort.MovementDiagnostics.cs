@@ -15,11 +15,10 @@ public sealed partial class ClickAutomationPort
     private MovementCastDiagnosticTrace? MaxBeginMovementDiagnostic(LootSkillBinding binding,
         PickupItemKey target, System.Numerics.Vector2 position, Vector2 aim, object aimContext)
     {
-        if (binding.Kind != LootMovementKind.FlameDash) return null;
         try
         {
             long now = Environment.TickCount64;
-            _maxMovementDiagnostic?.Finish(now, "next-flame-dash-attempt");
+            _maxMovementDiagnostic?.Finish(now, "next-movement-attempt");
             _maxMovementDiagnosticSkill = binding.Skill.Id;
             _maxMovementDiagnosticChord = binding.Chord;
             _maxMovementDiagnosticPlayer = _maxPlayer ?? 0;
@@ -35,6 +34,9 @@ public sealed partial class ClickAutomationPort
                 sampleIntervalMs = MovementCastDiagnosticTrace.SampleIntervalMs,
                 maximumDurationMs = MovementCastDiagnosticTrace.MaximumDurationMs,
                 maximumEvents = MovementCastDiagnosticTrace.Capacity,
+                inputMode = "hold-until-use", maximumHoldMs = MovementInputHold.MaximumHoldMs,
+                holdPollIntervalMs = MovementInputHold.PollIntervalMs,
+                acceptance = "own-action-or-charge-spend; IsUsing/Stage diagnostic only",
                 observation = "supplementary SDK wrapper reads; not atomic, not raw memory or native keyboard hook"
             };
             var trace = new MovementCastDiagnosticTrace(++_maxMovementDiagnosticSequence, header, now,

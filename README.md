@@ -2,21 +2,23 @@
 
 An experimental item-pickup fork of [Barragek0/ClickIt](https://github.com/Barragek0/ClickIt), based on upstream commit `eb5d6b71821b7582108525d7f402a5ec8cb5f376`.
 
-The repository is **ClickIt-Faster**. The installed plugin, assembly and profile are **ClickItMax**, so the original ClickIt remains available for comparison. Enable only one at a time: the plugins do not coordinate input.
+The repository is **ClickIt-Faster**; the menu display name is **ClickIt Faster**. The DLL, namespace/internal identity and settings file remain **ClickItMax** for continuity with existing installations. The original ClickIt remains available for comparison. Enable only one at a time: the plugins do not coordinate input.
 
 ## What changed
 
-- Nearby items are clicked once, then temporarily excluded by ground-entity identity. The next click does not wait for inventory updates or ground disappearance.
+- Fast pickup always selects the nearest eligible item by fresh world/grid distance. A previous click excludes that ground entity only during its repeat delay; after expiry it competes equally with new items. Nearby pickup clicks do not wait for inventory updates.
+- Before any walk or movement-skill command to an item beyond the movement-distance threshold, wait while any known eligible ground item remains within the nearby radius. Click cooldowns and temporarily hidden labels do not release this guard; known item identity is checked against the ground entity list. There is no automatic wait timeout.
 - Distance uses world/grid positions, independently of displaced screen labels. The configurable nearby radius defaults to 20.
 - A distant target owns the approach until observed movement ends, its eligible label disappears, or recovery conditions apply. This prevents alternating between distant targets while walking.
 - A new hotkey session can redirect walking that began before pickup was activated.
 - Independent checkboxes control hover verification for nearby and distant clicks.
-- Per-item repeat delay is adjustable; new profiles default to 800 ms.
+- Per-item repeat delay is adjustable from 10 to 500 ms; new profiles default to 100 ms.
 - Movement-start observation is limited to 150 ms, without the extra global 300 ms retry pause. Movement and progress guards still apply.
 - Periodic label refresh presses the configured Toggle Items Hotkey twice at the configured interval. The first pair happens after a full interval, never immediately at activation.
 - Structured diagnostics record sessions, dispatches, movement, rejection reasons and refresh events independently of on-screen debug messages.
 - Optional movement skills approach visible distant loot, using the priority Flame Dash, Frostblink, Leap Slam, Whirling Blades, Dash, Blink Arrow, Lightning Warp, Shield Charge. Each skill can be disabled; the world-distance threshold defaults to 60.
 - Flame Dash uses a shared 850 ms interval after manual or automatic use. If a charged, otherwise ready Flame Dash will be available within the configurable wait window (default 300 ms), walk toward the same item instead of using a lower-priority skill. Blink when ready only if the item is still far enough away.
+- All eight supported movement skills hold their configured key until their own action starts or a charge is spent, with an 80 ms deadline and 5 ms polling. `IsUsing`/stage alone do not confirm a cast. One keydown is sent; context cancellation and an independent key-up watchdog bound ownership. An observed start is separate from arrival. Bounded diagnostic traces include every movement skill.
 
 Fast mode handles items using ClickIt's existing eligibility/filtering rules. Turning off **«Быстрый подбор предметов»** selects the original regular pipeline inside this fork, including its broader mechanics. Total pickup time depends on walking, label overlap, latency and settings; the name is not a universal speedup guarantee.
 
@@ -32,7 +34,7 @@ dotnet build ClickItMax.csproj -c Release -p:exapiPackage="D:\ExileAPI"
 
 With the host closed, create `Plugins/Compiled/ClickItMax` inside it. Copy `bin/Release/net10.0-windows/win-x64/ClickItMax.dll` into that folder. Place the included `alert.wav` at `config/ClickItMax/alert.wav` to avoid a first-run download. Do not overwrite host dependencies with this repository's inherited test libraries.
 
-Start the host normally, open settings (normally F12), select **ClickItMax**, enable it and configure **Click Hotkey**. New profiles use F6. Check item/mechanics settings for what should be collected. Keep the original ClickIt disabled while using ClickItMax.
+Start the host normally, open settings (normally F12), select **ClickIt Faster**, enable it and configure **Click Hotkey**. New profiles use F6. Check item/mechanics settings for what should be collected. Older builds show ClickItMax in the menu. Keep the original ClickIt disabled while using this fork.
 
 Settings: `config/global/ClickItMax_settings.json`. Existing ClickIt profiles are separate. To uninstall, close the host and remove `Plugins/Compiled/ClickItMax`; optionally remove its settings, sound directory and logs.
 
@@ -42,7 +44,7 @@ Settings: `config/global/ClickItMax_settings.json`. Existing ClickIt profiles ar
 | --- | --- |
 | «Быстрый подбор предметов» | Enables the alternate near/far item algorithm. |
 | Nearby radius | World/grid distance classifying near and far targets; default 20. |
-| Per-item repeat delay | Minimum interval before another actual click on the same ground entity; default 800 ms. |
+| Per-item repeat delay | Minimum interval before another actual click on the same ground entity; 10–500 ms, default 100 ms. |
 | Movement to distant loot | Enables approved ground-target travel skills for visible loot. |
 | Movement distance | World/grid threshold for using a travel skill; default 60. |
 | «Ждать Flame Dash на ходу, мс» | Prefer walking until Flame Dash is ready within this window; default 300 ms, 0 disables waiting. |
@@ -78,7 +80,9 @@ Focused regressions require compatible host libraries:
 dotnet test Tests/ClickItMax.Tests.csproj -c Release -p:exapiPackage="D:\ExileAPI" --filter "FullyQualifiedName~InputHandler|FullyQualifiedName~InteractionExecutor|FullyQualifiedName~ClickLabelInteractionServiceTests|FullyQualifiedName~InteractionExecutionRuntimeTests|FullyQualifiedName~LabelSelectionServiceTests|FullyQualifiedName~LabelSelectionEngineTests|FullyQualifiedName~PluginLoopHostTests"
 ```
 
-The test assembly disables native mouse input; periodic refresh tests use fake clocks and keyboard delegates. This update passed 261 focused regressions and 23 independent movement traces locally. The complete inherited suite is not claimed to pass. CI runs only independent motion traces without game or proprietary host binaries. Movement and diagnostic regressions can also be selected with `FullyQualifiedName~LootMovementTests|FullyQualifiedName~FlameDashWalkWaitTests|FullyQualifiedName~PointDiagnosticsTests`. The maintainer reports successful live pickup with this update; that does not establish behavior on every build or scene.
+The test assembly disables native mouse input; periodic refresh tests use fake clocks and keyboard delegates. The latest pickup/movement changes passed **122 focused regressions** locally; distance-only selection also passed **23 independent motion traces**. The earlier movement/diagnostic baseline passed 261 focused regressions; this is a separate historical run. The complete inherited suite is not claimed to pass. CI runs only independent motion traces without game or proprietary host binaries. Useful filters include `FullyQualifiedName~NearGroundLootBarrierTests|FullyQualifiedName~NearestPickupSelectionTests|FullyQualifiedName~MovementInputHoldTests|FullyQualifiedName~LootMovementTests`.
+
+On 2026-10-12, the maintainer reported more stable live pickup and fewer missed items after adding the near-ground departure guard. This is a user report, not a benchmark or universal success guarantee. The subsequent display-name-only change is source-only pending the next approved build; it has not been compiled or verified in the live menu. No DLL release accompanies this source update.
 
 ## Credits and terms
 

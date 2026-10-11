@@ -4,6 +4,31 @@ namespace ClickItMax.Tests.Features.Labels.Application
     public class LabelSelectionServiceTests
     {
         [TestMethod]
+        public void NearestSelectionReevaluatesCooldownAndDistanceWithoutCachingTheWinner()
+        {
+            var close = CreateOpaqueLabel(0x8100); var far = CreateOpaqueLabel(0x8200);
+            var service = new LabelSelectionService(new LabelSelectionServiceDependencies(
+                GameController: null, CreateClickSettings: static _ => TestClickSettings(),
+                ShouldCaptureLabelDebug: static () => false, PublishLabelDebugStage: static _ => { },
+                TryBuildLabelCandidate: static (LabelOnGround _, ClickSettings _, out Entity? item,
+                    out string? mechanicId, out LabelCandidateRejectReason rejectReason) =>
+                {
+                    item = EntityProbeFactory.Create(); mechanicId = MechanicIds.Items;
+                    rejectReason = LabelCandidateRejectReason.None; return true;
+                }, GetMechanicIdForLabelCore: static _ => MechanicIds.Items));
+            IReadOnlyList<LabelOnGround> labels = [far, close];
+            bool cooling = true; float closeDistance = 73;
+            float? Distance(LabelOnGround label, LabelCandidateBuildResult _) =>
+                ReferenceEquals(label, close) ? cooling ? null : closeDistance : 77;
+            service.GetNearestLabelToClick(labels, Distance, out _).Should().BeSameAs(far);
+            cooling = false;
+            service.GetNearestLabelToClick(labels, Distance, out float selectedDistance).Should().BeSameAs(close);
+            selectedDistance.Should().Be(73);
+            closeDistance = 80;
+            service.GetNearestLabelToClick(labels, Distance, out _).Should().BeSameAs(far);
+        }
+
+        [TestMethod]
         public void GatedNearMiss_DoesNotPinFarPassToCachedNull()
         {
             var label = CreateOpaqueLabel(0x7100);

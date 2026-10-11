@@ -50,6 +50,9 @@ namespace ClickItMax
             ClickItMaxSettings settings = Settings
                 ?? throw new InvalidOperationException("Settings is null during plugin initialization.");
 
+            // Set the display name after the host loads settings; retain the namespace/InternalName identity.
+            Name = "ClickIt Faster";
+
             return PluginLifecycleCoordinator.Initialise(this, settings);
         }
 

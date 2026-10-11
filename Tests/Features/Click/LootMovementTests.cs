@@ -190,6 +190,34 @@ public class LootMovementTests
         p.ResetForArea(); p.WarpUncertain.Should().BeFalse();
     }
 
+    [TestMethod]
+    public void ActionObservedInsideHoldSurvivesHandoffToGroundTravelTracker()
+    {
+        var p = new LootMovementTracker();
+        p.Begin(new(1, 100), LootMovementKind.ShieldCharge, 42, 0, 0, 0, 0, false, 0,
+            startAccepted: true, ownActionObserved: true);
+        var end = p.Observe(60, 12, 0, false, 0, false);
+        end.Finished.Should().BeTrue(); end.Failed.Should().BeFalse(); end.Reason.Should().Be("action-finished");
+    }
+
+    [TestMethod]
+    public void InstantChargeEvidenceInsideHoldSurvivesHandoffWithoutActionSample()
+    {
+        var p = new LootMovementTracker();
+        p.Begin(new(1, 100), LootMovementKind.Frostblink, 42, 0, 0, 0, 0, false, 0, startAccepted: true);
+        var end = p.Observe(30, 12, 0, false, 0, false);
+        end.Finished.Should().BeTrue(); end.Failed.Should().BeFalse(); end.Reason.Should().Be("teleported");
+    }
+
+    [TestMethod]
+    public void AcknowledgementDuringHoldAloneCannotDeclareArrival()
+    {
+        var p = new LootMovementTracker();
+        p.Begin(new(1, 100), LootMovementKind.FlameDash, 42, 0, 0, 0, 3, false, 0, startAccepted: true);
+        var observation = p.Observe(30, 0, 0, false, 3, false);
+        observation.Finished.Should().BeFalse(); observation.Reason.Should().Be("movement-in-progress");
+    }
+
     private static LootMovementTracker Begin(LootMovementKind kind)
     {
         var p = new LootMovementTracker();

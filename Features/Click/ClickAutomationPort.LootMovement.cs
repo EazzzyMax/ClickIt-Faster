@@ -144,6 +144,7 @@ public sealed partial class ClickAutomationPort
             || !LootMovementRules.ShouldUse(MaxGridDistance(target, initialPosition),
             _settings.MaxPickupNearRadius.Value, _settings.MaxPickupMovementDistance.Value)) return false;
         var key = MaxKey(target);
+        if (MaxNearGroundBlocksDeparture(MaxGridDistance(target, initialPosition), initialPosition, refresh: true)) return false;
         long now = Environment.TickCount64;
         // After one jump toward an item, let an ordinary pickup click finish the approach.
         // A blocked/short cast therefore cannot loop, repeatedly consume charges, or ping-pong.
@@ -218,16 +219,18 @@ public sealed partial class ClickAutomationPort
         if (recheckedBinding.Kind != LootMovementKind.FlameDash && recheckedWaitMs > 0)
         { flameWaitMs = recheckedWaitMs; return false; }
         binding = binding with { Skill = freshSkill };
+        if (MaxNearGroundBlocksDeparture(MaxGridDistance(current!, position), position, refresh: true)) return false;
         if (!MaxSkillReady(binding, Environment.TickCount64))
         { castTrace?.Note(Environment.TickCount64, "rejected", new { reason = "skill-not-ready-after-aim" }); return false; }
         int charges = binding.Kind == LootMovementKind.FlameDash ? freshSkill.RemainingUses : 0;
         int castTime = (int)Math.Clamp(freshSkill.CastTime.TotalMilliseconds, 0, 3000);
         MaxCaptureMovementDiagnostic(castTrace, "before-input");
         long sentAt = Environment.TickCount64;
-        if (!MaxSendMovementChord(binding.Chord, castTrace)) return false;
+        if (!MaxSendMovementChord(binding, charges, out var holdResult, castTrace)) return false;
         castTrace?.MarkDispatched(Environment.TickCount64);
         ClickPointDiagnosticTrace.Outcome("movement-input", "sent:" + binding.KeyText);
-        _maxTravel.Begin(key, binding.Kind, freshSkill.Id, sentAt, position.X, position.Y, charges, false, castTime);
+        _maxTravel.Begin(key, binding.Kind, freshSkill.Id, sentAt, position.X, position.Y, charges, false, castTime,
+            startAccepted: holdResult.Accepted, ownActionObserved: holdResult.AcceptedBy == "own-action");
         _maxTravelInitialCharges = charges;
         _maxMovementAttempts[key] = sentAt;
         _maxSessionMovementCasts++;
@@ -240,7 +243,7 @@ public sealed partial class ClickAutomationPort
             binding.KeyText, binding.Chord.Ctrl, binding.Chord.Shift, binding.Chord.Alt, invertDash, distance = MaxGridDistance(current!, position),
             threshold = _settings.MaxPickupMovementDistance.Value, sentAt, x = position.X, y = position.Y, aimX = point.X, aimY = point.Y,
             chargesBefore = charges, castTimeMs = castTime, flameInstantIntervalMs = LootMovementRules.FlameDashInstantIntervalMs,
-            diagnosticCastId = castTrace?.CastId, diagnostic });
+            diagnosticCastId = castTrace?.CastId, holdResult, diagnostic });
         _settings.MaxPickupStatus = "Movement: " + binding.Kind;
         return true;
     }
@@ -314,8 +317,11 @@ public sealed partial class ClickAutomationPort
         return false;
     }
 
-    private bool MaxSendMovementChord(LootMovementChord chord, MovementCastDiagnosticTrace? trace = null)
+    private bool MaxSendMovementChord(LootSkillBinding binding, int chargesBefore, out MovementHoldResult holdResult,
+        MovementCastDiagnosticTrace? trace = null)
     {
+        holdResult = default;
+        var chord = binding.Chord;
         if (Mouse.DisableNativeInput)
         { trace?.Note(Environment.TickCount64, "rejected", new { reason = "native-input-disabled" }); return false; }
         var pressed = new List<Keys>();
@@ -329,12 +335,42 @@ public sealed partial class ClickAutomationPort
                 }
             if (!MaxMovementInputAllowed())
             { trace?.Note(Environment.TickCount64, "rejected", new { reason = "input-context-before-keydown" }); return false; }
-            long keyDownAt = Environment.TickCount64;
-            Keyboard.KeyDown(chord.Key); pressed.Add(chord.Key);
-            trace?.Note(keyDownAt, "key-down", new { key = (int)chord.Key, returnedAt = Environment.TickCount64,
-                asyncDownAfterCall = MaxKeyDown(chord.Key), api = "keybd_event", flags = 1, requestedHoldMs = 20 });
-            Thread.Sleep(20);
-            return true;
+            // One selected skill key down/up for every movement kind, independent of modifier cleanup.
+            MovementUseState before = new(null, null,
+                binding.Kind == LootMovementKind.FlameDash ? chargesBefore : null, null);
+            try { before = MaxReadMovementUse(binding.Skill.Id) ?? before; }
+            catch (Exception ex)
+            { trace?.Note(Environment.TickCount64, "hold-baseline-error", new { error = ex.GetType().Name }); }
+            using var keyLease = new MovementKeyLease(
+                () => Keyboard.KeyDown(chord.Key), () => Keyboard.KeyUp(chord.Key));
+            var held = MovementInputHold.Run(before,
+                () => !Mouse.DisableNativeInput && MaxMovementInputAllowed() && MaxSkillEnabled(binding.Kind)
+                    && _gameController.Player?.Id == _maxPlayer
+                    && _gameController.IngameState.Data.CurrentAreaHash == _maxArea
+                    && (!MaxKeyDown(Keys.ControlKey) || chord.Ctrl)
+                    && (!MaxKeyDown(Keys.Menu) || chord.Alt),
+                () => MaxReadMovementUse(binding.Skill.Id),
+                keyLease.Press, keyLease.Release,
+                () => Stopwatch.GetTimestamp() * 1000.0 / Stopwatch.Frequency,
+                Thread.Sleep,
+                e => trace?.Note(Environment.TickCount64, e.Phase, new
+                {
+                    key = (int)chord.Key, e.ClockMs, e.ElapsedMs, e.State, e.Error,
+                    asyncDownAfterCall = e.Phase is "key-down" or "key-up" ? (bool?)MaxKeyDown(chord.Key) : null,
+                    api = "keybd_event", mode = "hold-until-use",
+                    maximumHoldMs = MovementInputHold.MaximumHoldMs
+                }));
+            trace?.Note(Environment.TickCount64, "hold-result", new { result = held,
+                keyLease.NativeHeldMs, keyLease.ReleasedByTimer, keyLease.ReleaseError });
+            MaxLog("movement-input-hold", new { diagnosticCastId = trace?.CastId, kind = binding.Kind.ToString(),
+                binding.KeyText, skillId = binding.Skill.Id,
+                held.InputSent, held.Accepted, held.AcceptedBy, held.Reason, held.HeldMs, held.Samples, held.ReadErrors,
+                keyLease.NativeHeldMs, keyLease.ReleasedByTimer, keyLease.ReleaseError,
+                maximumHoldMs = MovementInputHold.MaximumHoldMs, pollIntervalMs = MovementInputHold.PollIntervalMs });
+            // A cancelled/timed-out hold has still sent input. Never authorize a second
+            // click or repeated keydown in this tick merely because acceptance is unknown.
+            holdResult = held;
+            return held.InputSent;
         }
         finally
         {
@@ -350,6 +386,29 @@ public sealed partial class ClickAutomationPort
         }
     }
 
+    private MovementUseState? MaxReadMovementUse(ushort skillId)
+    {
+        var player = _gameController.Player;
+        if (player == null || !player.IsValid || player.Id != _maxPlayer) return null;
+        var actor = MaxFreshActor(player);
+        var skill = actor?.ActorSkills.FirstOrDefault(s => s.Id == skillId);
+        if (actor == null || skill == null) return null;
+        var errors = new List<string>();
+        T? Read<T>(string field, Func<T> getter) where T : struct
+        {
+            try { return getter(); }
+            catch (Exception ex) { errors.Add(field + ":" + ex.GetType().Name); return null; }
+        }
+        bool? ownAction = Read("own-action", () => ((int)actor.Action & 2) != 0 && actor.CurrentAction?.Skill?.Id == skillId);
+        // Non-charge skills may not support RemainingUses; a faulty getter must not hide valid action evidence.
+        int? charges = null;
+        try { if ((skill.CooldownInfo?.MaxUses ?? 0) > 0) charges = skill.RemainingUses; }
+        catch (Exception ex) { errors.Add("charges:" + ex.GetType().Name); }
+        var usingSkill = Read("is-using", () => skill.IsUsing);
+        var stage = Read("stage", () => skill.SkillUseStage);
+        return new(usingSkill, ownAction, charges, stage, errors.Count == 0 ? null : string.Join(",", errors));
+    }
+
     // True means an owned movement cast still blocks pickup dispatch this tick.
     private bool MaxObserveTravel(Entity player, System.Numerics.Vector2 position)
     {
@@ -361,7 +420,7 @@ public sealed partial class ClickAutomationPort
         var result = _maxTravel.Observe(Environment.TickCount64, position.X, position.Y, ownAction,
             _maxTravel.Kind == LootMovementKind.FlameDash && skill != null ? skill.RemainingUses : _maxTravelInitialCharges, skill?.IsOnCooldown == true);
         // Observe the original policy result; supplementary reads never feed back into it.
-        if (_maxTravel.Kind == LootMovementKind.FlameDash)
+        if (_maxMovementDiagnostic != null)
         {
             long diagnosticNow = Environment.TickCount64;
             if (result.Finished || result.Reason != _maxTravelReason ||

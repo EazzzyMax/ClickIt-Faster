@@ -46,6 +46,15 @@ namespace ClickItMax.Features.Labels.Application
             _rectCache.Clear();
         }
 
+        public LabelOnGround? GetNearestLabelToClick(IReadOnlyList<LabelOnGround> allLabels,
+            Func<LabelOnGround, LabelCandidateBuildResult, float?> eligibleDistance, out float distance)
+        {
+            // Preserve existing candidate eligibility, but do not reuse a winner or mechanic/cursor rank.
+            ClickSettings settings = _dependencies.CreateClickSettings(allLabels);
+            return LabelSelectionEngine.SelectNearestByDistance(allLabels,
+                label => GetOrBuildScanEntry(label, settings).Candidate, eligibleDistance, out distance).SelectedCandidate;
+        }
+
         public LabelOnGround? GetNextLabelToClick(
             IReadOnlyList<LabelOnGround>? allLabels,
             int startIndex,

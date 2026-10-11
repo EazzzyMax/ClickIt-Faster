@@ -25,7 +25,7 @@ var cases = new (string Name, Action Test)[]
     ("near A B C interleave with actual dispatch cooldown", () =>
     {
         var p = Ready();
-        Expect(p.IsUnattempted(a), "A initially unattempted");
+        Expect(p.CanDispatch(a, 0), "A initially eligible");
         p.RecordDispatch(a, 0, 0, 0, false);
         p.Observe(35, false, 0, 0);
         Expect(p.CanDispatch(b, 35) && !p.CanDispatch(a, 35), "A cooling, B free");
@@ -38,8 +38,7 @@ var cases = new (string Name, Action Test)[]
         p.Observe(800, false, 0, 0);
         Expect(p.CanDispatch(a, 800) && !p.CanDispatch(b, 800), "per item 800 boundary");
         Expect(p.CanDispatch(b, 800, 500), "configurable cooldown");
-        Expect(!p.IsUnattempted(a) && !p.IsUnattempted(b) && !p.IsUnattempted(c), "only actual attempts counted");
-        Expect(p.IsUnattempted(new PickupItemKey(1, 999)), "same id different address is distinct");
+        Expect(p.CanDispatch(new PickupItemKey(1, 999), 800, 1000) && !p.CanDispatch(a, 800, 1000), "same id different address has its own cooldown");
     }),
     ("unexpected motion after near input freezes without target attribution", () =>
     {
@@ -91,7 +90,7 @@ var cases = new (string Name, Action Test)[]
         p.Observe(0, true, 0, 0, allowInitialMovementTakeover: true);
         // Selection/hover rejection does not call RecordDispatch.
         Expect(p.Observe(500, true, 20, 0, allowInitialMovementTakeover: true).AllowDispatch, "next candidate can still redirect");
-        Expect(p.IsUnattempted(a) && p.IsUnattempted(b), "failed preparation does not consume ID or session attempt");
+        Expect(p.CanDispatch(a, 500) && p.CanDispatch(b, 500), "failed preparation does not consume cooldown");
         p.RecordDispatch(b, 510, 20, 0, true);
         Expect(p.ActiveItem == b, "only actual successful dispatch creates ownership");
     }),
@@ -215,12 +214,11 @@ var cases = new (string Name, Action Test)[]
         var p = Ready();
         p.RecordDispatch(a, 0, 0, 0, true);
         p.Reset();
-        Expect(p.ActiveItem == null && !p.IsUnattempted(a), "cancel clears active, retains attempt");
+        Expect(p.ActiveItem == null, "cancel clears active approach");
         Expect(!p.CanDispatch(b, 35), "must observe after reset");
         p.Observe(35, false, 0, 0);
         Expect(!p.CanDispatch(a, 35) && p.CanDispatch(b, 35), "no replay after release");
         p.ResetForArea();
-        Expect(p.IsUnattempted(a), "new area clears identity history");
         p.Observe(50, false, 0, 0);
         Expect(p.CanDispatch(a, 50), "new area id reuse allowed");
     }),
@@ -239,7 +237,7 @@ var cases = new (string Name, Action Test)[]
         var p = new PickupMotionPolicy();
         p.Observe(0, true, 0, 0);
         p.RecordDispatch(a, 5, 0, 0, true);
-        Expect(!p.IsUnattempted(a) && p.ActiveItem == null, "actual input recorded but preexisting motion not attributed");
+        Expect(p.ActiveItem == null, "preexisting motion not attributed to actual input");
         Expect(!p.Observe(35, true, 1, 0).AllowDispatch, "global motion still freezes");
     }),
     ("idle duration does not count toward movement watchdog", () =>
@@ -248,14 +246,16 @@ var cases = new (string Name, Action Test)[]
         p.Observe(10000, false, 0, 0);
         Expect(p.Observe(10035, true, 0, 0).State == PickupMotionState.MovementPause, "new motion gets its own watchdog");
     }),
-    ("cooldown records expire after sixty seconds", () =>
+    ("expired cooldown stays eligible without an area reset", () =>
     {
         var p = Ready();
         p.RecordDispatch(a, 0, 0, 0, false);
+        p.Observe(100, false, 0, 0);
+        Expect(p.CanDispatch(a, 100, 100), "repeat boundary makes old target eligible");
         p.Observe(59000, false, 0, 0);
-        Expect(!p.IsUnattempted(a), "history retained before sixty seconds");
+        Expect(p.CanDispatch(a, 59000), "old dispatch cannot leave a persistent exclusion");
         p.Observe(60000, false, 0, 0);
-        Expect(p.IsUnattempted(a) && p.CanDispatch(a, 60000), "expired identity pruned");
+        Expect(p.CanDispatch(a, 60000), "expired timestamp remains eligible");
     })
 };
 

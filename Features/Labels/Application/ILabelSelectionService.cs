@@ -3,6 +3,8 @@ namespace ClickItMax.Features.Labels.Application
     internal interface ILabelSelectionService
     {
         void ResetCaches() { }
+        LabelOnGround? GetNearestLabelToClick(IReadOnlyList<LabelOnGround> allLabels,
+            Func<LabelOnGround, LabelCandidateBuildResult, float?> eligibleDistance, out float distance);
         // Suppression-gated selection: skips labels the caller's predicate rejects INLINE so the scan is a single O(n) pass even when many labels are suppressed. A null predicate selects ungated.
         LabelOnGround? GetNextLabelToClick(
             IReadOnlyList<LabelOnGround>? allLabels,

@@ -10,6 +10,8 @@ namespace ClickItMax.Features.Click
         private string _maxLastState = "";
         private long _maxLastStateLog;
         private long? _maxPreviousSentAt;
+        private PickupItemKey? _maxSelectionLogKey;
+        private long _maxSelectionLogAt;
         private string? _maxLogPath;
         private bool _maxToggleRefreshPending;
         private bool MaxCanTakeOverInitialMovement => _maxSessionActive && _maxSessionClicks == 0 && _maxSessionMovementCasts == 0;
@@ -87,7 +89,14 @@ namespace ClickItMax.Features.Click
                         rotateAfterChars = 16 * 1024 * 1024, retainedPartsPerRun = 4,
                         movementCastDiagnosticVersion = 1, movementSampleIntervalMs = MovementCastDiagnosticTrace.SampleIntervalMs,
                         movementMaximumEvents = MovementCastDiagnosticTrace.Capacity,
-                        movementMaximumDurationMs = MovementCastDiagnosticTrace.MaximumDurationMs } });
+                        movementMaximumDurationMs = MovementCastDiagnosticTrace.MaximumDurationMs,
+                        flameDashInputMode = "hold-until-use", flameDashMaximumHoldMs = MovementInputHold.MaximumHoldMs,
+                        flameDashHoldPollMs = MovementInputHold.PollIntervalMs,
+                        movementInputMode = "hold-until-use", movementMaximumHoldMs = MovementInputHold.MaximumHoldMs,
+                        movementHoldPollMs = MovementInputHold.PollIntervalMs, movementHoldSkills = Enum.GetNames<LootMovementKind>(),
+                        movementHoldAcceptance = "own-action-or-charge-spend",
+                        pickupSelectionPolicy = "nearest-eligible-grid-distance",
+                        nearGroundDepartureBarrier = "target-distance > movement-distance while eligible near ground loot remains" } });
                 }
                 _maxLogWriter.TryWrite(new { kind, utc = DateTime.UtcNow, ms = Environment.TickCount64,
                     session = _maxSessionActive ? (int?)_maxSessionNumber : null,
@@ -138,6 +147,7 @@ namespace ClickItMax.Features.Click
                 _maxPickup.ResetForArea();
                 _maxTravel.ResetForArea();
                 _maxMovementAttempts.Clear();
+                _maxNearGround.Reset(); _maxNearGroundBlocked = false;
                 MaxCancelFlameDashWalk("area-player-changed");
                 _maxArea = area; _maxPlayer = player!.Id;
                 _labelSelectionService.ResetCaches();
@@ -170,6 +180,7 @@ namespace ClickItMax.Features.Click
             }
             var labels = GetLabelsForRegularSelection();
             if (labels == null) { CancelMaxPickup(); return; }
+            MaxUpdateNearGroundLoot(labels, position);
             long now = Environment.TickCount64;
             var observation = _maxPickup.Observe(now, moving, position.X, position.Y, MaxActiveTargetVisible(labels),
                 allowInitialMovementTakeover: MaxCanTakeOverInitialMovement);
@@ -183,43 +194,44 @@ namespace ClickItMax.Features.Click
             if (!observation.AllowDispatch) { MaxSkip("motion:" + observation.State); return; }
 
             // Selection stays live. No queue of screen coordinates or inventory acknowledgements.
-            LabelOnGround? selected = null;
-            bool selectedFar = false;
             long selectionStarted = Stopwatch.GetTimestamp();
-            int[] rejected = new int[8];
-            bool RejectCandidate(int reason) { rejected[reason]++; return false; }
-            for (int pass = 0; pass < 4 && selected == null; pass++)
+            int[] rejected = new int[7];
+            float? RejectCandidate(int reason) { rejected[reason]++; return null; }
+            // One distance-only scan. A past click only excludes its target while its cooldown is active.
+            var selected = _labelSelectionService.GetNearestLabelToClick(labels, (label, candidate) =>
             {
-                bool far = pass >= 2;
-                bool unattemptedOnly = pass % 2 == 0;
-                selected = _labelSelectionService.GetNextLabelToClick(labels, 0, labels.Count, (label, candidate) =>
+                try
                 {
-                    try
-                    {
-                        if (!MaxFreshItem(label, out var item)) return RejectCandidate(0);
-                        string? mechanic = candidate.MechanicId ?? _labelInteractionPort.GetMechanicIdForLabel(label);
-                        if (!string.Equals(mechanic, MechanicIds.Items, StringComparison.Ordinal)) return RejectCandidate(1);
-                        var key = MaxKey(item!);
-                        if (!_maxPickup.CanDispatch(key, Environment.TickCount64, _settings.MaxPickupRepeatDelayMs.Value)) return RejectCandidate(2);
-                        if (unattemptedOnly && !_maxPickup.IsUnattempted(key)) return RejectCandidate(3);
-                        float distance = MaxGridDistance(item!, position);
-                        if (!float.IsFinite(distance) || distance > _settings.ClickDistance.Value) return RejectCandidate(4);
-                        if ((distance > _settings.MaxPickupNearRadius.Value) != far) return RejectCandidate(5);
-                        if (_labelClickPointResolver.IsLabelFullyOverlapped(label, labels)) return RejectCandidate(6);
-                        return true;
-                    }
-                    catch { return RejectCandidate(7); }
-                });
-                if (selected != null) selectedFar = far;
-            }
+                    if (!MaxFreshItem(label, out var item)) return RejectCandidate(0);
+                    string? mechanic = candidate.MechanicId ?? _labelInteractionPort.GetMechanicIdForLabel(label);
+                    if (!string.Equals(mechanic, MechanicIds.Items, StringComparison.Ordinal)) return RejectCandidate(1);
+                    var key = MaxKey(item!);
+                    if (!_maxPickup.CanDispatch(key, Environment.TickCount64, _settings.MaxPickupRepeatDelayMs.Value)) return RejectCandidate(2);
+                    float distance = MaxGridDistance(item!, position);
+                    if (!float.IsFinite(distance) || distance > _settings.ClickDistance.Value) return RejectCandidate(3);
+                    if (MaxNearGroundBlocksDeparture(distance, position)) return RejectCandidate(6);
+                    if (_labelClickPointResolver.IsLabelFullyOverlapped(label, labels)) return RejectCandidate(4);
+                    return distance;
+                }
+                catch { return RejectCandidate(5); }
+            }, out float selectedDistance);
+            bool selectedFar = selectedDistance > _settings.MaxPickupNearRadius.Value;
             if (selected == null)
             {
-                MaxSkip("no-candidate", new { labels = labels.Count, predicateEvaluationsNotUniqueItems = rejected.Sum(), rejectedNotClickable = rejected[0], rejectedMechanic = rejected[1], rejectedCooldown = rejected[2], rejectedPreviouslyAttempted = rejected[3], rejectedRange = rejected[4], rejectedNearFarPass = rejected[5], rejectedOverlap = rejected[6], readErrors = rejected[7] });
+                if (rejected[6] != 0) _settings.MaxPickupStatus = "Ждём исчезновения ближнего лута";
+                MaxSkip("no-candidate", new { labels = labels.Count, predicateEvaluationsNotUniqueItems = rejected.Sum(), rejectedNotClickable = rejected[0], rejectedMechanic = rejected[1], rejectedCooldown = rejected[2], rejectedRange = rejected[3], rejectedOverlap = rejected[4], readErrors = rejected[5], rejectedNearGroundBarrier = rejected[6] });
                 return;
             }
             double selectionMs = Stopwatch.GetElapsedTime(selectionStarted).TotalMilliseconds;
             if (!MaxFreshItem(selected, out var target)) { MaxSkip("target-disappeared-before-click"); return; }
             var targetKey = MaxKey(target!);
+            if (_maxSelectionLogKey != targetKey || now - _maxSelectionLogAt >= 500)
+            {
+                _maxSelectionLogKey = targetKey; _maxSelectionLogAt = now;
+                MaxLog("target-selected", new { target = targetKey, policy = "nearest-eligible-grid-distance",
+                    distance = selectedDistance, far = selectedFar, repeatMs = _settings.MaxPickupRepeatDelayMs.Value,
+                    labels = labels.Count, rejectedCooldown = rejected[2] });
+            }
             using var pointDiagnostics = MaxBeginPointDiagnostics(selected, target!, position);
             int flameWaitMs = 0;
             if (selectedFar)
@@ -256,6 +268,7 @@ namespace ClickItMax.Features.Click
                 var check = _maxPickup.Observe(Environment.TickCount64, freshMoving, fresh.X, fresh.Y, MaxActiveTargetVisible(labels),
                     allowInitialMovementTakeover: MaxCanTakeOverInitialMovement);
                 float distance = MaxGridDistance(freshTarget!, fresh);
+                if (MaxNearGroundBlocksDeparture(distance, fresh, refresh: true)) return RejectFinal("near-ground-loot");
                 if (verifyUiHover)
                 {
                     long expected = selected.Label.Address;

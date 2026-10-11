@@ -58,6 +58,26 @@ namespace ClickItMax.Features.Labels.Selection
 
     internal static class LabelSelectionEngine
     {
+        internal static LabelSelectionResult SelectNearestByDistance(IReadOnlyList<LabelOnGround> labels,
+            Func<LabelOnGround, LabelCandidateBuildResult> buildCandidate,
+            Func<LabelOnGround, LabelCandidateBuildResult, float?> eligibleDistance, out float distance)
+        {
+            LabelSelectionStats stats = default;
+            LabelOnGround? best = null;
+            string? mechanic = null;
+            distance = float.PositiveInfinity;
+            foreach (var label in labels)
+            {
+                stats = stats.IncrementConsidered();
+                var candidate = buildCandidate(label);
+                if (!candidate.Success) { stats = stats.AddReject(candidate.RejectReason); continue; }
+                var current = eligibleDistance(label, candidate);
+                if (current is not float value || !float.IsFinite(value) || value < 0 || value >= distance) continue;
+                best = label; mechanic = candidate.MechanicId; distance = value;
+            }
+            return new(best, mechanic, stats);
+        }
+
         public static LabelSelectionResult SelectNextLabelByPriority(
             IReadOnlyList<LabelOnGround> allLabels,
             int startIndex,

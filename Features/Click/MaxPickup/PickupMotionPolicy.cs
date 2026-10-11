@@ -52,8 +52,6 @@ public sealed class PickupMotionPolicy
     public PickupItemKey? ActiveItem => _activeItem;
     public PickupMotionState State { get; private set; } = PickupMotionState.UnknownPause;
 
-    public bool IsUnattempted(PickupItemKey key) => !_lastDispatch.ContainsKey(key);
-
     public bool CanDispatch(PickupItemKey key, long now, int cooldownMs = 800) =>
         _hasObservation && _allowDispatch && _activeItem == null &&
         (!_lastDispatch.TryGetValue(key, out var last) || now - last >= Math.Max(0, cooldownMs));

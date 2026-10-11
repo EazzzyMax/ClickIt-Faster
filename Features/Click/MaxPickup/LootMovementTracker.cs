@@ -20,12 +20,15 @@ public sealed class LootMovementTracker
     private int _startTimeout, _completionTimeout;
 
     public void Begin(PickupItemKey target, LootMovementKind kind, ushort skillId, long now,
-        double x, double y, int charges, bool cooldown, int castTimeMs)
+        double x, double y, int charges, bool cooldown, int castTimeMs,
+        bool startAccepted = false, bool ownActionObserved = false)
     {
         Target = target; Kind = kind; SkillId = skillId; SentAt = now;
         _originX = _lastX = x; _originY = _lastY = y; _lastMotion = now;
         _charges = charges; _cooldown = cooldown;
-        _accepted = _sawAction = _moved = false;
+        _accepted = startAccepted || ownActionObserved;
+        _sawAction = ownActionObserved;
+        _moved = false;
         // Watchdogs, not deliberate post-cast sleeps. Successful casts finish on evidence immediately.
         _startTimeout = Math.Clamp(castTimeMs + 200, 250, 1500);
         _completionTimeout = kind == LootMovementKind.LightningWarp ? 5000 : Math.Max(2000, castTimeMs + 1500);

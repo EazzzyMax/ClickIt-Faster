@@ -7,7 +7,14 @@ public sealed partial class ClickAutomationPort
     private readonly PointDiagnosticRateGate _maxPointDiagnosticGate = new();
     private BoundedPickupLogWriter? _maxLogWriter;
 
-    internal void StopMaxPickupLogging() => _maxLogWriter?.Dispose();
+    internal void StopMaxPickupLogging()
+    {
+        lock (_maxPickupLock)
+        {
+            _maxMovementDiagnostic?.Finish(Environment.TickCount64, "plugin-stopping");
+            _maxLogWriter?.Dispose();
+        }
+    }
 
     private ClickPointDiagnosticTrace? MaxBeginPointDiagnostics(LabelOnGround label, Entity target, System.Numerics.Vector2 playerPosition)
     {

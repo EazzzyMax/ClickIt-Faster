@@ -16,6 +16,7 @@ namespace ClickItMax.Features.Click
             if (!Monitor.TryEnter(_maxPickupLock)) return;
             try
             {
+                MaxSampleMovementDiagnostic(); // Read-only tail also runs after hotkey release.
                 ObserveMaxMovementCooldowns();
                 long now = Environment.TickCount64;
                 string key = _settings.ClickLabelKeyBinding.ToString();

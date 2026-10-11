@@ -84,7 +84,10 @@ namespace ClickItMax.Features.Click
                     _maxLogWriter.TryWrite(new { kind = "logging-config", utc = DateTime.UtcNow, ms = Environment.TickCount64,
                         data = new { version = 1, backgroundSerializationAndDisk = true, queueCapacity = 256,
                             failureDetailIntervalMs = 1000, maxDetailedFailuresPerSecond = 8, maxTraceEvents = 256,
-                            rotateAfterChars = 16 * 1024 * 1024, retainedPartsPerRun = 4 } });
+                        rotateAfterChars = 16 * 1024 * 1024, retainedPartsPerRun = 4,
+                        movementCastDiagnosticVersion = 1, movementSampleIntervalMs = MovementCastDiagnosticTrace.SampleIntervalMs,
+                        movementMaximumEvents = MovementCastDiagnosticTrace.Capacity,
+                        movementMaximumDurationMs = MovementCastDiagnosticTrace.MaximumDurationMs } });
                 }
                 _maxLogWriter.TryWrite(new { kind, utc = DateTime.UtcNow, ms = Environment.TickCount64,
                     session = _maxSessionActive ? (int?)_maxSessionNumber : null,

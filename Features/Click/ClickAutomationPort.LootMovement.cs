@@ -126,7 +126,7 @@ public sealed partial class ClickAutomationPort
         }
         // Prefer an unmodified binding if the same skill is on both bars. No duplicate cast.
         var result = candidates.OrderBy(c => c.Kind).ThenBy(c => c.Chord.Ctrl || c.Chord.Alt || c.Chord.Shift).FirstOrDefault();
-        diagnostic = new { available = candidates.Select(c => new { c.Kind, c.KeyText }), skipped, flameWaitMs };
+        diagnostic = new { available = candidates.Select(c => new { c.Kind, c.KeyText }).ToArray(), skipped, flameWaitMs };
         return result;
     }
 
@@ -191,29 +191,41 @@ public sealed partial class ClickAutomationPort
             ClickPointDiagnosticTrace.Reject("movement-aim", !finite ? "non-finite" : !inside ? "outside-game-window" : "ui-area-rejected");
             MaxSkip("movement:ground-point-blocked", new { key, binding.Kind, point.X, point.Y, invertDash }); return false;
         }
-        if (!MaxMovementInputAllowed() || !MaxFreshItem(label, out var current) || MaxKey(current!) != key) return false;
-        if (!Mouse.SetCursorPos((int)point.X, (int)point.Y)) return false;
+        using var castTrace = MaxBeginMovementDiagnostic(binding, key, initialPosition, point,
+            new { worldX = ground.X, worldY = ground.Y, worldZ = ground.Z, window.X, window.Y, window.Width, window.Height, invertDash });
+        if (!MaxMovementInputAllowed() || !MaxFreshItem(label, out var current) || MaxKey(current!) != key)
+        { castTrace?.Note(Environment.TickCount64, "rejected", new { reason = "context-or-target-before-aim" }); return false; }
+        long aimAt = Environment.TickCount64;
+        bool aimSent = Mouse.SetCursorPos((int)point.X, (int)point.Y);
+        castTrace?.Note(aimAt, "cursor-set", new { success = aimSent, point.X, point.Y, returnedAt = Environment.TickCount64 });
+        if (!aimSent) return false;
         // Let PoE observe the new ground aim, then recheck context before input.
         Thread.Sleep(10);
         if (!MaxMovementInputAllowed() || !MaxReadPlayer(out var freshPlayer, out var position, out _)
             || freshPlayer!.Id != _maxPlayer || _gameController.IngameState.Data.CurrentAreaHash != _maxArea
             || !MaxFreshItem(label, out current) || MaxKey(current!) != key
             || !LootMovementRules.ShouldUse(MaxGridDistance(current!, position), _settings.MaxPickupNearRadius.Value, _settings.MaxPickupMovementDistance.Value))
-            return false;
+        { castTrace?.Note(Environment.TickCount64, "rejected", new { reason = "context-target-or-distance-after-aim" }); return false; }
         // Re-read availability after aiming; no stale SkillBar cooldown snapshot authorizes a cast.
         var freshActor = MaxFreshActor(freshPlayer);
         var freshSkill = freshActor?.ActorSkills.FirstOrDefault(s => s.Id == binding.Skill.Id);
-        if (freshSkill == null) return false;
-        var recheckedBinding = MaxFindMovementSkill(freshPlayer, out _, out var recheckedWaitMs);
-        if (recheckedBinding == null || recheckedBinding.Skill.Id != binding.Skill.Id || recheckedBinding.Chord != binding.Chord) return false;
+        if (freshSkill == null)
+        { castTrace?.Note(Environment.TickCount64, "rejected", new { reason = "skill-missing-after-aim" }); return false; }
+        var recheckedBinding = MaxFindMovementSkill(freshPlayer, out var recheckedDiagnostic, out var recheckedWaitMs);
+        castTrace?.Note(Environment.TickCount64, "binding-rechecked", recheckedDiagnostic);
+        if (recheckedBinding == null || recheckedBinding.Skill.Id != binding.Skill.Id || recheckedBinding.Chord != binding.Chord)
+        { castTrace?.Note(Environment.TickCount64, "rejected", new { reason = "binding-changed-after-aim" }); return false; }
         if (recheckedBinding.Kind != LootMovementKind.FlameDash && recheckedWaitMs > 0)
         { flameWaitMs = recheckedWaitMs; return false; }
         binding = binding with { Skill = freshSkill };
-        if (!MaxSkillReady(binding, Environment.TickCount64)) return false;
+        if (!MaxSkillReady(binding, Environment.TickCount64))
+        { castTrace?.Note(Environment.TickCount64, "rejected", new { reason = "skill-not-ready-after-aim" }); return false; }
         int charges = binding.Kind == LootMovementKind.FlameDash ? freshSkill.RemainingUses : 0;
         int castTime = (int)Math.Clamp(freshSkill.CastTime.TotalMilliseconds, 0, 3000);
+        MaxCaptureMovementDiagnostic(castTrace, "before-input");
         long sentAt = Environment.TickCount64;
-        if (!MaxSendMovementChord(binding.Chord)) return false;
+        if (!MaxSendMovementChord(binding.Chord, castTrace)) return false;
+        castTrace?.MarkDispatched(Environment.TickCount64);
         ClickPointDiagnosticTrace.Outcome("movement-input", "sent:" + binding.KeyText);
         _maxTravel.Begin(key, binding.Kind, freshSkill.Id, sentAt, position.X, position.Y, charges, false, castTime);
         _maxTravelInitialCharges = charges;
@@ -223,10 +235,12 @@ public sealed partial class ClickAutomationPort
         if (binding.Kind == LootMovementKind.FlameDash) _maxFlameClock.RecordSent(sentAt);
         _maxTravelReason = "";
         _performanceMonitor.MarkInterval(IntervalKind.Click);
+        MaxCaptureMovementDiagnostic(castTrace, "after-input");
         MaxLog("movement-cast", new { target = key, kind = binding.Kind.ToString(), internalName = freshSkill.InternalName,
             binding.KeyText, binding.Chord.Ctrl, binding.Chord.Shift, binding.Chord.Alt, invertDash, distance = MaxGridDistance(current!, position),
             threshold = _settings.MaxPickupMovementDistance.Value, sentAt, x = position.X, y = position.Y, aimX = point.X, aimY = point.Y,
-            chargesBefore = charges, castTimeMs = castTime, flameInstantIntervalMs = LootMovementRules.FlameDashInstantIntervalMs, diagnostic });
+            chargesBefore = charges, castTimeMs = castTime, flameInstantIntervalMs = LootMovementRules.FlameDashInstantIntervalMs,
+            diagnosticCastId = castTrace?.CastId, diagnostic });
         _settings.MaxPickupStatus = "Movement: " + binding.Kind;
         return true;
     }
@@ -300,23 +314,39 @@ public sealed partial class ClickAutomationPort
         return false;
     }
 
-    private bool MaxSendMovementChord(LootMovementChord chord)
+    private bool MaxSendMovementChord(LootMovementChord chord, MovementCastDiagnosticTrace? trace = null)
     {
-        if (Mouse.DisableNativeInput) return false;
+        if (Mouse.DisableNativeInput)
+        { trace?.Note(Environment.TickCount64, "rejected", new { reason = "native-input-disabled" }); return false; }
         var pressed = new List<Keys>();
         try
         {
             foreach (var pair in new[] { (chord.Ctrl, Keys.ControlKey), (chord.Shift, Keys.ShiftKey), (chord.Alt, Keys.Menu) })
-                if (pair.Item1 && !MaxKeyDown(pair.Item2)) { Keyboard.KeyDown(pair.Item2); pressed.Add(pair.Item2); }
-            if (!MaxMovementInputAllowed()) return false;
+                if (pair.Item1 && !MaxKeyDown(pair.Item2))
+                {
+                    Keyboard.KeyDown(pair.Item2); pressed.Add(pair.Item2);
+                    trace?.Note(Environment.TickCount64, "modifier-down", new { key = (int)pair.Item2 });
+                }
+            if (!MaxMovementInputAllowed())
+            { trace?.Note(Environment.TickCount64, "rejected", new { reason = "input-context-before-keydown" }); return false; }
+            long keyDownAt = Environment.TickCount64;
             Keyboard.KeyDown(chord.Key); pressed.Add(chord.Key);
+            trace?.Note(keyDownAt, "key-down", new { key = (int)chord.Key, returnedAt = Environment.TickCount64,
+                asyncDownAfterCall = MaxKeyDown(chord.Key), api = "keybd_event", flags = 1, requestedHoldMs = 20 });
             Thread.Sleep(20);
             return true;
         }
         finally
         {
             // Only release keys injected by us. In particular, never release the user's Shift.
-            for (int i = pressed.Count - 1; i >= 0; i--) Keyboard.KeyUp(pressed[i]);
+            for (int i = pressed.Count - 1; i >= 0; i--)
+            {
+                long keyUpAt = Environment.TickCount64;
+                Keyboard.KeyUp(pressed[i]);
+                trace?.Note(keyUpAt, pressed[i] == chord.Key ? "key-up" : "modifier-up",
+                    new { key = (int)pressed[i], returnedAt = Environment.TickCount64,
+                        asyncDownAfterCall = MaxKeyDown(pressed[i]), api = "keybd_event", flags = 3 });
+            }
         }
     }
 
@@ -330,6 +360,19 @@ public sealed partial class ClickAutomationPort
         bool ownAction = ((int)actor.Action & 2) != 0 && actor.CurrentAction?.Skill?.Id == _maxTravel.SkillId;
         var result = _maxTravel.Observe(Environment.TickCount64, position.X, position.Y, ownAction,
             _maxTravel.Kind == LootMovementKind.FlameDash && skill != null ? skill.RemainingUses : _maxTravelInitialCharges, skill?.IsOnCooldown == true);
+        // Observe the original policy result; supplementary reads never feed back into it.
+        if (_maxTravel.Kind == LootMovementKind.FlameDash)
+        {
+            long diagnosticNow = Environment.TickCount64;
+            if (result.Finished || result.Reason != _maxTravelReason ||
+                diagnosticNow - _maxMovementDiagnosticTrackerSampleAt >= MovementCastDiagnosticTrace.SampleIntervalMs)
+            {
+                _maxMovementDiagnosticTrackerSampleAt = diagnosticNow;
+                _maxMovementDiagnostic?.Note(diagnosticNow, "tracker-observation", new
+                { x = position.X, y = position.Y, ownAction, result.Reason, result.Finished, result.Failed });
+            }
+            if (result.Finished) _maxMovementDiagnostic?.MarkTrackerFinished(Environment.TickCount64, result.Reason, result.Failed);
+        }
         _settings.MaxPickupStatus = "Movement: " + result.Reason;
         if (result.Reason != _maxTravelReason || result.Finished)
         {
